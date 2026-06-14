@@ -12,6 +12,7 @@ Flask-Mail==0.9.1
 SQLAlchemy==2.0.23
 alembic==1.13.1
 psycopg2-binary==2.9.9
+redis>=4.0.0
 
 # Authentication
 PyJWT==2.8.0
