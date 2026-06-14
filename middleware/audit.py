@@ -51,7 +51,7 @@ def log_audit(
     new_values: dict = None,
 ) -> None:
     """Log an audit event."""
-    from models.auth import AuditLog
+    from models.audit_log import AuditLog
     
     audit_log = AuditLog(
         action=action,

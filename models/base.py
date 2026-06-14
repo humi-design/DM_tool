@@ -1,4 +1,4 @@
-"""Base model with common fields."""
+"""Base model with common fields and mixins."""
 
 from datetime import datetime
 import uuid
@@ -12,8 +12,8 @@ class BaseModel(db.Model):
     __abstract__ = True
     
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False, index=True)
     
     def to_dict(self):
         """Convert model to dictionary."""
@@ -67,20 +67,21 @@ class BaseModel(db.Model):
 class TimestampMixin:
     """Mixin for timestamp fields."""
     
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
     updated_at = db.Column(
         db.DateTime,
         default=datetime.utcnow,
         onupdate=datetime.utcnow,
-        nullable=False
+        nullable=False,
+        index=True
     )
 
 
 class SoftDeleteMixin:
     """Mixin for soft delete functionality."""
     
-    deleted_at = db.Column(db.DateTime, nullable=True)
-    is_deleted = db.Column(db.Boolean, default=False, nullable=False)
+    deleted_at = db.Column(db.DateTime, nullable=True, index=True)
+    is_deleted = db.Column(db.Boolean, default=False, nullable=False, index=True)
     
     def soft_delete(self):
         """Soft delete the record."""

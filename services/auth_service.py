@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Optional, tuple
+from typing import Optional, Tuple
 
 from argon2 import PasswordHasher
 from flask import current_app
@@ -16,8 +16,8 @@ from models.auth import (
     EmailVerification,
     OTPCode,
     UserSession,
-    AuditLog,
 )
+from models.audit_log import AuditLog
 from utils.jwt import JWTManager
 
 

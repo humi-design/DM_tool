@@ -7,11 +7,12 @@ from argon2 import PasswordHasher
 from flask_login import UserMixin
 
 from app import db, login_manager
+from models.base import BaseModel, SoftDeleteMixin
 
 ph = PasswordHasher()
 
 
-class User(BaseModel, UserMixin):
+class User(BaseModel, UserMixin, SoftDeleteMixin):
     """User model."""
     
     __tablename__ = "users"
@@ -20,21 +21,39 @@ class User(BaseModel, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=True, index=True)
     password_hash = db.Column(db.String(255), nullable=True)
     
-    first_name = db.Column(db.String(100), nullable=True)
-    last_name = db.Column(db.String(100), nullable=True)
+    first_name = db.Column(db.String(100), nullable=True, index=True)
+    last_name = db.Column(db.String(100), nullable=True, index=True)
     avatar_url = db.Column(db.String(500), nullable=True)
-    phone = db.Column(db.String(20), nullable=True)
-    is_active = db.Column(db.Boolean, default=True, nullable=False)
-    is_verified = db.Column(db.Boolean, default=False, nullable=False)
-    is_superuser = db.Column(db.Boolean, default=False, nullable=False)
+    phone = db.Column(db.String(20), nullable=True, index=True)
+    locale = db.Column(db.String(10), default="en", nullable=False)
+    timezone = db.Column(db.String(50), default="UTC", nullable=False)
     
-    email_verified_at = db.Column(db.DateTime, nullable=True)
-    last_login_at = db.Column(db.DateTime, nullable=True)
+    is_active = db.Column(db.Boolean, default=True, nullable=False, index=True)
+    is_verified = db.Column(db.Boolean, default=False, nullable=False, index=True)
+    is_superuser = db.Column(db.Boolean, default=False, nullable=False, index=True)
+    
+    email_verified_at = db.Column(db.DateTime, nullable=True, index=True)
+    last_login_at = db.Column(db.DateTime, nullable=True, index=True)
     last_login_ip = db.Column(db.String(45), nullable=True)
     
-    organization_id = db.Column(db.String(36), db.ForeignKey("organizations.id"), nullable=True)
+    organization_id = db.Column(db.String(36), db.ForeignKey("organizations.id"), nullable=True, index=True)
     
     settings = db.Column(db.JSON, default=dict, nullable=False)
+    metadata_json = db.Column(db.JSON, default=dict, nullable=False)
+    
+    # Relationships
+    organization = db.relationship("Organization", foreign_keys=[organization_id], back_populates="users")
+    owned_organizations = db.relationship("Organization", foreign_keys="Organization.owner_id", back_populates="owner")
+    memberships = db.relationship("OrganizationMember", foreign_keys="OrganizationMember.user_id", back_populates="user", lazy="dynamic")
+    owned_businesses = db.relationship("Business", foreign_keys="Business.owner_id", back_populates="owner", lazy="dynamic")
+    api_keys = db.relationship("APIKey", foreign_keys="APIKey.user_id", back_populates="user", lazy="dynamic")
+    audit_logs = db.relationship("AuditLog", foreign_keys="AuditLog.user_id", back_populates="user", lazy="dynamic")
+    notifications = db.relationship("Notification", foreign_keys="Notification.user_id", back_populates="user", lazy="dynamic")
+    
+    __table_args__ = (
+        db.Index("idx_user_email_active", "email", "is_active"),
+        db.Index("idx_user_organization", "organization_id", "is_active"),
+    )
     
     def set_password(self, password: str) -> None:
         """Hash and set the user's password."""
@@ -76,6 +95,8 @@ class User(BaseModel, UserMixin):
     def to_dict(self, include_sensitive: bool = False):
         """Convert user to dictionary."""
         data = super().to_dict()
+        data.pop("is_deleted", None)
+        data.pop("deleted_at", None)
         if not include_sensitive:
             data.pop("password_hash", None)
         data["full_name"] = self.full_name
@@ -85,4 +106,4 @@ class User(BaseModel, UserMixin):
 @login_manager.user_loader
 def load_user(user_id: str) -> User:
     """Load user by ID for Flask-Login."""
-    return User.query.filter_by(id=user_id, is_active=True).first()
+    return User.query.filter_by(id=user_id, is_active=True, is_deleted=False).first()
