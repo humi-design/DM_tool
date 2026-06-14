@@ -12,6 +12,8 @@ Viraly is a production-ready SaaS platform for managing Instagram DMs, comments,
 - **Lead Management**: Track and manage leads from Instagram interactions
 - **Analytics**: Comprehensive analytics and reporting
 - **AI Automation**: Intelligent auto-replies and lead scoring
+- **Multi-tenancy**: Support for multiple organizations and businesses
+- **Billing**: Integrated billing with Stripe and Razorpay
 
 ## Tech Stack
 
@@ -19,7 +21,8 @@ Viraly is a production-ready SaaS platform for managing Instagram DMs, comments,
 - **Flask 3.0** - Python web framework
 - **SQLAlchemy 2.0** - ORM for database operations
 - **Alembic** - Database migrations
-- **PostgreSQL** - Primary database
+- **PostgreSQL 14+** - Primary database
+- **Redis 7+** - Caching and rate limiting
 - **Gunicorn** - Production WSGI server
 
 ### Frontend
@@ -28,12 +31,59 @@ Viraly is a production-ready SaaS platform for managing Instagram DMs, comments,
 - **HTMX** - Hyperscript extensions
 - **Alpine.js** - JavaScript framework
 
+### Infrastructure
+- **Docker** - Containerization
+- **Nginx** - Reverse proxy and SSL termination
+- **Sentry** - Error tracking
+- **New Relic** - Application performance monitoring
+
 ### Security
 - **JWT** - JSON Web Tokens for authentication
 - **bcrypt/Argon2** - Password hashing
 - **CSRF Protection** - Cross-Site Request Forgery protection
 - **Rate Limiting** - Request throttling
 - **Secure Cookies** - Session security
+- **Audit Logging** - Complete action tracking
+
+## Quick Start
+
+### Docker (Recommended)
+
+```bash
+# Clone and configure
+git clone https://github.com/your-org/viraly.git
+cd viraly
+
+# Copy environment file
+cp .env.example .env
+
+# Generate secure keys
+openssl rand -hex 32  # Use for SECRET_KEY
+openssl rand -hex 32  # Use for JWT_SECRET_KEY
+
+# Start services
+docker-compose up -d
+
+# Run migrations
+docker-compose exec app flask db upgrade
+
+# Create admin user
+docker-compose exec app flask admin create-admin
+```
+
+### Manual Installation
+
+See [Deployment Guide](DEPLOYMENT_GUIDE.md) for detailed manual installation instructions.
+
+## Documentation
+
+- [Deployment Guide](DEPLOYMENT_GUIDE.md) - Complete deployment instructions
+- [Environment Variable Guide](ENVIRONMENT_VARIABLE_GUIDE.md) - All environment variables
+- [Production Checklist](PRODUCTION_CHECKLIST.md) - Pre-deployment checklist
+- [Disaster Recovery Guide](DISASTER_RECOVERY_GUIDE.md) - Backup and recovery procedures
+- [Scaling Guide](SCALING_GUIDE.md) - Horizontal and vertical scaling
+- [Migration Guide](MIGRATION_GUIDE.md) - Database migrations
+- [Security Checklist](SECURITY_CHECKLIST.md) - Security hardening
 
 ## Project Structure
 
@@ -43,349 +93,130 @@ viraly/
 ├── config.py              # Configuration management
 ├── wsgi.py                # WSGI entry point
 ├── requirements.txt       # Python dependencies
+├── Dockerfile             # Docker image definition
+├── docker-compose.yml     # Container orchestration
+├── nginx.conf             # Nginx configuration
 ├── .env.example           # Environment variables template
 │
 ├── auth/                  # Authentication module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── users/                 # User management module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── organizations/         # Multi-tenancy module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── businesses/            # Business management module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── instagram/             # Instagram integration module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── comments/              # Comment management module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── dm/                    # Direct messages module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── resources/             # File resources module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── leads/                 # Lead management module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── dashboard/             # Dashboard module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── analytics/             # Analytics module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── billing/               # Billing module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── settings/              # Settings module
-│   ├── __init__.py
-│   └── routes.py
-│
 ├── admin/                 # Admin panel module
-│   ├── __init__.py
-│   └── routes.py
+├── onboarding/            # Onboarding module
+├── comment_intelligence/  # AI comment intelligence
 │
 ├── middleware/            # Custom middleware
-│   ├── security.py
-│   └── audit.py
+│   ├── security.py        # Security headers, CORS
+│   └── audit.py           # Audit logging
 │
 ├── models/                # Database models
-│   ├── __init__.py
-│   ├── base.py
-│   ├── user.py
-│   ├── organization.py
-│   ├── business.py
-│   ├── auth.py
-│   └── instagram.py
-│
 ├── repositories/          # Data access layer
-│
 ├── services/              # Business logic layer
-│
+│   └── instagram_service.py
 ├── utils/                 # Utility functions
-│   ├── __init__.py
-│   ├── jwt.py
-│   ├── security.py
-│   ├── validators.py
-│   └── template.py
 │
 ├── templates/             # Jinja2 templates
-│   ├── base.html
-│   ├── auth/
-│   ├── dashboard/
-│   ├── dm/
-│   ├── comments/
-│   ├── leads/
-│   ├── analytics/
-│   ├── settings/
-│   ├── instagram/
-│   ├── billing/
-│   └── partials/
-│
-└── static/                # Static files
-    ├── css/
-    ├── js/
-    └── images/
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.11+
-- PostgreSQL 14+
-- Redis (for caching and rate limiting)
-- Node.js 18+ (optional, for asset building)
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/your-org/viraly.git
-cd viraly
-```
-
-2. **Create virtual environment**
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Set up environment variables**
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-5. **Create database**
-```bash
-# Log in to PostgreSQL
-psql -U postgres
-
-# Create database
-CREATE DATABASE viraly;
-CREATE DATABASE viraly_test;
-
-# Create user (optional)
-CREATE USER viraly_user WITH PASSWORD 'your-password';
-GRANT ALL PRIVILEGES ON DATABASE viraly TO viraly_user;
-```
-
-6. **Run migrations**
-```bash
-flask db init
-flask db migrate
-flask db upgrade
-```
-
-7. **Seed initial data (optional)**
-```bash
-flask seed
-```
-
-8. **Run the development server**
-```bash
-flask run
-# Or for production:
-gunicorn wsgi:app -w 4 -b 0.0.0.0:5000
-```
-
-### Environment Variables
-
-See `.env.example` for all available configuration options.
-
-Key variables:
-- `FLASK_ENV` - `development`, `production`, or `testing`
-- `DATABASE_URL` - PostgreSQL connection string
-- `REDIS_URL` - Redis connection string
-- `SECRET_KEY` - Flask secret key
-- `JWT_SECRET_KEY` - JWT signing key
-- `SENTRY_DSN` - Sentry error tracking (optional)
-
-## Configuration
-
-### Development
-```bash
-FLASK_ENV=development
-DEBUG=True
-```
-
-### Production
-```bash
-FLASK_ENV=production
-DEBUG=False
-
-# Increase security settings
-PASSWORD_BCRYPT_ROUNDS=14
-RATELIMIT_DEFAULT=100 per minute
-```
-
-### Testing
-```bash
-FLASK_ENV=testing
-SQLALCHEMY_DATABASE_URI=sqlite:///:memory:
+├── static/                # Static files (CSS, JS)
+└── alembic/               # Database migrations
 ```
 
 ## API Endpoints
 
 ### Authentication
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
-- `POST /auth/logout` - User logout
-- `POST /auth/forgot-password` - Password reset request
-- `POST /auth/reset-password` - Reset password
-- `POST /auth/verify-otp` - Verify OTP code
-- `GET /auth/oauth/google` - Google OAuth login
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/login` | User login |
+| POST | `/auth/register` | User registration |
+| POST | `/auth/logout` | User logout |
+| POST | `/auth/forgot-password` | Password reset request |
+| POST | `/auth/reset-password` | Reset password |
+| POST | `/auth/verify-otp` | Verify OTP code |
+| GET | `/auth/oauth/google` | Google OAuth login |
 
 ### Users
-- `GET /api/users` - List users
-- `GET /api/users/<id>` - Get user details
-- `PUT /api/users/<id>` - Update user
-- `GET /api/me` - Get current user
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/users` | List users |
+| GET | `/api/users/<id>` | Get user details |
+| PUT | `/api/users/<id>` | Update user |
+| GET | `/api/me` | Get current user |
 
 ### Organizations
-- `GET /api/organizations` - List organizations
-- `POST /api/organizations` - Create organization
-- `GET /api/organizations/<id>` - Get organization
-- `PUT /api/organizations/<id>` - Update organization
-- `DELETE /api/organizations/<id>` - Delete organization
-- `POST /api/organizations/<id>/members` - Add member
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/organizations` | List organizations |
+| POST | `/api/organizations` | Create organization |
+| GET | `/api/organizations/<id>` | Get organization |
+| PUT | `/api/organizations/<id>` | Update organization |
+| DELETE | `/api/organizations/<id>` | Delete organization |
+| POST | `/api/organizations/<id>/members` | Add member |
 
 ### Instagram
-- `GET /api/instagram/accounts` - List connected accounts
-- `POST /api/instagram/accounts` - Connect account
-- `POST /api/instagram/accounts/<id>/sync` - Sync account data
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/instagram/accounts` | List connected accounts |
+| POST | `/api/instagram/accounts` | Connect account |
+| POST | `/api/instagram/accounts/<id>/sync` | Sync account data |
 
 ### DMs
-- `GET /api/dm/threads` - List DM threads
-- `GET /api/dm/threads/<id>` - Get thread details
-- `POST /api/dm/threads/<id>/send` - Send message
-- `GET /api/dm/templates` - List message templates
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/dm/threads` | List DM threads |
+| GET | `/api/dm/threads/<id>` | Get thread details |
+| POST | `/api/dm/threads/<id>/send` | Send message |
+| GET | `/api/dm/templates` | List message templates |
 
 ### Comments
-- `GET /api/comments` - List comments
-- `POST /api/comments/<id>/reply` - Reply to comment
-- `POST /api/comments/<id>/hide` - Hide comment
-- `PUT /api/auto-reply` - Configure auto-reply
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/comments` | List comments |
+| POST | `/api/comments/<id>/reply` | Reply to comment |
+| POST | `/api/comments/<id>/hide` | Hide comment |
+| PUT | `/api/auto-reply` | Configure auto-reply |
 
 ### Leads
-- `GET /api/leads` - List leads
-- `GET /api/leads/<id>` - Get lead details
-- `PUT /api/leads/<id>/status` - Update lead status
-- `GET /api/segments` - List lead segments
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/leads` | List leads |
+| GET | `/api/leads/<id>` | Get lead details |
+| PUT | `/api/leads/<id>/status` | Update lead status |
+| GET | `/api/segments` | List lead segments |
 
-## Security Features
-
-### Authentication
-- JWT-based authentication with access/refresh tokens
-- Secure password hashing (Argon2/Bcrypt)
-- Email/Mobile OTP verification ready
-- Google OAuth integration ready
-
-### Protection
-- CSRF protection on all forms
-- Rate limiting on API endpoints
-- SQL injection prevention (parameterized queries)
-- XSS prevention (input sanitization)
-- Secure session cookies
-
-### Audit
-- Complete audit logging
-- Login attempt tracking
-- Action history
-
-## Deployment
-
-### Docker (Recommended)
-
-```dockerfile
-# Dockerfile
-FROM python:3.11-slim
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-RUN flask db upgrade
-
-CMD ["gunicorn", "wsgi:app", "-w", "4", "-b", "0.0.0.0:5000"]
-```
-
-### Docker Compose
-
-```yaml
-version: '3.8'
-services:
-  app:
-    build: .
-    ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/viraly
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
-
-  db:
-    image: postgres:14
-    environment:
-      - POSTGRES_DB=viraly
-      - POSTGRES_PASSWORD=postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis_data:/data
-
-volumes:
-  postgres_data:
-  redis_data:
-```
-
-### Manual Deployment
-
-1. Set up PostgreSQL and Redis
-2. Configure environment variables
-3. Install dependencies: `pip install -r requirements.txt`
-4. Run migrations: `flask db upgrade`
-5. Start Gunicorn: `gunicorn wsgi:app -w 4 -b 0.0.0.0:5000`
+### Health Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Application health check |
+| GET | `/ready` | Readiness probe |
 
 ## Monitoring
 
-### Sentry Integration
+### Health Checks
+
 ```bash
-SENTRY_DSN=https://key@sentry.io/project
+# Application health
+curl https://api.viraly.io/health
+
+# Kubernetes readiness
+curl https://api.viraly.io/ready
 ```
 
-### New Relic Integration
+### Metrics Integration
+
 ```bash
+# Configure Sentry
+SENTRY_DSN=https://key@sentry.io/project
+
+# Configure New Relic
 NEWRELIC_LICENSE_KEY=your-license-key
 ```
 
@@ -409,4 +240,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Built with ❤️ by the Viraly Team
+Built with love by the Viraly Team
