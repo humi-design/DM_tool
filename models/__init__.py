@@ -31,6 +31,7 @@ from models.onboarding import (
     ConversationMessage,
     OnboardingTemplate,
 )
+from models.ai_processing_log import AIProcessingLog
 
 __all__ = [
     # Base
@@ -77,4 +78,6 @@ __all__ = [
     "UploadedFile",
     "ConversationMessage",
     "OnboardingTemplate",
+    # AI Processing
+    "AIProcessingLog",
 ]

@@ -60,6 +60,7 @@ class InstagramAccount(BaseModel, SoftDeleteMixin):
     conversations = db.relationship("Conversation", foreign_keys="Conversation.instagram_account_id", back_populates="instagram_account", lazy="dynamic", cascade="all, delete-orphan")
     webhook_logs = db.relationship("WebhookLog", back_populates="instagram_account", lazy="dynamic", cascade="all, delete-orphan")
     event_logs = db.relationship("EventLog", back_populates="instagram_account", lazy="dynamic", cascade="all, delete-orphan")
+    ai_processing_logs = db.relationship("AIProcessingLog", back_populates="instagram_account", lazy="dynamic", cascade="all, delete-orphan")
     
     __table_args__ = (
         db.UniqueConstraint("business_id", "instagram_user_id", name="uq_instagram_business_user"),
