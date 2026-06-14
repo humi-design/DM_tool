@@ -20,11 +20,11 @@ class RefreshToken(db.Model):
     token_family = db.Column(db.String(36), nullable=False, index=True)
     
     token_type = db.Column(db.String(50), default="refresh", nullable=False)
-    expires_at = db.Column(db.DateTime, nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False, index=True)
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     revoked_at = db.Column(db.DateTime, nullable=True)
-    last_used_at = db.Column(db.DateTime, nullable=True)
+    last_used_at = db.Column(db.DateTime, nullable=True, index=True)
     
     replaced_by = db.Column(db.String(36), nullable=True)
     replaced_by_token = db.Column(db.String(36), db.ForeignKey("refresh_tokens.id"), nullable=True)
@@ -34,7 +34,7 @@ class RefreshToken(db.Model):
     device_fingerprint = db.Column(db.String(64), nullable=True)
     
     is_revoked = db.Column(db.Boolean, default=False, nullable=False, index=True)
-    is_used = db.Column(db.Boolean, default=False, nullable=False)
+    is_used = db.Column(db.Boolean, default=False, nullable=False, index=True)
     
     __table_args__ = (
         db.Index("idx_token_family_created", "token_family", "created_at"),
@@ -244,14 +244,14 @@ class PasswordResetToken(db.Model):
     token_hash = db.Column(db.String(64), nullable=False, unique=True, index=True)
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    expires_at = db.Column(db.DateTime, nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False, index=True)
     used_at = db.Column(db.DateTime, nullable=True)
     
     ip_address = db.Column(db.String(45), nullable=True)
     user_agent = db.Column(db.String(500), nullable=True)
     
-    is_used = db.Column(db.Boolean, default=False, nullable=False)
-    is_revoked = db.Column(db.Boolean, default=False, nullable=False)
+    is_used = db.Column(db.Boolean, default=False, nullable=False, index=True)
+    is_revoked = db.Column(db.Boolean, default=False, nullable=False, index=True)
     
     @classmethod
     def generate_token(cls, user_id: str, expires_minutes: int = 60) -> tuple["PasswordResetToken", str]:
@@ -316,10 +316,10 @@ class OTPCode(db.Model):
     
     code_hash = db.Column(db.String(64), nullable=False)
     
-    code_type = db.Column(db.String(50), default="email", nullable=False)
-    purpose = db.Column(db.String(50), default="verification", nullable=False)
+    code_type = db.Column(db.String(50), default="email", nullable=False, index=True)
+    purpose = db.Column(db.String(50), default="verification", nullable=False, index=True)
     
-    expires_at = db.Column(db.DateTime, nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False, index=True)
     verified_at = db.Column(db.DateTime, nullable=True)
     
     attempts = db.Column(db.Integer, default=0, nullable=False)
@@ -327,14 +327,14 @@ class OTPCode(db.Model):
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     
-    is_used = db.Column(db.Boolean, default=False, nullable=False)
-    is_verified = db.Column(db.Boolean, default=False, nullable=False)
+    is_used = db.Column(db.Boolean, default=False, nullable=False, index=True)
+    is_verified = db.Column(db.Boolean, default=False, nullable=False, index=True)
     
     ip_address = db.Column(db.String(45), nullable=True)
     destination = db.Column(db.String(255), nullable=True)
     
     __table_args__ = (
-        db.Index("idx_user_purpose_active", "user_id", "purpose", "is_used", "is_verified"),
+        db.Index("idx_otp_user_purpose_active", "user_id", "purpose", "is_used", "is_verified"),
     )
     
     @classmethod
@@ -424,13 +424,13 @@ class EmailVerification(db.Model):
     
     token_hash = db.Column(db.String(64), nullable=False, unique=True, index=True)
     
-    email = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False, index=True)
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    expires_at = db.Column(db.DateTime, nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False, index=True)
     
     verified_at = db.Column(db.DateTime, nullable=True)
-    is_verified = db.Column(db.Boolean, default=False, nullable=False)
+    is_verified = db.Column(db.Boolean, default=False, nullable=False, index=True)
     
     ip_address = db.Column(db.String(45), nullable=True)
     
@@ -440,142 +440,40 @@ class EmailVerification(db.Model):
         raw_token = secrets.token_urlsafe(32)
         token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
         
-        existing = cls.query.filter_by(user_id=user_id).first()
-        if existing:
-            existing.token_hash = token_hash
-            existing.email = email
-            existing.created_at = datetime.utcnow()
-            existing.expires_at = datetime.utcnow() + timedelta(hours=expires_hours)
-            existing.is_verified = False
-            existing.verified_at = None
-            db.session.commit()
-            return existing, raw_token
+        cls.query.filter_by(user_id=user_id).update({"is_verified": True}, synchronize_session=False)
         
-        token = cls(
+        verification = cls(
             user_id=user_id,
             token_hash=token_hash,
             email=email,
             expires_at=datetime.utcnow() + timedelta(hours=expires_hours),
         )
-        db.session.add(token)
+        db.session.add(verification)
         db.session.commit()
-        return token, raw_token
+        return verification, raw_token
     
     @classmethod
     def find_valid_by_hash(cls, token_hash: str) -> "EmailVerification":
-        """Find a valid verification token."""
+        """Find a valid verification token by hash."""
         return cls.query.filter(
             cls.token_hash == token_hash,
             cls.is_verified == False,
             cls.expires_at > datetime.utcnow(),
         ).first()
     
-    def verify(self, ip_address: str = None) -> None:
-        """Mark email as verified."""
+    def verify(self, ip_address: str = None) -> bool:
+        """Verify the email."""
+        if self.is_verified:
+            return False
+        if datetime.utcnow() > self.expires_at:
+            return False
+        
         self.is_verified = True
         self.verified_at = datetime.utcnow()
         if ip_address:
             self.ip_address = ip_address
         db.session.commit()
-
-
-class AuditLog(db.Model):
-    """Audit log model for tracking user actions."""
-    
-    __tablename__ = "audit_logs"
-    
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    
-    user_id = db.Column(db.String(36), db.ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True)
-    organization_id = db.Column(db.String(36), db.ForeignKey("organizations.id", ondelete="SET NULL"), nullable=True)
-    
-    action = db.Column(db.String(100), nullable=False, index=True)
-    category = db.Column(db.String(50), nullable=False, index=True)
-    resource_type = db.Column(db.String(100), nullable=True, index=True)
-    resource_id = db.Column(db.String(36), nullable=True)
-    
-    ip_address = db.Column(db.String(45), nullable=True, index=True)
-    user_agent = db.Column(db.String(500), nullable=True)
-    device_fingerprint = db.Column(db.String(64), nullable=True)
-    
-    old_values = db.Column(db.JSON, nullable=True)
-    new_values = db.Column(db.JSON, nullable=True)
-    
-    status = db.Column(db.String(50), default="success", nullable=False, index=True)
-    error_message = db.Column(db.Text, nullable=True)
-    error_code = db.Column(db.String(50), nullable=True)
-    
-    request_id = db.Column(db.String(36), nullable=True, index=True)
-    
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
-    
-    __table_args__ = (
-        db.Index("idx_user_action_created", "user_id", "action", "created_at"),
-        db.Index("idx_action_created", "action", "created_at"),
-        db.Index("idx_ip_created", "ip_address", "created_at"),
-    )
-    
-    CATEGORY_AUTH = "authentication"
-    CATEGORY_ACCOUNT = "account"
-    CATEGORY_ORGANIZATION = "organization"
-    CATEGORY_BUSINESS = "business"
-    CATEGORY_INSTAGRAM = "instagram"
-    CATEGORY_BILLING = "billing"
-    CATEGORY_ADMIN = "admin"
-    
-    def to_dict(self) -> dict:
-        """Convert audit log to dictionary."""
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "organization_id": self.organization_id,
-            "action": self.action,
-            "category": self.category,
-            "resource_type": self.resource_type,
-            "resource_id": self.resource_id,
-            "ip_address": self.ip_address,
-            "status": self.status,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
-    
-    @classmethod
-    def log(
-        cls,
-        action: str,
-        category: str,
-        user_id: str = None,
-        organization_id: str = None,
-        resource_type: str = None,
-        resource_id: str = None,
-        ip_address: str = None,
-        user_agent: str = None,
-        status: str = "success",
-        error_message: str = None,
-        error_code: str = None,
-        old_values: dict = None,
-        new_values: dict = None,
-        request_id: str = None,
-    ) -> "AuditLog":
-        """Create an audit log entry."""
-        log = cls(
-            action=action,
-            category=category,
-            user_id=user_id,
-            organization_id=organization_id,
-            resource_type=resource_type,
-            resource_id=resource_id,
-            ip_address=ip_address,
-            user_agent=user_agent,
-            status=status,
-            error_message=error_message,
-            error_code=error_code,
-            old_values=old_values,
-            new_values=new_values,
-            request_id=request_id,
-        )
-        db.session.add(log)
-        db.session.commit()
-        return log
+        return True
 
 
 class UserSession(db.Model):
@@ -589,7 +487,7 @@ class UserSession(db.Model):
     session_token = db.Column(db.String(64), nullable=False, unique=True, index=True)
     
     user_agent = db.Column(db.String(500), nullable=True)
-    ip_address = db.Column(db.String(45), nullable=True)
+    ip_address = db.Column(db.String(45), nullable=True, index=True)
     device_fingerprint = db.Column(db.String(64), nullable=True)
     
     device_type = db.Column(db.String(50), nullable=True)
@@ -597,12 +495,17 @@ class UserSession(db.Model):
     os = db.Column(db.String(100), nullable=True)
     location = db.Column(db.String(255), nullable=True)
     
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    last_active_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    expires_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+    last_active_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
+    expires_at = db.Column(db.DateTime, nullable=False, index=True)
     
     is_active = db.Column(db.Boolean, default=True, nullable=False, index=True)
     is_remember = db.Column(db.Boolean, default=False, nullable=False)
+    
+    __table_args__ = (
+        db.Index("idx_session_user_active", "user_id", "is_active"),
+        db.Index("idx_session_expires", "expires_at", "is_active"),
+    )
     
     @classmethod
     def create_session(
@@ -709,3 +612,42 @@ class UserSession(db.Model):
         count = query.update({"is_active": False}, synchronize_session=False)
         db.session.commit()
         return count
+        token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
+        
+        existing = cls.query.filter_by(user_id=user_id).first()
+        if existing:
+            existing.token_hash = token_hash
+            existing.email = email
+            existing.created_at = datetime.utcnow()
+            existing.expires_at = datetime.utcnow() + timedelta(hours=expires_hours)
+            existing.is_verified = False
+            existing.verified_at = None
+            db.session.commit()
+            return existing, raw_token
+        
+        token = cls(
+            user_id=user_id,
+            token_hash=token_hash,
+            email=email,
+            expires_at=datetime.utcnow() + timedelta(hours=expires_hours),
+        )
+        db.session.add(token)
+        db.session.commit()
+        return token, raw_token
+    
+    @classmethod
+    def find_valid_by_hash(cls, token_hash: str) -> "EmailVerification":
+        """Find a valid verification token."""
+        return cls.query.filter(
+            cls.token_hash == token_hash,
+            cls.is_verified == False,
+            cls.expires_at > datetime.utcnow(),
+        ).first()
+    
+    def verify(self, ip_address: str = None) -> None:
+        """Mark email as verified."""
+        self.is_verified = True
+        self.verified_at = datetime.utcnow()
+        if ip_address:
+            self.ip_address = ip_address
+        db.session.commit()

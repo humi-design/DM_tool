@@ -20,7 +20,8 @@ from utils.validators import (
     validate_otp_code,
     ValidationResult,
 )
-from models.auth import UserSession, AuditLog
+from models.auth import UserSession
+from models.audit_log import AuditLog
 from auth.rate_limiting import (
     login_limiter,
     register_limiter,
