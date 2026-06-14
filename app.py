@@ -84,6 +84,13 @@ def _init_blueprints(app: Flask) -> None:
     from onboarding import onboarding_bp
     from comment_intelligence import comment_intelligence_bp
     
+    # AI DM Employee routes
+    try:
+        from services.ai_dm_employee.routes import ai_dm_bp
+        app.register_blueprint(ai_dm_bp, url_prefix="/api/ai-dm")
+    except ImportError:
+        pass  # AI DM Employee not available
+    
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(users_bp, url_prefix="/users")
     app.register_blueprint(organizations_bp, url_prefix="/organizations")
