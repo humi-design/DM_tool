@@ -1,0 +1,875 @@
+/* AI Analytics Center - Premium Dashboard Styles */
+
+/* ============================================
+   CSS Variables & Theme Configuration
+   ============================================ */
+:root {
+    /* Primary Colors */
+    --analytics-primary: #6366f1;
+    --analytics-primary-light: #818cf8;
+    --analytics-primary-dark: #4f46e5;
+    
+    /* Accent Colors */
+    --analytics-accent-cyan: #22d3ee;
+    --analytics-accent-emerald: #10b981;
+    --analytics-accent-amber: #f59e0b;
+    --analytics-accent-rose: #f43f5e;
+    --analytics-accent-violet: #8b5cf6;
+    
+    /* Dark Theme */
+    --analytics-bg-primary: #0f0f14;
+    --analytics-bg-secondary: #16161d;
+    --analytics-bg-tertiary: #1e1e28;
+    --analytics-bg-card: #232330;
+    --analytics-bg-card-hover: #2a2a3a;
+    --analytics-bg-glass: rgba(30, 30, 40, 0.7);
+    
+    /* Borders & Dividers */
+    --analytics-border: rgba(255, 255, 255, 0.08);
+    --analytics-border-hover: rgba(255, 255, 255, 0.15);
+    
+    /* Text Colors */
+    --analytics-text-primary: #f8fafc;
+    --analytics-text-secondary: #94a3b8;
+    --analytics-text-muted: #64748b;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--analytics-primary) 0%, var(--analytics-accent-violet) 100%);
+    --gradient-cyan: linear-gradient(135deg, #06b6d4 0%, var(--analytics-accent-cyan) 100%);
+    --gradient-emerald: linear-gradient(135deg, #059669 0%, var(--analytics-accent-emerald) 100%);
+    --gradient-amber: linear-gradient(135deg, #d97706 0%, var(--analytics-accent-amber) 100%);
+    --gradient-rose: linear-gradient(135deg, #e11d48 0%, var(--analytics-accent-rose) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow-primary: 0 0 30px rgba(99, 102, 241, 0.3);
+    --shadow-glow-emerald: 0 0 30px rgba(16, 185, 129, 0.3);
+    
+    /* Animations */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 400ms ease;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+}
+
+/* ============================================
+   Base Layout
+   ============================================ */
+.analytics-page {
+    min-height: 100vh;
+    background: var(--analytics-bg-primary);
+    background-image: 
+        radial-gradient(ellipse at 20% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    color: var(--analytics-text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Override base template styles */
+.analytics-page .pl-64 {
+    padding-left: 0 !important;
+}
+
+/* ============================================
+   Analytics Container
+   ============================================ */
+.analytics-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 32px;
+}
+
+/* ============================================
+   Header Section
+   ============================================ */
+.analytics-header {
+    margin-bottom: 32px;
+    animation: fadeInDown 0.6s ease;
+}
+
+.analytics-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--analytics-text-primary) 0%, var(--analytics-primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.analytics-subtitle {
+    color: var(--analytics-text-secondary);
+    font-size: 1rem;
+}
+
+/* ============================================
+   Time Period Selector
+   ============================================ */
+.time-period-selector {
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    background: var(--analytics-bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--analytics-border);
+}
+
+.time-period-btn {
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--analytics-text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.time-period-btn:hover {
+    color: var(--analytics-text-primary);
+    background: var(--analytics-bg-tertiary);
+}
+
+.time-period-btn.active {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-glow-primary);
+}
+
+/* ============================================
+   Metrics Grid
+   ============================================ */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+/* Metric Card */
+.metric-card {
+    position: relative;
+    background: var(--analytics-bg-card);
+    border: 1px solid var(--analytics-border);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    animation: fadeInUp 0.6s ease backwards;
+}
+
+.metric-card:nth-child(1) { animation-delay: 0.1s; }
+.metric-card:nth-child(2) { animation-delay: 0.15s; }
+.metric-card:nth-child(3) { animation-delay: 0.2s; }
+.metric-card:nth-child(4) { animation-delay: 0.25s; }
+.metric-card:nth-child(5) { animation-delay: 0.3s; }
+.metric-card:nth-child(6) { animation-delay: 0.35s; }
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--card-accent-color, var(--analytics-primary));
+    opacity: 0.8;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--analytics-border-hover);
+    box-shadow: var(--shadow-lg);
+}
+
+.metric-card-bg {
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 200px;
+    height: 200px;
+    background: var(--card-accent-color, var(--analytics-primary));
+    opacity: 0.05;
+    border-radius: 50%;
+    filter: blur(60px);
+}
+
+.metric-card-icon {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.metric-card-icon svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+.metric-card-label {
+    font-size: 0.875rem;
+    color: var(--analytics-text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-card-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--analytics-text-primary);
+    margin-bottom: 12px;
+    line-height: 1;
+}
+
+.metric-card-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.813rem;
+    font-weight: 600;
+}
+
+.metric-card-trend.positive {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--analytics-accent-emerald);
+}
+
+.metric-card-trend.negative {
+    background: rgba(244, 63, 94, 0.15);
+    color: var(--analytics-accent-rose);
+}
+
+.metric-card-trend svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Card Color Variants */
+.metric-card.emerald { --card-accent-color: var(--analytics-accent-emerald); }
+.metric-card.amber { --card-accent-color: var(--analytics-accent-amber); }
+.metric-card.cyan { --card-accent-color: var(--analytics-accent-cyan); }
+.metric-card.rose { --card-accent-color: var(--analytics-accent-rose); }
+.metric-card.violet { --card-accent-color: var(--analytics-accent-violet); }
+
+/* ============================================
+   Main Content Grid
+   ============================================ */
+.analytics-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+}
+
+@media (max-width: 1200px) {
+    .analytics-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   Card Base
+   ============================================ */
+.analytics-card {
+    background: var(--analytics-bg-card);
+    border: 1px solid var(--analytics-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease backwards;
+}
+
+.analytics-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--analytics-border);
+}
+
+.analytics-card-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--analytics-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.analytics-card-title svg {
+    width: 20px;
+    height: 20px;
+    color: var(--analytics-primary);
+}
+
+.analytics-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.analytics-card-body {
+    padding: 24px;
+}
+
+/* ============================================
+   Chart Controls
+   ============================================ */
+.chart-type-selector {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--analytics-bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.chart-type-btn {
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--analytics-text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chart-type-btn:hover {
+    color: var(--analytics-text-secondary);
+}
+
+.chart-type-btn.active {
+    background: var(--analytics-bg-tertiary);
+    color: var(--analytics-text-primary);
+}
+
+.chart-type-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ============================================
+   Charts Container
+   ============================================ */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 320px;
+}
+
+.chart-container.large {
+    height: 400px;
+}
+
+/* ============================================
+   AI Insights Panel
+   ============================================ */
+.ai-insights-panel {
+    background: linear-gradient(135deg, var(--analytics-bg-card) 0%, rgba(99, 102, 241, 0.05) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.ai-insights-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    background: var(--gradient-glass);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.ai-insights-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    font-size: 0.813rem;
+    font-weight: 600;
+    color: white;
+    animation: pulse 2s ease infinite;
+}
+
+.ai-insights-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* Insight Cards */
+.insight-card {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border-bottom: 1px solid var(--analytics-border);
+    transition: background var(--transition-fast);
+}
+
+.insight-card:last-child {
+    border-bottom: none;
+}
+
+.insight-card:hover {
+    background: var(--analytics-bg-tertiary);
+}
+
+.insight-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+}
+
+.insight-icon svg {
+    width: 22px;
+    height: 22px;
+    color: white;
+}
+
+.insight-content {
+    flex: 1;
+}
+
+.insight-title {
+    font-weight: 600;
+    color: var(--analytics-text-primary);
+    margin-bottom: 6px;
+}
+
+.insight-description {
+    font-size: 0.875rem;
+    color: var(--analytics-text-secondary);
+    line-height: 1.5;
+}
+
+.insight-metric {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(99, 102, 241, 0.15);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--analytics-primary-light);
+    margin-top: 8px;
+}
+
+/* ============================================
+   Reports Section
+   ============================================ */
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 24px;
+}
+
+.report-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--analytics-bg-secondary);
+    border: 1px solid var(--analytics-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.report-card:hover {
+    background: var(--analytics-bg-tertiary);
+    border-color: var(--analytics-primary);
+    transform: translateY(-2px);
+}
+
+.report-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+}
+
+.report-icon svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+.report-info h4 {
+    font-weight: 600;
+    color: var(--analytics-text-primary);
+    margin-bottom: 4px;
+}
+
+.report-info p {
+    font-size: 0.813rem;
+    color: var(--analytics-text-muted);
+}
+
+/* ============================================
+   Data Tables
+   ============================================ */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--analytics-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--analytics-bg-secondary);
+    border-bottom: 1px solid var(--analytics-border);
+}
+
+.data-table td {
+    padding: 16px;
+    font-size: 0.875rem;
+    color: var(--analytics-text-secondary);
+    border-bottom: 1px solid var(--analytics-border);
+}
+
+.data-table tr:hover td {
+    background: var(--analytics-bg-tertiary);
+}
+
+.data-table .rank {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.813rem;
+    background: var(--analytics-bg-secondary);
+    color: var(--analytics-text-muted);
+}
+
+.data-table .rank.top {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+/* ============================================
+   Distribution Bars
+   ============================================ */
+.distribution-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.distribution-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.distribution-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.distribution-label {
+    font-size: 0.875rem;
+    color: var(--analytics-text-primary);
+    font-weight: 500;
+}
+
+.distribution-value {
+    font-size: 0.875rem;
+    color: var(--analytics-text-secondary);
+}
+
+.distribution-bar {
+    height: 8px;
+    background: var(--analytics-bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.distribution-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--gradient-primary);
+    transition: width 1s ease;
+}
+
+/* ============================================
+   Export Buttons
+   ============================================ */
+.export-buttons {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--analytics-border);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    border: none;
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-primary);
+}
+
+.btn-secondary {
+    background: var(--analytics-bg-secondary);
+    color: var(--analytics-text-primary);
+    border: 1px solid var(--analytics-border);
+}
+
+.btn-secondary:hover {
+    background: var(--analytics-bg-tertiary);
+    border-color: var(--analytics-border-hover);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.813rem;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+    .analytics-container {
+        padding: 16px;
+    }
+    
+    .analytics-title {
+        font-size: 1.75rem;
+    }
+    
+    .time-period-selector {
+        flex-wrap: wrap;
+    }
+    
+    .time-period-btn {
+        padding: 8px 14px;
+        font-size: 0.813rem;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .metric-card {
+        padding: 16px;
+    }
+    
+    .metric-card-value {
+        font-size: 1.75rem;
+    }
+    
+    .analytics-card-body {
+        padding: 16px;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+    
+    .export-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Staggered animations for lists */
+.animate-stagger > * {
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+.animate-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.animate-stagger > *:nth-child(2) { animation-delay: 0.15s; }
+.animate-stagger > *:nth-child(3) { animation-delay: 0.2s; }
+.animate-stagger > *:nth-child(4) { animation-delay: 0.25s; }
+.animate-stagger > *:nth-child(5) { animation-delay: 0.3s; }
+.animate-stagger > *:nth-child(6) { animation-delay: 0.35s; }
+
+/* ============================================
+   Loading States
+   ============================================ */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--analytics-bg-secondary) 25%,
+        var(--analytics-bg-tertiary) 50%,
+        var(--analytics-bg-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* ============================================
+   Tooltips
+   ============================================ */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    padding: 8px 12px;
+    background: var(--analytics-bg-primary);
+    color: var(--analytics-text-primary);
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--analytics-border);
+    z-index: 100;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+.analytics-page ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.analytics-page ::-webkit-scrollbar-track {
+    background: var(--analytics-bg-secondary);
+}
+
+.analytics-page ::-webkit-scrollbar-thumb {
+    background: var(--analytics-bg-tertiary);
+    border-radius: 4px;
+}
+
+.analytics-page ::-webkit-scrollbar-thumb:hover {
+    background: var(--analytics-text-muted);
+}
