@@ -23,6 +23,14 @@ from models.auth import (
     EmailVerification,
     UserSession,
 )
+from models.onboarding import (
+    OnboardingSession,
+    ProfileData,
+    KnowledgeBase,
+    UploadedFile,
+    ConversationMessage,
+    OnboardingTemplate,
+)
 
 __all__ = [
     # Base
@@ -62,4 +70,11 @@ __all__ = [
     "Setting",
     # Notifications
     "Notification",
+    # Onboarding
+    "OnboardingSession",
+    "ProfileData",
+    "KnowledgeBase",
+    "UploadedFile",
+    "ConversationMessage",
+    "OnboardingTemplate",
 ]

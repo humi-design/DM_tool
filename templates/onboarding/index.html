@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.name }} - Get Started{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-tertiary: #94a3b8;
+        --border-color: #e2e8f0;
+        --accent-color: #6366f1;
+        --accent-hover: #4f46e5;
+        --accent-light: #eef2ff;
+        --success-color: #10b981;
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+        --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.06);
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        line-height: 1.6;
+    }
+
+    /* Dark mode */
+    .dark body,
+    body.dark-mode {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-tertiary: #64748b;
+        --border-color: #334155;
+        --accent-light: #312e81;
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+        --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.3);
+    }
+
+    .dark body {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    /* Layout */
+    .onboarding-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .onboarding-header {
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--accent-color), #a855f7);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+    }
+
+    .dark-mode-toggle {
+        width: 48px;
+        height: 28px;
+        background: var(--bg-tertiary);
+        border-radius: 14px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+    }
+
+    .dark-mode-toggle::after {
+        content: '☀️';
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+    }
+
+    .dark-mode-toggle.active {
+        background: var(--accent-color);
+    }
+
+    .dark-mode-toggle.active::after {
+        content: '🌙';
+        left: auto;
+        right: 4px;
+    }
+
+    .onboarding-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 40px;
+    }
+
+    .welcome-card {
+        background: var(--bg-primary);
+        border-radius: 24px;
+        padding: 80px 100px;
+        text-align: center;
+        max-width: 720px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .welcome-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent-light);
+        color: var(--accent-color);
+        padding: 8px 16px;
+        border-radius: 100px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 32px;
+    }
+
+    .welcome-title {
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }
+
+    .welcome-subtitle {
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin-bottom: 48px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+        color: white;
+        padding: 16px 32px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    .cta-button svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 64px;
+        padding-top: 48px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .feature-item {
+        text-align: center;
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--bg-tertiary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        font-size: 24px;
+    }
+
+    .feature-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+    }
+
+    .feature-desc {
+        font-size: 13px;
+        color: var(--text-tertiary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .onboarding-header {
+            padding: 16px 20px;
+        }
+
+        .onboarding-main {
+            padding: 40px 20px;
+        }
+
+        .welcome-card {
+            padding: 48px 32px;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="onboarding-container" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+    <header class="onboarding-header">
+        <div class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>DM_tool</span>
+        </div>
+        <div class="dark-mode-toggle" @click="darkMode = !darkMode" :class="{ 'active': darkMode }"></div>
+    </header>
+
+    <main class="onboarding-main">
+        <div class="welcome-card">
+            <div class="welcome-badge">
+                <span>✨</span>
+                <span>AI-Powered Onboarding</span>
+            </div>
+            
+            <h1 class="welcome-title">Welcome to DM_tool</h1>
+            
+            <p class="welcome-subtitle">
+                Set up your profile in minutes with our intelligent AI assistant. 
+                Let's create something amazing together.
+            </p>
+
+            <a href="{{ url_for('onboarding.select_type') }}" class="cta-button">
+                Get Started
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </a>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-title">AI-Powered</div>
+                    <div class="feature-desc">Smart suggestions</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Quick Setup</div>
+                    <div class="feature-desc">Under 5 minutes</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">Secure</div>
+                    <div class="feature-desc">Your data is safe</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

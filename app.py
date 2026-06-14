@@ -81,6 +81,7 @@ def _init_blueprints(app: Flask) -> None:
     from billing import billing_bp
     from settings import settings_bp
     from admin import admin_bp
+    from onboarding import onboarding_bp
     
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(users_bp, url_prefix="/users")
@@ -96,6 +97,7 @@ def _init_blueprints(app: Flask) -> None:
     app.register_blueprint(billing_bp, url_prefix="/billing")
     app.register_blueprint(settings_bp, url_prefix="/settings")
     app.register_blueprint(admin_bp, url_prefix="/admin")
+    app.register_blueprint(onboarding_bp, url_prefix="/onboarding")
 
 
 def _init_error_handlers(app: Flask) -> None:
