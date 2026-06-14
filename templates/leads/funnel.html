@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Conversion Funnel - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900" x-data="funnelApp()" x-init="init()">
+    {% include "partials/sidebar.html" %}
+    
+    <div class="pl-64 transition-all duration-300">
+        {% include "partials/topbar.html" %}
+        
+        <main class="p-6">
+            <!-- Header -->
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Conversion Funnel</h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-1">Track your lead-to-customer conversion journey</p>
+                </div>
+                <div class="flex gap-3">
+                    <a href="{{ url_for('leads.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        List View
+                    </a>
+                    <a href="{{ url_for('leads.pipeline') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"></path>
+                        </svg>
+                        Pipeline
+                    </a>
+                </div>
+            </div>
+
+            <!-- Funnel Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Total Leads</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white" x-text="stats.total_leads || 0"></p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Conversion Rate</p>
+                    <p class="text-2xl font-bold text-green-500" x-text="`${stats.conversion_rate || 0}%`"></p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Leads Won</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white" x-text="stats.converted_leads || 0"></p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Avg Score</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white" x-text="stats.average_score || 0"></p>
+                </div>
+            </div>
+
+            <!-- Funnel Visualization -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Conversion Funnel</h2>
+                <div class="space-y-4">
+                    <template x-for="(stage, index) in funnelData" :key="stage.stage">
+                        <div class="relative">
+                            <div class="flex items-center">
+                                <div class="w-24 text-right pr-4">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize" x-text="stage.stage"></span>
+                                </div>
+                                <div class="flex-1 relative">
+                                    <div class="h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center px-4 transition-all duration-500" 
+                                         :style="`width: ${getWidth(stage.count)}%; min-width: ${getMinWidth(index)}%`">
+                                        <span class="text-white font-semibold" x-text="stage.count"></span>
+                                    </div>
+                                    <template x-if="stage.drop_off > 0">
+                                        <div class="absolute -right-16 top-1/2 -translate-y-1/2 text-sm text-red-500 flex items-center">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                            </svg>
+                                            <span x-text="`${stage.drop_off}%`"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Funnel Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Funnel Distribution</h3>
+                    <div class="h-64">
+                        <canvas id="funnelChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Drop-off Analysis -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Stage Analysis</h3>
+                    <div class="space-y-4">
+                        <template x-for="(stage, index) in funnelData" :key="stage.stage">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                                        <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400" x-text="index + 1"></span>
+                                    </div>
+                                    <span class="font-medium text-gray-900 dark:text-white capitalize" x-text="stage.stage"></span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-900 dark:text-white" x-text="stage.count"></p>
+                                    <template x-if="index < funnelData.length - 1 && stage.drop_off > 0">
+                                        <p class="text-xs text-red-500" x-text="`${stage.drop_off}% drop-off`"></p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversion Insights -->
+            <div class="mt-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-2xl">💡</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Conversion Insights</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400">Best Performing Stage</p>
+                                <p class="font-medium text-gray-900 dark:text-white" x-text="getBestStage()"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400">Biggest Drop-off</p>
+                                <p class="font-medium text-red-500" x-text="getBiggestDrop()"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400">Overall Efficiency</p>
+                                <p class="font-medium text-gray-900 dark:text-white" x-text="getEfficiency()"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function funnelApp() {
+    return {
+        stats: {},
+        funnelData: [],
+        funnelChart: null,
+
+        async init() {
+            await this.loadStats();
+            this.initChart();
+        },
+
+        async loadStats() {
+            try {
+                const [statsRes, funnelRes] = await Promise.all([
+                    fetch('/leads/api/stats'),
+                    fetch('/leads/api/stats/funnel')
+                ]);
+
+                const statsData = await statsRes.json();
+                const funnelData = await funnelRes.json();
+
+                if (statsData.success) {
+                    this.stats = statsData.data;
+                }
+                if (funnelData.success) {
+                    this.funnelData = funnelData.data;
+                    this.updateChart();
+                }
+            } catch (error) {
+                console.error('Failed to load data:', error);
+            }
+        },
+
+        initChart() {
+            const ctx = document.getElementById('funnelChart');
+            if (!ctx) return;
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#9CA3AF' : '#6B7280';
+            const gridColor = isDark ? '#374151' : '#E5E7EB';
+
+            this.funnelChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Leads',
+                        data: [],
+                        backgroundColor: ['#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B', '#10B981']
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+        },
+
+        updateChart() {
+            if (this.funnelChart) {
+                this.funnelChart.data.labels = this.funnelData.map(s => s.stage);
+                this.funnelChart.data.datasets[0].data = this.funnelData.map(s => s.count);
+                this.funnelChart.update();
+            }
+        },
+
+        getWidth(count) {
+            if (!this.funnelData.length) return 0;
+            const max = Math.max(...this.funnelData.map(s => s.count));
+            return max > 0 ? (count / max) * 100 : 0;
+        },
+
+        getMinWidth(index) {
+            const widths = [100, 80, 60, 40, 20];
+            return widths[index] || 20;
+        },
+
+        getBestStage() {
+            if (!this.funnelData.length) return '-';
+            const best = this.funnelData.reduce((prev, curr) => 
+                (curr.drop_off < prev.drop_off ? curr : prev), this.funnelData[0]);
+            return best.stage.charAt(0).toUpperCase() + best.stage.slice(1);
+        },
+
+        getBiggestDrop() {
+            if (!this.funnelData.length) return '-';
+            const drops = this.funnelData.filter(s => s.drop_off > 0);
+            if (!drops.length) return 'None';
+            const biggest = drops.reduce((prev, curr) => 
+                (curr.drop_off > prev.drop_off ? curr : prev), drops[0]);
+            return `${biggest.stage.charAt(0).toUpperCase() + biggest.stage.slice(1)} (${biggest.drop_off}%)`;
+        },
+
+        getEfficiency() {
+            if (!this.funnelData.length) return '-';
+            const won = this.stats.converted_leads || 0;
+            const total = this.stats.total_leads || 0;
+            if (total === 0) return 'N/A';
+            return `${((won / total) * 100).toFixed(1)}%`;
+        }
+    }
+}
+</script>
+{% endblock %}

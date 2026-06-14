@@ -1,0 +1,681 @@
+{% extends "base.html" %}
+
+{% block title %}Lead Details - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900" x-data="leadDetailApp()" x-init="init()">
+    {% include "partials/sidebar.html" %}
+    
+    <div class="pl-64 transition-all duration-300">
+        {% include "partials/topbar.html" %}
+        
+        <main class="p-6">
+            <!-- Breadcrumb -->
+            <div class="mb-6">
+                <nav class="flex text-sm">
+                    <a href="{{ url_for('leads.index') }}" class="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">Leads</a>
+                    <span class="mx-2 text-gray-400">/</span>
+                    <span class="text-gray-900 dark:text-white">Lead Details</span>
+                </nav>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Lead Header Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
+                                        <span x-text="lead.name ? lead.name.charAt(0).toUpperCase() : '?'"></span>
+                                    </div>
+                                    <div>
+                                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white" x-text="lead.name || 'Unknown Lead'"></h1>
+                                        <p class="text-gray-500 dark:text-gray-400" x-text="lead.company || 'No company'"></p>
+                                        <div class="flex items-center gap-2 mt-2">
+                                            <span :class="{
+                                                'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300': lead.lead_status === 'hot',
+                                                'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300': lead.lead_status === 'warm',
+                                                'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300': lead.lead_status === 'cold'
+                                            }" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium capitalize" x-text="lead.lead_status">
+                                            </span>
+                                            <span class="text-sm text-gray-500 dark:text-gray-400 capitalize" x-text="`Pipeline: ${lead.status}`"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button @click="analyzeLead()" class="px-4 py-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-lg hover:bg-amber-200 dark:hover:bg-amber-900/50 transition">
+                                        <span class="flex items-center gap-2">
+                                            <span>🤖</span>
+                                            AI Analysis
+                                        </span>
+                                    </button>
+                                    <button @click="openEditModal()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 transition">
+                                        Edit
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Score Section -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4 mb-6">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Lead Score</span>
+                                    <span class="text-2xl font-bold" :class="{
+                                        'text-green-600 dark:text-green-400': lead.lead_score >= 65,
+                                        'text-amber-600 dark:text-amber-400': lead.lead_score >= 35 && lead.lead_score < 65,
+                                        'text-gray-600 dark:text-gray-400': lead.lead_score < 35
+                                    }" x-text="lead.lead_score || 0"></span>
+                                </div>
+                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mb-2">
+                                    <div :class="{
+                                        'bg-green-500': (lead.lead_score || 0) >= 65,
+                                        'bg-amber-500': (lead.lead_score || 0) >= 35 && (lead.lead_score || 0) < 65,
+                                        'bg-gray-400': (lead.lead_score || 0) < 35
+                                    }" class="h-full rounded-full transition-all duration-500" :style="`width: ${lead.lead_score || 0}%`"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                                    <span>Score Label:</span>
+                                    <span class="font-medium" x-text="lead.score_label || 'Very Low'"></span>
+                                </div>
+                                <template x-if="lead.ai_confidence">
+                                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        <span>AI Confidence:</span>
+                                        <span class="font-medium" x-text="`${(lead.ai_confidence * 100).toFixed(0)}%`"></span>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Quick Stats -->
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="text-center p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-white" x-text="lead.conversation_count || 0"></p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Conversations</p>
+                                </div>
+                                <div class="text-center p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-white" x-text="timeline.length"></p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Timeline Events</p>
+                                </div>
+                                <div class="text-center p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-white" x-text="lead.tags?.length || 0"></p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Tags</p>
+                                </div>
+                            </div>
+
+                            <!-- AI Summary -->
+                            <template x-if="lead.ai_summary">
+                                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg p-4 mb-6">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="text-lg">🤖</span>
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">AI Summary</h3>
+                                    </div>
+                                    <p class="text-gray-700 dark:text-gray-300" x-text="lead.ai_summary"></p>
+                                </div>
+                            </template>
+
+                            <!-- AI Generated Notes -->
+                            <template x-if="lead.ai_generated_notes">
+                                <div class="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 mb-6">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="text-lg">📝</span>
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">AI Generated Notes</h3>
+                                    </div>
+                                    <div class="prose prose-sm dark:prose-invert max-w-none" x-html="formatNotes(lead.ai_generated_notes)"></div>
+                                </div>
+                            </template>
+
+                            <!-- Contact Information -->
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                                <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Contact Information</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs text-gray-500 dark:text-gray-400">Email</label>
+                                        <p class="text-gray-900 dark:text-white" x-text="lead.email || '-'"></p>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-500 dark:text-gray-400">Phone</label>
+                                        <p class="text-gray-900 dark:text-white" x-text="lead.phone || '-'"></p>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-500 dark:text-gray-400">Company</label>
+                                        <p class="text-gray-900 dark:text-white" x-text="lead.company || '-'"></p>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-500 dark:text-gray-400">Source</label>
+                                        <p class="text-gray-900 dark:text-white capitalize" x-text="lead.source_type || '-'"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interest & Requirements -->
+                            <template x-if="lead.interest || lead.requirements">
+                                <div class="border-t border-gray-200 dark:border-gray-700 pt-6 mt-6">
+                                    <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Interest & Requirements</h3>
+                                    <div class="space-y-4">
+                                        <template x-if="lead.interest">
+                                            <div>
+                                                <label class="text-xs text-gray-500 dark:text-gray-400">Interest</label>
+                                                <p class="text-gray-900 dark:text-white" x-text="lead.interest"></p>
+                                            </div>
+                                        </template>
+                                        <template x-if="lead.requirements">
+                                            <div>
+                                                <label class="text-xs text-gray-500 dark:text-gray-400">Requirements</label>
+                                                <p class="text-gray-900 dark:text-white" x-text="lead.requirements"></p>
+                                            </div>
+                                        </template>
+                                        <template x-if="lead.budget">
+                                            <div>
+                                                <label class="text-xs text-gray-500 dark:text-gray-400">Budget</label>
+                                                <p class="text-gray-900 dark:text-white font-medium" x-text="lead.budget"></p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Lead Timeline</h2>
+                            <div class="space-y-4">
+                                <template x-for="event in timeline" :key="event.id">
+                                    <div class="flex gap-4">
+                                        <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center" :class="getEventColor(event.event_type)">
+                                            <span x-text="getEventIcon(event.event_type)"></span>
+                                        </div>
+                                        <div class="flex-1 pb-4 border-b border-gray-100 dark:border-gray-700 last:border-0">
+                                            <p class="text-sm text-gray-900 dark:text-white" x-text="event.description"></p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" x-text="formatDate(event.created_at)"></p>
+                                        </div>
+                                    </div>
+                                </template>
+                                <div x-show="timeline.length === 0" class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    No timeline events yet
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Section -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Notes</h2>
+                            <div class="mb-4">
+                                <textarea x-model="newNote" rows="3" placeholder="Add a note..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"></textarea>
+                                <button @click="addNote()" class="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Add Note</button>
+                            </div>
+                            <div class="prose prose-sm dark:prose-invert max-w-none" x-show="lead.notes">
+                                <div x-html="formatNotes(lead.notes)"></div>
+                            </div>
+                            <p x-show="!lead.notes" class="text-gray-500 dark:text-gray-400">No notes yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Quick Actions -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+                        <div class="space-y-2">
+                            <button @click="updateStatus('contacted')" class="w-full px-4 py-2 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+                                Mark as Contacted
+                            </button>
+                            <button @click="updateStatus('qualified')" class="w-full px-4 py-2 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+                                Qualify Lead
+                            </button>
+                            <button @click="updateStatus('proposal')" class="w-full px-4 py-2 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+                                Send Proposal
+                            </button>
+                            <button @click="updateStatus('won')" class="w-full px-4 py-2 text-left rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 text-green-700 dark:text-green-300">
+                                Mark as Won 🎉
+                            </button>
+                            <button @click="updateStatus('lost')" class="w-full px-4 py-2 text-left rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-700 dark:text-red-300">
+                                Mark as Lost
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Conversion Probability -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Conversion Probability</h3>
+                        <div class="relative w-full h-32">
+                            <canvas id="probabilityChart"></canvas>
+                        </div>
+                        <p class="text-center text-2xl font-bold text-gray-900 dark:text-white mt-2" x-text="`${conversionProbability}%`"></p>
+                        <p class="text-center text-sm text-gray-500 dark:text-gray-400">Chance of Conversion</p>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Tags</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <template x-for="tag in (lead.tags || [])" :key="tag">
+                                <span class="inline-flex items-center px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">
+                                    <span x-text="tag"></span>
+                                    <button @click="removeTag(tag)" class="ml-1 text-indigo-500 hover:text-indigo-700">×</button>
+                                </span>
+                            </template>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="text" x-model="newTag" @keydown.enter="addTag()" placeholder="Add tag..." class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                            <button @click="addTag()" class="px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Add</button>
+                        </div>
+                    </div>
+
+                    <!-- Lead Temperature -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Temperature</h3>
+                        <div class="flex justify-center gap-4">
+                            <button @click="setTemperature('cold')" class="flex flex-col items-center p-3 rounded-lg transition" :class="lead.lead_status === 'cold' ? 'bg-blue-100 dark:bg-blue-900/30' : 'hover:bg-gray-50 dark:hover:bg-gray-700'">
+                                <span class="text-3xl mb-1">❄️</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-300">Cold</span>
+                            </button>
+                            <button @click="setTemperature('warm')" class="flex flex-col items-center p-3 rounded-lg transition" :class="lead.lead_status === 'warm' ? 'bg-amber-100 dark:bg-amber-900/30' : 'hover:bg-gray-50 dark:hover:bg-gray-700'">
+                                <span class="text-3xl mb-1">🌡️</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-300">Warm</span>
+                            </button>
+                            <button @click="setTemperature('hot')" class="flex flex-col items-center p-3 rounded-lg transition" :class="lead.lead_status === 'hot' ? 'bg-red-100 dark:bg-red-900/30' : 'hover:bg-gray-50 dark:hover:bg-gray-700'">
+                                <span class="text-3xl mb-1">🔥</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-300">Hot</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Instagram Info -->
+                    <template x-if="lead.instagram_username">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                            <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Instagram</h3>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900 dark:text-white">@<span x-text="lead.instagram_username"></span></p>
+                                    <a :href="lead.instagram_profile_url" target="_blank" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Metadata -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Details</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 dark:text-gray-400">Created</span>
+                                <span class="text-gray-900 dark:text-white" x-text="formatDate(lead.created_at)"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 dark:text-gray-400">Last Updated</span>
+                                <span class="text-gray-900 dark:text-white" x-text="formatDate(lead.updated_at)"></span>
+                            </div>
+                            <div x-show="lead.last_conversation_at" class="flex justify-between">
+                                <span class="text-gray-500 dark:text-gray-400">Last Contact</span>
+                                <span class="text-gray-900 dark:text-white" x-text="formatDate(lead.last_conversation_at)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Modal -->
+    <div x-show="showEditModal" x-transition:enter="transition ease-out duration-300" class="fixed inset-0 z-50 overflow-y-auto" @click.self="showEditModal = false">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-black opacity-50"></div>
+            <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Lead</h3>
+                    <button @click="showEditModal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <form @submit.prevent="saveLead()" class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                            <input type="text" x-model="formData.name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                            <input type="email" x-model="formData.email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
+                            <input type="text" x-model="formData.phone" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Company</label>
+                            <input type="text" x-model="formData.company" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget</label>
+                            <input type="text" x-model="formData.budget" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pipeline Status</label>
+                            <select x-model="formData.status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                                <option value="new">New</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="qualified">Qualified</option>
+                                <option value="proposal">Proposal</option>
+                                <option value="won">Won</option>
+                                <option value="lost">Lost</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Interest</label>
+                        <textarea x-model="formData.interest" rows="2" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Requirements</label>
+                        <textarea x-model="formData.requirements" rows="2" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <button type="button" @click="showEditModal = false" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function leadDetailApp() {
+    return {
+        lead: {},
+        timeline: [],
+        newNote: '',
+        newTag: '',
+        conversionProbability: 0,
+        showEditModal: false,
+        formData: {},
+        probabilityChart: null,
+        leadId: '{{ lead_id }}',
+
+        async init() {
+            await this.loadLead();
+            this.initProbabilityChart();
+        },
+
+        async loadLead() {
+            try {
+                const [leadRes, timelineRes, probRes] = await Promise.all([
+                    fetch(`/leads/api/leads/${this.leadId}`),
+                    fetch(`/leads/api/leads/${this.leadId}/timeline`),
+                    fetch(`/leads/api/leads/${this.leadId}/conversion-probability`)
+                ]);
+
+                const leadData = await leadRes.json();
+                const timelineData = await timelineRes.json();
+                const probData = await probRes.json();
+
+                if (leadData.success) {
+                    this.lead = leadData.data;
+                    this.formData = { ...this.lead };
+                }
+                if (timelineData.success) {
+                    this.timeline = timelineData.data;
+                }
+                if (probData.success) {
+                    this.conversionProbability = probData.data.probability;
+                    this.updateProbabilityChart();
+                }
+            } catch (error) {
+                console.error('Failed to load lead:', error);
+            }
+        },
+
+        initProbabilityChart() {
+            const ctx = document.getElementById('probabilityChart');
+            if (!ctx) return;
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const color = isDark ? '#9CA3AF' : '#6B7280';
+
+            this.probabilityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Chance', 'Remaining'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#10B981', '#E5E7EB'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        },
+
+        updateProbabilityChart() {
+            if (this.probabilityChart) {
+                this.probabilityChart.data.datasets[0].data = [this.conversionProbability, 100 - this.conversionProbability];
+                this.probabilityChart.update();
+            }
+        },
+
+        async analyzeLead() {
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead.ai_summary = data.data.summary;
+                    this.lead.ai_generated_notes = data.data.ai_notes;
+                    this.lead.lead_score = data.data.score;
+                    this.lead.lead_status = data.data.lead_status;
+                    this.updateProbabilityChart();
+                }
+            } catch (error) {
+                console.error('Failed to analyze lead:', error);
+            }
+        },
+
+        openEditModal() {
+            this.formData = { ...this.lead };
+            this.showEditModal = true;
+        },
+
+        async saveLead() {
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify(this.formData)
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead = data.data;
+                    this.showEditModal = false;
+                }
+            } catch (error) {
+                console.error('Failed to save lead:', error);
+            }
+        },
+
+        async updateStatus(status) {
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ status })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead.status = data.data.status;
+                    this.loadLead();
+                }
+            } catch (error) {
+                console.error('Failed to update status:', error);
+            }
+        },
+
+        async setTemperature(status) {
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}/lead-status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ lead_status: status })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead.lead_status = data.data.lead_status;
+                }
+            } catch (error) {
+                console.error('Failed to update temperature:', error);
+            }
+        },
+
+        async addNote() {
+            if (!this.newNote.trim()) return;
+            
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}/notes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ notes: this.newNote })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead.notes = data.data.notes;
+                    this.newNote = '';
+                    this.loadLead();
+                }
+            } catch (error) {
+                console.error('Failed to add note:', error);
+            }
+        },
+
+        async addTag() {
+            if (!this.newTag.trim()) return;
+            
+            const tags = [...(this.lead.tags || []), this.newTag];
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}/tags`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ tags })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead.tags = data.data.tags;
+                    this.newTag = '';
+                }
+            } catch (error) {
+                console.error('Failed to add tag:', error);
+            }
+        },
+
+        async removeTag(tag) {
+            const tags = (this.lead.tags || []).filter(t => t !== tag);
+            try {
+                const response = await fetch(`/leads/api/leads/${this.leadId}/tags`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ tags })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.lead.tags = data.data.tags;
+                }
+            } catch (error) {
+                console.error('Failed to remove tag:', error);
+            }
+        },
+
+        getEventIcon(type) {
+            const icons = {
+                'created': '✨',
+                'updated': '📝',
+                'status_changed': '🔄',
+                'score_changed': '📊',
+                'assigned': '👤',
+                'note_added': '💬',
+                'email_sent': '📧',
+                'call_made': '📞',
+                'meeting_scheduled': '📅',
+                'conversation': '💬',
+                'ai_summary': '🤖',
+                'converted': '🎉'
+            };
+            return icons[type] || '📌';
+        },
+
+        getEventColor(type) {
+            const colors = {
+                'created': 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400',
+                'updated': 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
+                'status_changed': 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400',
+                'score_changed': 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400',
+                'assigned': 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400',
+                'note_added': 'bg-gray-100 text-gray-600 dark:bg-gray-900/30 dark:text-gray-400',
+                'ai_summary': 'bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400',
+                'converted': 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
+            };
+            return colors[type] || 'bg-gray-100 text-gray-600 dark:bg-gray-900/30 dark:text-gray-400';
+        },
+
+        formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        },
+
+        formatNotes(notes) {
+            if (!notes) return '';
+            return notes.replace(/\n/g, '<br>').replace(/##\s*(.+)/g, '<strong>$1</strong>');
+        }
+    }
+}
+</script>
+{% endblock %}
