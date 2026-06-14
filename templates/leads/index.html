@@ -2,24 +2,38 @@
 
 {% block title %}Leads - {{ site.name }}{% endblock %}
 
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
 {% block body %}
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900" x-data="leadsApp()">
     {% include "partials/sidebar.html" %}
     
-    <div class="pl-64">
+    <div class="pl-64 transition-all duration-300" :class="sidebarOpen ? 'lg:pl-64' : 'lg:pl-0'">
         {% include "partials/topbar.html" %}
         
         <main class="p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold text-gray-900">Leads</h1>
-                <div class="flex space-x-3">
-                    <a href="{{ url_for('leads.pipeline') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+            <!-- Dashboard Header -->
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Lead Management</h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-1">AI-powered lead tracking and analytics</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <a href="{{ url_for('leads.pipeline') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"></path>
                         </svg>
-                        Pipeline View
+                        Pipeline
                     </a>
-                    <button class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                    <a href="{{ url_for('leads.funnel') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                        </svg>
+                        Funnel
+                    </a>
+                    <button @click="openCreateModal()" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-sm">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
@@ -27,13 +41,899 @@
                     </button>
                 </div>
             </div>
-            
-            <div class="bg-white rounded-lg shadow">
-                <div class="p-6">
-                    <p class="text-gray-500 text-center">Leads from your DMs and comments will appear here.</p>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- Total Leads -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Total Leads</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1" x-text="stats.total_leads || 0"></p>
+                        </div>
+                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-center text-sm">
+                        <span class="text-green-500" x-text="stats.recent_leads || 0"></span>
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">this week</span>
+                    </div>
+                </div>
+
+                <!-- Hot Leads -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Hot Leads</p>
+                            <p class="text-2xl font-bold text-red-500 mt-1" x-text="stats.hot_leads || 0"></p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                            <span class="text-2xl">🔥</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-center text-sm">
+                        <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-red-500 rounded-full" :style="`width: ${stats.total_leads ? (stats.hot_leads / stats.total_leads * 100) : 0}%`"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversion Rate -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Conversion Rate</p>
+                            <p class="text-2xl font-bold text-green-500 mt-1" x-text="`${stats.conversion_rate || 0}%`"></p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-center text-sm">
+                        <span class="text-gray-500 dark:text-gray-400" x-text="`${stats.converted_leads || 0} won`"></span>
+                    </div>
+                </div>
+
+                <!-- Avg Score -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Avg Score</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1" x-text="stats.average_score || 0"></p>
+                        </div>
+                        <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-center text-sm">
+                        <span class="text-gray-500 dark:text-gray-400">AI-powered scoring</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <!-- Lead Growth Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Lead Growth</h3>
+                    <div class="h-64">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Pipeline Distribution -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pipeline Distribution</h3>
+                    <div class="h-64">
+                        <canvas id="pipelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <!-- Top Sources -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Sources</h3>
+                    <div class="space-y-3">
+                        <template x-for="source in stats.sources || []" :key="source.source">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200 capitalize" x-text="source.source"></span>
+                                </div>
+                                <span class="text-sm font-semibold text-gray-900 dark:text-white" x-text="source.count"></span>
+                            </div>
+                        </template>
+                        <div x-show="!stats.sources || stats.sources.length === 0" class="text-center py-4 text-gray-500 dark:text-gray-400">
+                            No source data yet
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Distribution -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Lead Temperature</h3>
+                    <div class="h-48">
+                        <canvas id="temperatureChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button @click="scoreAllLeads()" class="w-full flex items-center px-4 py-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/30 transition">
+                            <span class="text-xl mr-3">🤖</span>
+                            <span class="text-sm font-medium text-amber-700 dark:text-amber-300">AI Score All Leads</span>
+                        </button>
+                        <button @click="exportLeads()" class="w-full flex items-center px-4 py-3 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition">
+                            <svg class="w-5 h-5 mr-3 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            <span class="text-sm font-medium text-green-700 dark:text-green-300">Export CSV</span>
+                        </button>
+                        <button @click="openImportModal()" class="w-full flex items-center px-4 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition">
+                            <svg class="w-5 h-5 mr-3 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            <span class="text-sm font-medium text-blue-700 dark:text-blue-300">Import CSV</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leads Table -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <!-- Filters -->
+                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+                        <!-- Search -->
+                        <div class="relative flex-1">
+                            <input type="text" x-model="filters.search" @input="debounceSearch()" placeholder="Search leads..." 
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <select x-model="filters.status" @change="loadLeads()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                            <option value="">All Status</option>
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="qualified">Qualified</option>
+                            <option value="proposal">Proposal</option>
+                            <option value="won">Won</option>
+                            <option value="lost">Lost</option>
+                        </select>
+
+                        <!-- Temperature Filter -->
+                        <select x-model="filters.lead_status" @change="loadLeads()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                            <option value="">All Temperature</option>
+                            <option value="hot">🔥 Hot</option>
+                            <option value="warm">🌡️ Warm</option>
+                            <option value="cold">❄️ Cold</option>
+                        </select>
+
+                        <!-- Sort -->
+                        <select x-model="filters.sort_by" @change="loadLeads()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                            <option value="created_at">Newest First</option>
+                            <option value="lead_score">Highest Score</option>
+                            <option value="name">Name A-Z</option>
+                            <option value="company">Company A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 dark:bg-gray-900/50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Lead</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contact</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Company</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Score</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Source</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <template x-for="lead in leads" :key="lead.id">
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                                    <!-- Lead Info -->
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
+                                                <span x-text="lead.name ? lead.name.charAt(0).toUpperCase() : '?'"></span>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white" x-text="lead.name || 'Unknown'"></p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400" x-text="lead.instagram_username ? '@' + lead.instagram_username : ''"></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!-- Contact -->
+                                    <td class="px-4 py-4">
+                                        <p class="text-sm text-gray-900 dark:text-white" x-text="lead.email || '-'"></p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400" x-text="lead.phone || '-'"></p>
+                                    </td>
+                                    <!-- Company -->
+                                    <td class="px-4 py-4">
+                                        <p class="text-sm text-gray-900 dark:text-white" x-text="lead.company || '-'"></p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400" x-text="lead.budget || '-'"></p>
+                                    </td>
+                                    <!-- Status -->
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <span :class="{
+                                                'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300': lead.lead_status === 'hot',
+                                                'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300': lead.lead_status === 'warm',
+                                                'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300': lead.lead_status === 'cold'
+                                            }" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium capitalize" x-text="lead.lead_status"></span>
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 capitalize" x-text="lead.status"></span>
+                                        </div>
+                                    </td>
+                                    <!-- Score -->
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mr-2">
+                                                <div :class="{
+                                                    'bg-green-500': lead.lead_score >= 65,
+                                                    'bg-amber-500': lead.lead_score >= 35 && lead.lead_score < 65,
+                                                    'bg-gray-400': lead.lead_score < 35
+                                                }" class="h-full rounded-full" :style="`width: ${lead.lead_score}%`"></div>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-900 dark:text-white" x-text="lead.lead_score"></span>
+                                        </div>
+                                    </td>
+                                    <!-- Source -->
+                                    <td class="px-4 py-4">
+                                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 capitalize" x-text="lead.source_type"></span>
+                                    </td>
+                                    <!-- Actions -->
+                                    <td class="px-4 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button @click="analyzeLead(lead.id)" class="p-1 text-gray-400 hover:text-amber-500 transition" title="AI Analysis">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                                </svg>
+                                            </button>
+                                            <a :href="`/leads/${lead.id}`" class="p-1 text-gray-400 hover:text-indigo-500 transition" title="View Details">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </a>
+                                            <button @click="editLead(lead)" class="p-1 text-gray-400 hover:text-blue-500 transition" title="Edit">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            <button @click="deleteLead(lead.id)" class="p-1 text-gray-400 hover:text-red-500 transition" title="Delete">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr x-show="leads.length === 0">
+                                <td colspan="7" class="px-4 py-12 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No leads found</h3>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new lead.</p>
+                                    <div class="mt-6">
+                                        <button @click="openCreateModal()" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                            Add Lead
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        Showing <span x-text="pagination.start"></span> to <span x-text="pagination.end"></span> of <span x-text="pagination.total"></span> leads
+                    </div>
+                    <div class="flex gap-2">
+                        <button @click="prevPage()" :disabled="!pagination.has_prev" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Previous
+                        </button>
+                        <button @click="nextPage()" :disabled="!pagination.has_next" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Create/Edit Lead Modal -->
+    <div x-show="showModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" @click.self="showModal = false">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-black opacity-50"></div>
+            <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white" x-text="editingLead ? 'Edit Lead' : 'Create New Lead'"></h3>
+                    <button @click="showModal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <form @submit.prevent="saveLead()" class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                            <input type="text" x-model="formData.name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                            <input type="email" x-model="formData.email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <!-- Phone -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
+                            <input type="text" x-model="formData.phone" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <!-- Company -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Company</label>
+                            <input type="text" x-model="formData.company" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <!-- Budget -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget</label>
+                            <input type="text" x-model="formData.budget" placeholder="e.g., $5,000 - $10,000" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <!-- Source -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Source</label>
+                            <select x-model="formData.source_type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                                <option value="manual">Manual</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="website">Website</option>
+                                <option value="referral">Referral</option>
+                                <option value="import">Import</option>
+                            </select>
+                        </div>
+                        <!-- Status -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pipeline Status</label>
+                            <select x-model="formData.status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                                <option value="new">New</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="qualified">Qualified</option>
+                                <option value="proposal">Proposal</option>
+                                <option value="won">Won</option>
+                                <option value="lost">Lost</option>
+                            </select>
+                        </div>
+                        <!-- Temperature -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Temperature</label>
+                            <select x-model="formData.lead_status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                                <option value="cold">❄️ Cold</option>
+                                <option value="warm">🌡️ Warm</option>
+                                <option value="hot">🔥 Hot</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Interest -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Interest</label>
+                        <textarea x-model="formData.interest" rows="2" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    
+                    <!-- Requirements -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Requirements</label>
+                        <textarea x-model="formData.requirements" rows="2" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    
+                    <!-- Notes -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</label>
+                        <textarea x-model="formData.notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <button type="button" @click="showModal = false" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                            <span x-text="editingLead ? 'Update Lead' : 'Create Lead'"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div x-show="showImportModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="fixed inset-0 z-50 overflow-y-auto" @click.self="showImportModal = false">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-black opacity-50"></div>
+            <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md p-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Import Leads from CSV</h3>
+                <form @submit.prevent="importLeads()">
+                    <div class="mb-4">
+                        <input type="file" @change="importFile = $event.target.files[0]" accept=".csv" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/50">
+                    </div>
+                    <div class="flex justify-end gap-3">
+                        <button type="button" @click="showImportModal = false" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                            Import
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function leadsApp() {
+    return {
+        leads: [],
+        stats: {},
+        filters: {
+            search: '',
+            status: '',
+            lead_status: '',
+            sort_by: 'created_at',
+            sort_order: 'desc'
+        },
+        pagination: {
+            page: 1,
+            per_page: 20,
+            total: 0,
+            pages: 0,
+            has_next: false,
+            has_prev: false,
+            start: 0,
+            end: 0
+        },
+        showModal: false,
+        showImportModal: false,
+        editingLead: null,
+        formData: {
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            budget: '',
+            interest: '',
+            requirements: '',
+            notes: '',
+            source_type: 'manual',
+            status: 'new',
+            lead_status: 'cold'
+        },
+        importFile: null,
+        searchTimeout: null,
+
+        init() {
+            this.loadStats();
+            this.loadLeads();
+            this.initCharts();
+            
+            // Listen for dark mode changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    this.initCharts();
+                });
+            }
+        },
+
+        async loadStats() {
+            try {
+                const response = await fetch('/leads/api/stats');
+                const data = await response.json();
+                if (data.success) {
+                    this.stats = data.data;
+                    this.updateCharts();
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        },
+
+        async loadLeads() {
+            try {
+                const params = new URLSearchParams({
+                    page: this.pagination.page,
+                    per_page: this.pagination.per_page,
+                    sort_by: this.filters.sort_by,
+                    sort_order: this.filters.sort_order
+                });
+
+                if (this.filters.search) params.append('search', this.filters.search);
+                if (this.filters.status) params.append('status', this.filters.status);
+                if (this.filters.lead_status) params.append('lead_status', this.filters.lead_status);
+
+                const response = await fetch(`/leads/api/leads?${params}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.leads = data.data;
+                    this.pagination = {
+                        ...this.pagination,
+                        ...data.pagination,
+                        start: (data.pagination.page - 1) * data.pagination.per_page + 1,
+                        end: Math.min(data.pagination.page * data.pagination.per_page, data.pagination.total)
+                    };
+                }
+            } catch (error) {
+                console.error('Failed to load leads:', error);
+            }
+        },
+
+        debounceSearch() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                this.pagination.page = 1;
+                this.loadLeads();
+            }, 300);
+        },
+
+        prevPage() {
+            if (this.pagination.has_prev) {
+                this.pagination.page--;
+                this.loadLeads();
+            }
+        },
+
+        nextPage() {
+            if (this.pagination.has_next) {
+                this.pagination.page++;
+                this.loadLeads();
+            }
+        },
+
+        openCreateModal() {
+            this.editingLead = null;
+            this.formData = {
+                name: '',
+                email: '',
+                phone: '',
+                company: '',
+                budget: '',
+                interest: '',
+                requirements: '',
+                notes: '',
+                source_type: 'manual',
+                status: 'new',
+                lead_status: 'cold'
+            };
+            this.showModal = true;
+        },
+
+        editLead(lead) {
+            this.editingLead = lead;
+            this.formData = {
+                name: lead.name || '',
+                email: lead.email || '',
+                phone: lead.phone || '',
+                company: lead.company || '',
+                budget: lead.budget || '',
+                interest: lead.interest || '',
+                requirements: lead.requirements || '',
+                notes: lead.notes || '',
+                source_type: lead.source_type || 'manual',
+                status: lead.status || 'new',
+                lead_status: lead.lead_status || 'cold'
+            };
+            this.showModal = true;
+        },
+
+        async saveLead() {
+            try {
+                const url = this.editingLead 
+                    ? `/leads/api/leads/${this.editingLead.id}` 
+                    : '/leads/api/leads';
+                const method = this.editingLead ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify(this.formData)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    this.showModal = false;
+                    this.loadLeads();
+                    this.loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to save lead:', error);
+            }
+        },
+
+        async deleteLead(id) {
+            if (!confirm('Are you sure you want to delete this lead?')) return;
+            
+            try {
+                const response = await fetch(`/leads/api/leads/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    this.loadLeads();
+                    this.loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to delete lead:', error);
+            }
+        },
+
+        async analyzeLead(id) {
+            try {
+                const response = await fetch(`/leads/api/leads/${id}/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert(`AI Analysis Complete!\n\nScore: ${data.data.score}/100\nStatus: ${data.data.lead_status}\n\nSummary: ${data.data.summary}`);
+                    this.loadLeads();
+                    this.loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to analyze lead:', error);
+            }
+        },
+
+        async scoreAllLeads() {
+            try {
+                const response = await fetch('/leads/api/leads/score-all', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    this.loadLeads();
+                    this.loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to score leads:', error);
+            }
+        },
+
+        exportLeads() {
+            fetch('/leads/api/export', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({})
+            }).then(response => response.blob())
+              .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leads_export_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+              });
+        },
+
+        openImportModal() {
+            this.showImportModal = true;
+        },
+
+        async importLeads() {
+            if (!this.importFile) return;
+            
+            const formData = new FormData();
+            formData.append('file', this.importFile);
+            
+            try {
+                const response = await fetch('/leads/api/import', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert(`Imported ${data.imported} leads`);
+                    this.showImportModal = false;
+                    this.importFile = null;
+                    this.loadLeads();
+                    this.loadStats();
+                }
+            } catch (error) {
+                console.error('Failed to import leads:', error);
+            }
+        },
+
+        // Chart initialization and updates
+        growthChart: null,
+        pipelineChart: null,
+        temperatureChart: null,
+
+        initCharts() {
+            const isDark = document.documentElement.classList.contains('dark') || 
+                          window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#9CA3AF' : '#6B7280';
+            const gridColor = isDark ? '#374151' : '#E5E7EB';
+
+            // Growth Chart
+            const growthCtx = document.getElementById('growthChart');
+            if (growthCtx) {
+                if (this.growthChart) this.growthChart.destroy();
+                this.growthChart = new Chart(growthCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Leads',
+                            data: [],
+                            borderColor: '#6366F1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { 
+                                beginAtZero: true,
+                                grid: { color: gridColor },
+                                ticks: { color: textColor }
+                            },
+                            x: { 
+                                grid: { display: false },
+                                ticks: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Pipeline Chart
+            const pipelineCtx = document.getElementById('pipelineChart');
+            if (pipelineCtx) {
+                if (this.pipelineChart) this.pipelineChart.destroy();
+                this.pipelineChart = new Chart(pipelineCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['New', 'Contacted', 'Qualified', 'Proposal', 'Won', 'Lost'],
+                        datasets: [{
+                            data: [0, 0, 0, 0, 0, 0],
+                            backgroundColor: ['#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B', '#10B981', '#6B7280']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                position: 'right',
+                                labels: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Temperature Chart
+            const tempCtx = document.getElementById('temperatureChart');
+            if (tempCtx) {
+                if (this.temperatureChart) this.temperatureChart.destroy();
+                this.temperatureChart = new Chart(tempCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['🔥 Hot', '🌡️ Warm', '❄️ Cold'],
+                        datasets: [{
+                            label: 'Leads',
+                            data: [0, 0, 0],
+                            backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { 
+                                beginAtZero: true,
+                                grid: { color: gridColor },
+                                ticks: { color: textColor }
+                            },
+                            x: { 
+                                grid: { display: false },
+                                ticks: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            }
+        },
+
+        updateCharts() {
+            // Update Growth Chart
+            if (this.growthChart && this.stats.sources) {
+                this.growthChart.data.labels = this.stats.sources?.map(s => s.source) || [];
+                this.growthChart.data.datasets[0].data = this.stats.sources?.map(s => s.count) || [];
+                this.growthChart.update();
+            }
+
+            // Update Pipeline Chart
+            if (this.pipelineChart && this.stats.pipeline) {
+                this.pipelineChart.data.datasets[0].data = [
+                    this.stats.pipeline.new || 0,
+                    this.stats.pipeline.contacted || 0,
+                    this.stats.pipeline.qualified || 0,
+                    this.stats.pipeline.proposal || 0,
+                    this.stats.pipeline.won || 0,
+                    this.stats.pipeline.lost || 0
+                ];
+                this.pipelineChart.update();
+            }
+
+            // Update Temperature Chart
+            if (this.temperatureChart) {
+                this.temperatureChart.data.datasets[0].data = [
+                    this.stats.hot_leads || 0,
+                    this.stats.warm_leads || 0,
+                    this.stats.cold_leads || 0
+                ];
+                this.temperatureChart.update();
+            }
+        }
+    }
+}
+</script>
 {% endblock %}

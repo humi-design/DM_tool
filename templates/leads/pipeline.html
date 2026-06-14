@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}Pipeline - {{ site.name }}{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900" x-data="pipelineApp()">
+    {% include "partials/sidebar.html" %}
+    
+    <div class="pl-64 transition-all duration-300">
+        {% include "partials/topbar.html" %}
+        
+        <main class="p-6">
+            <!-- Header -->
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Lead Pipeline</h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-1">Drag and drop leads between stages</p>
+                </div>
+                <div class="flex gap-3">
+                    <button @click="refreshPipeline()" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Refresh
+                    </button>
+                    <a href="{{ url_for('leads.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        List View
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pipeline Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+                <template x-for="stage in stages" :key="stage.id">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-medium text-gray-500 dark:text-gray-400" x-text="stage.label"></span>
+                            <span class="text-xs font-bold" :style="`color: ${stage.color}`" x-text="pipeline[stage.id]?.count || 0"></span>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 dark:text-white" x-text="getStageTotal(stage.id)"></div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Kanban Board -->
+            <div class="flex gap-4 overflow-x-auto pb-6">
+                <template x-for="stage in stages" :key="stage.id">
+                    <div 
+                        class="flex-shrink-0 w-80 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4"
+                        :class="{ 'opacity-50': dragging && dragTarget !== stage.id }"
+                    >
+                        <!-- Stage Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full" :style="`background-color: ${stage.color}`"></div>
+                                <h3 class="font-semibold text-gray-900 dark:text-white" x-text="stage.label"></h3>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400" x-text="pipeline[stage.id]?.count || 0"></span>
+                        </div>
+
+                        <!-- Cards Container -->
+                        <div 
+                            class="space-y-3 min-h-[200px]"
+                            @dragover.prevent="handleDragOver(stage.id)"
+                            @dragleave="handleDragLeave()"
+                            @drop="handleDrop(stage.id)"
+                        >
+                            <template x-for="lead in pipeline[stage.id]?.leads || []" :key="lead.id">
+                                <div 
+                                    class="bg-white dark:bg-gray-700 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-600 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+                                    draggable="true"
+                                    @dragstart="handleDragStart($event, lead, stage.id)"
+                                    @dragend="handleDragEnd()"
+                                >
+                                    <!-- Lead Card Content -->
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-semibold">
+                                                <span x-text="lead.name ? lead.name.charAt(0).toUpperCase() : '?'"></span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white" x-text="lead.name || 'Unknown'"></p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400" x-text="lead.company || '-'"></p>
+                                            </div>
+                                        </div>
+                                        <span :class="{
+                                            'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300': lead.lead_status === 'hot',
+                                            'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300': lead.lead_status === 'warm',
+                                            'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300': lead.lead_status === 'cold'
+                                        }" class="px-2 py-0.5 rounded-full text-xs font-medium capitalize" x-text="lead.lead_status"></span>
+                                    </div>
+
+                                    <!-- Contact Info -->
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                                        <p x-show="lead.email" x-text="lead.email"></p>
+                                        <p x-show="lead.phone" x-text="lead.phone"></p>
+                                    </div>
+
+                                    <!-- Score Bar -->
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                                            <div :class="{
+                                                'bg-green-500': lead.lead_score >= 65,
+                                                'bg-amber-500': lead.lead_score >= 35 && lead.lead_score < 65,
+                                                'bg-gray-400': lead.lead_score < 35
+                                            }" class="h-full rounded-full" :style="`width: ${lead.lead_score}%`"></div>
+                                        </div>
+                                        <span class="text-xs font-medium text-gray-600 dark:text-gray-300" x-text="lead.lead_score"></span>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
+                                        <span class="capitalize" x-text="lead.source_type"></span>
+                                        <a :href="`/leads/${lead.id}`" class="text-indigo-600 dark:text-indigo-400 hover:underline">View</a>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Empty State -->
+                            <div x-show="!pipeline[stage.id]?.leads?.length" class="text-center py-8 text-gray-400 dark:text-gray-500">
+                                <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                                </svg>
+                                <p>Drop leads here</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </main>
+    </div>
+
+    <!-- Drag Preview -->
+    <div x-show="dragging" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="fixed inset-0 z-50 pointer-events-none">
+        <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-lg">
+            <span x-text="draggingLead?.name || 'Moving...'"></span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function pipelineApp() {
+    return {
+        stages: [
+            { id: 'new', label: 'New', color: '#3B82F6' },
+            { id: 'contacted', label: 'Contacted', color: '#8B5CF6' },
+            { id: 'qualified', label: 'Qualified', color: '#EC4899' },
+            { id: 'proposal', label: 'Proposal', color: '#F59E0B' },
+            { id: 'won', label: 'Won', color: '#10B981' },
+            { id: 'lost', label: 'Lost', color: '#6B7280' }
+        ],
+        pipeline: {},
+        dragging: false,
+        draggingLead: null,
+        draggingFromStage: null,
+        dragTarget: null,
+
+        init() {
+            this.loadPipeline();
+        },
+
+        async loadPipeline() {
+            try {
+                const response = await fetch('/leads/api/pipeline');
+                const data = await response.json();
+                if (data.success) {
+                    this.pipeline = data.data;
+                }
+            } catch (error) {
+                console.error('Failed to load pipeline:', error);
+            }
+        },
+
+        async refreshPipeline() {
+            await this.loadPipeline();
+        },
+
+        getStageTotal(stageId) {
+            const stage = this.pipeline[stageId];
+            if (!stage) return '$0';
+            const total = stage.leads.reduce((sum, lead) => sum + (lead.budget ? this.parseBudget(lead.budget) : 0), 0);
+            return '$' + total.toLocaleString();
+        },
+
+        parseBudget(budget) {
+            if (!budget) return 0;
+            const match = budget.replace(/[^0-9.]/g, '');
+            return parseFloat(match) || 0;
+        },
+
+        handleDragStart(event, lead, stageId) {
+            this.dragging = true;
+            this.draggingLead = lead;
+            this.draggingFromStage = stageId;
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', lead.id);
+        },
+
+        handleDragEnd() {
+            this.dragging = false;
+            this.draggingLead = null;
+            this.draggingFromStage = null;
+            this.dragTarget = null;
+        },
+
+        handleDragOver(stageId) {
+            if (this.draggingFromStage !== stageId) {
+                this.dragTarget = stageId;
+            }
+        },
+
+        handleDragLeave() {
+            this.dragTarget = null;
+        },
+
+        async handleDrop(targetStageId) {
+            if (!this.draggingLead || this.draggingFromStage === targetStageId) {
+                this.handleDragEnd();
+                return;
+            }
+
+            try {
+                const response = await fetch('/leads/api/pipeline/move', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        lead_id: this.draggingLead.id,
+                        status: targetStageId
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Update local state
+                    const sourceLeads = this.pipeline[this.draggingFromStage].leads;
+                    const targetLeads = this.pipeline[targetStageId].leads;
+                    
+                    const leadIndex = sourceLeads.findIndex(l => l.id === this.draggingLead.id);
+                    if (leadIndex > -1) {
+                        const [movedLead] = sourceLeads.splice(leadIndex, 1);
+                        movedLead.status = targetStageId;
+                        targetLeads.unshift(movedLead);
+                        
+                        this.pipeline[this.draggingFromStage].count--;
+                        this.pipeline[targetStageId].count++;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to move lead:', error);
+            }
+
+            this.handleDragEnd();
+        }
+    }
+}
+</script>
+{% endblock %}
