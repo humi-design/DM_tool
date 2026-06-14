@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block title %}Instagram Diagnostics - Admin - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .gradient-border {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+        border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.05));
+        border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    
+    .instagram-gradient {
+        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+    
+    .glow-effect {
+        box-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
+    }
+    
+    .tab-active {
+        background: rgba(99, 102, 241, 0.2);
+        border-bottom: 2px solid #6366f1;
+    }
+    
+    .log-entry {
+        transition: all 0.2s ease;
+    }
+    
+    .log-entry:hover {
+        background: rgba(99, 102, 241, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-950 text-gray-100">
+    <!-- Top Navigation -->
+    <nav class="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('admin.index') }}" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-500">/</span>
+                    <span class="text-sm text-gray-400">Admin</span>
+                    <span class="text-gray-500">/</span>
+                    <span class="text-sm text-white">Instagram Diagnostics</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('instagram.accounts') }}" class="text-gray-400 hover:text-white text-sm transition">
+                        Back to Accounts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-3 mb-2">
+                <div class="w-10 h-10 rounded-xl instagram-gradient flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                    Instagram Diagnostics
+                </h1>
+            </div>
+            <p class="text-gray-400">Monitor webhook events, event logs, and system health</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+            <div class="stat-card rounded-xl p-4">
+                <div class="text-2xl font-bold text-white mb-1">{{ webhook_stats.total }}</div>
+                <div class="text-sm text-gray-400">Total Webhooks</div>
+            </div>
+            <div class="stat-card rounded-xl p-4">
+                <div class="text-2xl font-bold text-green-400 mb-1">{{ webhook_stats.by_status.processed|default(0) }}</div>
+                <div class="text-sm text-gray-400">Processed</div>
+            </div>
+            <div class="stat-card rounded-xl p-4">
+                <div class="text-2xl font-bold text-red-400 mb-1">{{ webhook_stats.by_status.failed|default(0) }}</div>
+                <div class="text-sm text-gray-400">Failed</div>
+            </div>
+            <div class="stat-card rounded-xl p-4">
+                <div class="text-2xl font-bold text-amber-400 mb-1">{{ webhook_stats.by_status.duplicate|default(0) }}</div>
+                <div class="text-sm text-gray-400">Duplicates</div>
+            </div>
+            <div class="stat-card rounded-xl p-4">
+                <div class="text-2xl font-bold text-blue-400 mb-1">{{ event_stats.total_events|default(0) }}</div>
+                <div class="text-sm text-gray-400">Events (30d)</div>
+            </div>
+            <div class="stat-card rounded-xl p-4">
+                <div class="text-2xl font-bold text-purple-400 mb-1">{{ accounts|length }}</div>
+                <div class="text-sm text-gray-400">Connected Accounts</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex space-x-1 mb-6 border-b border-gray-800">
+            <button onclick="showTab('webhooks')" id="tab-webhooks" 
+                    class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition border-b-2 border-transparent tab-active">
+                Webhook Logs
+            </button>
+            <button onclick="showTab('events')" id="tab-events"
+                    class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition border-b-2 border-transparent">
+                Event Logs
+            </button>
+            <button onclick="showTab('accounts')" id="tab-accounts"
+                    class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition border-b-2 border-transparent">
+                Accounts
+            </button>
+        </div>
+
+        <!-- Webhook Logs Tab -->
+        <div id="panel-webhooks" class="block">
+            <div class="bg-gray-900/50 rounded-xl border border-gray-800 overflow-hidden">
+                <div class="p-4 border-b border-gray-800 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-white">Recent Webhook Logs</h2>
+                    <button onclick="refreshWebhooks()" class="px-3 py-1.5 rounded-lg bg-gray-800 text-sm text-gray-300 hover:bg-gray-700 transition">
+                        Refresh
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left text-gray-400 text-sm border-b border-gray-800">
+                                <th class="p-4 font-medium">Status</th>
+                                <th class="p-4 font-medium">Event Type</th>
+                                <th class="p-4 font-medium">Received</th>
+                                <th class="p-4 font-medium">Duration</th>
+                                <th class="p-4 font-medium">Retries</th>
+                                <th class="p-4 font-medium">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="webhook-logs-body">
+                            {% for log in webhook_stats.recent %}
+                            <tr class="border-b border-gray-800/50 log-entry">
+                                <td class="p-4">
+                                    {% if log.processing_status == 'processed' %}
+                                    <span class="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs">Processed</span>
+                                    {% elif log.processing_status == 'failed' %}
+                                    <span class="px-2 py-1 rounded-full bg-red-500/20 text-red-400 text-xs">Failed</span>
+                                    {% elif log.processing_status == 'duplicate' %}
+                                    <span class="px-2 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs">Duplicate</span>
+                                    {% elif log.processing_status == 'processing' %}
+                                    <span class="px-2 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs">Processing</span>
+                                    {% else %}
+                                    <span class="px-2 py-1 rounded-full bg-gray-500/20 text-gray-400 text-xs">{{ log.processing_status|title }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="p-4 text-white">{{ log.event_type }}</td>
+                                <td class="p-4 text-gray-400 text-sm">{{ log.received_at.strftime('%Y-%m-%d %H:%M:%S') if log.received_at else 'N/A' }}</td>
+                                <td class="p-4 text-gray-400 text-sm">{{ log.processing_duration_ms|default('N/A') }}ms</td>
+                                <td class="p-4 text-gray-400 text-sm">{{ log.retry_count }}</td>
+                                <td class="p-4">
+                                    <button onclick="viewWebhookDetail('{{ log.id }}')" class="text-purple-400 hover:text-purple-300 text-sm">
+                                        View
+                                    </button>
+                                    {% if log.processing_status == 'failed' %}
+                                    <button onclick="retryWebhook('{{ log.id }}')" class="ml-3 text-green-400 hover:text-green-300 text-sm">
+                                        Retry
+                                    </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="p-8 text-center text-gray-500">
+                                    No webhook logs yet
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Logs Tab -->
+        <div id="panel-events" class="hidden">
+            <div class="bg-gray-900/50 rounded-xl border border-gray-800 overflow-hidden">
+                <div class="p-4 border-b border-gray-800 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-white">Recent Event Logs</h2>
+                    <div class="flex items-center space-x-4">
+                        <select id="event-type-filter" onchange="filterEvents()" class="px-3 py-1.5 rounded-lg bg-gray-800 text-sm text-gray-300 border border-gray-700">
+                            <option value="">All Types</option>
+                            <option value="comment">Comments</option>
+                            <option value="message">Messages</option>
+                            <option value="mention">Mentions</option>
+                        </select>
+                        <button onclick="refreshEvents()" class="px-3 py-1.5 rounded-lg bg-gray-800 text-sm text-gray-300 hover:bg-gray-700 transition">
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left text-gray-400 text-sm border-b border-gray-800">
+                                <th class="p-4 font-medium">Event Type</th>
+                                <th class="p-4 font-medium">Event ID</th>
+                                <th class="p-4 font-medium">Sender</th>
+                                <th class="p-4 font-medium">Time</th>
+                                <th class="p-4 font-medium">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="event-logs-body">
+                            {% for event in recent_events %}
+                            <tr class="border-b border-gray-800/50 log-entry">
+                                <td class="p-4">
+                                    <span class="px-2 py-1 rounded bg-purple-500/20 text-purple-400 text-xs">{{ event.event_type|title }}</span>
+                                </td>
+                                <td class="p-4 text-gray-400 font-mono text-xs">{{ event.event_id|default('N/A')|truncate(20) }}</td>
+                                <td class="p-4 text-gray-400 text-sm">{{ event.sender_id|default('N/A')|truncate(12) }}</td>
+                                <td class="p-4 text-gray-400 text-sm">{{ event.event_time.strftime('%Y-%m-%d %H:%M') if event.event_time else 'N/A' }}</td>
+                                <td class="p-4">
+                                    {% if event.status == 'processed' %}
+                                    <span class="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs">Processed</span>
+                                    {% elif event.status == 'failed' %}
+                                    <span class="px-2 py-1 rounded-full bg-red-500/20 text-red-400 text-xs">Failed</span>
+                                    {% else %}
+                                    <span class="px-2 py-1 rounded-full bg-gray-500/20 text-gray-400 text-xs">{{ event.status|title }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="p-8 text-center text-gray-500">
+                                    No event logs yet
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Event Stats -->
+            {% if event_stats.by_type %}
+            <div class="mt-6 bg-gray-900/50 rounded-xl border border-gray-800 p-4">
+                <h3 class="text-lg font-semibold text-white mb-4">Events by Type (Last 30 Days)</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {% for event_type, count in event_stats.by_type.items() %}
+                    <div class="stat-card rounded-lg p-3 text-center">
+                        <div class="text-xl font-bold text-white">{{ count }}</div>
+                        <div class="text-xs text-gray-400 capitalize">{{ event_type }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Accounts Tab -->
+        <div id="panel-accounts" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for account in accounts %}
+                <div class="gradient-border rounded-xl p-4">
+                    <div class="flex items-center space-x-3 mb-3">
+                        {% if account.profile_picture_url %}
+                        <img src="{{ account.profile_picture_url }}" alt="" class="w-10 h-10 rounded-lg object-cover">
+                        {% else %}
+                        <div class="w-10 h-10 rounded-lg instagram-gradient flex items-center justify-center">
+                            <span class="text-lg font-bold text-white">{{ account.username[0]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <div class="font-medium text-white">{{ account.username }}</div>
+                            <div class="text-xs text-gray-400">{{ account.instagram_user_id[:12] }}...</div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Followers</span>
+                            <span class="text-white">{{ account.followers_count|default(0) }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Connected</span>
+                            <span class="text-green-400">Active</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Last Sync</span>
+                            <span class="text-gray-300">{{ account.last_synced_at.strftime('%Y-%m-%d') if account.last_synced_at else 'Never' }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ url_for('instagram.account_detail', account_id=account.id) }}" 
+                           class="block w-full text-center px-3 py-2 rounded-lg bg-gray-800 text-sm text-gray-300 hover:bg-gray-700 transition">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-span-full text-center py-12 text-gray-500">
+                    No connected Instagram accounts
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Detail Modal -->
+<div id="detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl border border-gray-800 max-w-4xl w-full max-h-[80vh] overflow-hidden">
+        <div class="p-4 border-b border-gray-800 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-white">Webhook Detail</h3>
+            <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="modal-content" class="p-4 overflow-y-auto max-h-[calc(80vh-60px)]">
+            <!-- Content loaded dynamically -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showTab(tab) {
+        // Hide all panels
+        document.getElementById('panel-webhooks').classList.add('hidden');
+        document.getElementById('panel-events').classList.add('hidden');
+        document.getElementById('panel-accounts').classList.add('hidden');
+        
+        // Remove active class from all tabs
+        document.getElementById('tab-webhooks').classList.remove('tab-active');
+        document.getElementById('tab-events').classList.remove('tab-active');
+        document.getElementById('tab-accounts').classList.remove('tab-active');
+        
+        // Show selected panel
+        document.getElementById('panel-' + tab).classList.remove('hidden');
+        document.getElementById('tab-' + tab).classList.add('tab-active');
+    }
+    
+    function viewWebhookDetail(logId) {
+        fetch('/admin/api/instagram/webhooks/' + logId)
+            .then(response => response.json())
+            .then(data => {
+                const content = document.getElementById('modal-content');
+                content.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm text-gray-400">Status</div>
+                                <div class="text-white">${data.processing_status}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Event Type</div>
+                                <div class="text-white">${data.event_type}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Received At</div>
+                                <div class="text-white">${data.received_at || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Processed At</div>
+                                <div class="text-white">${data.processed_at || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Duration</div>
+                                <div class="text-white">${data.processing_duration_ms || 'N/A'}ms</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Retries</div>
+                                <div class="text-white">${data.retry_count}</div>
+                            </div>
+                        </div>
+                        
+                        ${data.processing_error ? `
+                        <div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+                            <div class="text-sm text-red-400">Error</div>
+                            <div class="text-sm text-red-300 mt-1">${data.processing_error}</div>
+                        </div>
+                        ` : ''}
+                        
+                        <div>
+                            <div class="text-sm text-gray-400 mb-2">Request IP</div>
+                            <div class="text-white font-mono text-sm">${data.request_ip || 'N/A'}</div>
+                        </div>
+                        
+                        <div>
+                            <div class="text-sm text-gray-400 mb-2">User Agent</div>
+                            <div class="text-white text-sm break-all">${data.request_user_agent || 'N/A'}</div>
+                        </div>
+                        
+                        <div>
+                            <div class="text-sm text-gray-400 mb-2">Raw Payload</div>
+                            <pre class="p-3 rounded-lg bg-gray-800 text-sm text-gray-300 overflow-x-auto max-h-64">${JSON.stringify(JSON.parse(data.raw_payload || '{}'), null, 2)}</pre>
+                        </div>
+                        
+                        ${data.parsed_payload ? `
+                        <div>
+                            <div class="text-sm text-gray-400 mb-2">Parsed Payload</div>
+                            <pre class="p-3 rounded-lg bg-gray-800 text-sm text-gray-300 overflow-x-auto max-h-64">${JSON.stringify(JSON.parse(data.parsed_payload), null, 2)}</pre>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                document.getElementById('detail-modal').classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error loading webhook detail:', error);
+                alert('Failed to load webhook detail');
+            });
+    }
+    
+    function closeModal() {
+        document.getElementById('detail-modal').classList.add('hidden');
+    }
+    
+    function retryWebhook(logId) {
+        if (!confirm('Retry this webhook?')) return;
+        
+        fetch('/admin/api/instagram/webhooks/' + logId + '/retry', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Webhook queued for retry');
+                refreshWebhooks();
+            } else {
+                alert('Failed to retry: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Retry error:', error);
+            alert('Failed to retry webhook');
+        });
+    }
+    
+    function refreshWebhooks() {
+        location.reload();
+    }
+    
+    function refreshEvents() {
+        location.reload();
+    }
+    
+    function filterEvents() {
+        // Implement filtering logic
+    }
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+</script>
+{% endblock %}

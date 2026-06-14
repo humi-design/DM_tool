@@ -55,3 +55,18 @@ class BaseRepository(ABC, Generic[T]):
         db.session.add(entity)
         db.session.commit()
         return entity
+
+
+# Import Instagram repositories for easy access
+from repositories.instagram_repository import (
+    InstagramRepository,
+    WebhookLogRepository,
+    EventLogRepository,
+)
+
+__all__ = [
+    "BaseRepository",
+    "InstagramRepository",
+    "WebhookLogRepository",
+    "EventLogRepository",
+]
