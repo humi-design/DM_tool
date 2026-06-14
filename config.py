@@ -107,6 +107,19 @@ class Config:
     PASSWORD_ARGON2_MEMORY_COST = 65536
     PASSWORD_ARGON2_TIME_COST = 3
     PASSWORD_ARGON2_PARALLELISM = 4
+    
+    # Billing Configuration
+    BILLING_PROVIDER = os.getenv("BILLING_PROVIDER", "stripe")
+    
+    # Stripe Configuration
+    STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+    STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+    STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+    
+    # Razorpay Configuration
+    RAZORPAY_API_KEY = os.getenv("RAZORPAY_API_KEY")
+    RAZORPAY_SECRET_KEY = os.getenv("RAZORPAY_SECRET_KEY")
+    RAZORPAY_WEBHOOK_SECRET = os.getenv("RAZORPAY_WEBHOOK_SECRET")
 
 
 class DevelopmentConfig(Config):

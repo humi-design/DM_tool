@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Usage - {{ site.name }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/billing.css') }}">
+{% endblock %}
+{% block body %}
+<div class="billing-page">
+    {% include "partials/sidebar.html" %}
+    <div class="pl-64">
+        {% include "partials/topbar.html" %}
+        <main class="billing-container">
+            <div class="billing-header"><h1>Usage</h1><p>Track your monthly resource consumption</p></div>
+            <div class="usage-grid mb-8">
+                <div class="usage-card">
+                    <div class="usage-card-header"><span class="usage-card-title">API Requests</span></div>
+                    <div class="usage-card-value">{{ usage.api_requests.used | default(0) }}</div>
+                    <div class="usage-card-limit">{% if usage.api_requests.limit %}{{ usage.api_requests.used }} / {{ usage.api_requests.limit }}{% else %}Unlimited{% endif %}</div>
+                    <div class="usage-progress"><div class="usage-progress-bar low" style="width: {{ usage.api_requests.percentage | default(0) }}%"></div></div>
+                </div>
+                <div class="usage-card">
+                    <div class="usage-card-header"><span class="usage-card-title">AI Requests</span></div>
+                    <div class="usage-card-value">{{ usage.ai_requests.used | default(0) }}</div>
+                    <div class="usage-card-limit">{% if usage.ai_requests.limit %}{{ usage.ai_requests.used }} / {{ usage.ai_requests.limit }}{% else %}Unlimited{% endif %}</div>
+                    <div class="usage-progress"><div class="usage-progress-bar low" style="width: {{ usage.ai_requests.percentage | default(0) }}%"></div></div>
+                </div>
+                <div class="usage-card">
+                    <div class="usage-card-header"><span class="usage-card-title">Storage</span></div>
+                    <div class="usage-card-value">{{ usage.storage_mb.used | default(0) }} MB</div>
+                    <div class="usage-card-limit">{% if usage.storage_mb.limit %}{{ usage.storage_mb.used }} / {{ usage.storage_mb.limit }} MB{% else %}Unlimited{% endif %}</div>
+                    <div class="usage-progress"><div class="usage-progress-bar low" style="width: {{ usage.storage_mb.percentage | default(0) }}%"></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Subscription - {{ site.name }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/billing.css') }}">
+{% endblock %}
+{% block body %}
+<div class="billing-page">
+    {% include "partials/sidebar.html" %}
+    <div class="pl-64">
+        {% include "partials/topbar.html" %}
+        <main class="billing-container">
+            <div class="billing-header">
+                <h1>Subscription</h1>
+                <p>Manage your current subscription</p>
+            </div>
+            
+            {% if subscription %}
+            <div class="billing-card mb-6">
+                <div class="billing-card-header">
+                    <div>
+                        <h2 class="billing-card-title">{{ plan.name if plan else 'Unknown' }} Plan</h2>
+                        <p class="billing-card-subtitle">Your current subscription details</p>
+                    </div>
+                    <span class="subscription-status {{ subscription.status }}">
+                        {% if subscription.is_active %}<span class="status-dot"></span>{% endif %}
+                        {{ subscription.status.replace('_', ' ').title() }}
+                    </span>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Billing Cycle</p>
+                        <p class="font-semibold capitalize">{{ subscription.billing_cycle }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Amount</p>
+                        <p class="font-semibold">${{ subscription.total_amount }}/{{ subscription.billing_cycle.replace('ly', '') }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Current Period</p>
+                        <p class="font-semibold">{{ subscription.billing_period_start.strftime('%b %d') if subscription.billing_period_start else '' }} - {{ subscription.billing_period_end.strftime('%b %d, %Y') if subscription.billing_period_end else '' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Next Payment</p>
+                        <p class="font-semibold">{{ subscription.next_payment_at.strftime('%b %d, %Y') if subscription.next_payment_at else 'N/A' }}</p>
+                    </div>
+                </div>
+                
+                {% if not subscription.cancel_at_period_end %}
+                <div class="flex gap-3 border-t pt-6">
+                    <a href="{{ url_for('billing.plans') }}" class="btn btn-primary">Change Plan</a>
+                    <button onclick="cancelSubscription()" class="btn btn-ghost text-red-500 hover:text-red-600">Cancel Subscription</button>
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <p>Your subscription will be canceled on {{ subscription.billing_period_end.strftime('%B %d, %Y') }}. <button onclick="resumeSubscription()" class="font-semibold underline">Resume</button></p>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="billing-card text-center py-12">
+                <h2 class="text-xl font-semibold mb-4">No Active Subscription</h2>
+                <p class="text-gray-500 dark:text-gray-400 mb-6">Choose a plan to unlock premium features</p>
+                <a href="{{ url_for('billing.plans') }}" class="btn btn-primary">View Plans</a>
+            </div>
+            {% endif %}
+            
+            <h3 class="text-lg font-semibold mb-4">Subscription History</h3>
+            <div class="billing-card">
+                {% if subscription_history %}
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left text-sm text-gray-500 dark:text-gray-400 border-b">
+                            <th class="pb-3">Date</th>
+                            <th class="pb-3">Plan</th>
+                            <th class="pb-3">Status</th>
+                            <th class="pb-3">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub in subscription_history %}
+                        <tr class="border-b border-gray-200 dark:border-gray-700 last:border-0">
+                            <td class="py-4">{{ sub.created_at.strftime('%b %d, %Y') }}</td>
+                            <td class="py-4">{{ sub.plan_name }}</td>
+                            <td class="py-4"><span class="invoice-status {{ sub.status }}">{{ sub.status }}</span></td>
+                            <td class="py-4">${{ sub.total_amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-gray-500 dark:text-gray-400 text-center py-8">No subscription history</p>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function cancelSubscription() {
+    if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+        fetch('{{ url_for("billing.api_cancel_subscription") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content },
+            body: JSON.stringify({ at_period_end: true })
+        }).then(res => res.json()).then(data => {
+            if (data.success) location.reload();
+            else alert(data.error || 'Failed to cancel');
+        });
+    }
+}
+function resumeSubscription() {
+    fetch('{{ url_for("billing.api_resume_subscription") }}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content }
+    }).then(res => res.json()).then(data => {
+        if (data.success) location.reload();
+        else alert(data.error || 'Failed to resume');
+    });
+}
+</script>
+{% endblock %}

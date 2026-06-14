@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Invoices - {{ site.name }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/billing.css') }}">
+{% endblock %}
+{% block body %}
+<div class="billing-page">
+    {% include "partials/sidebar.html" %}
+    <div class="pl-64">
+        {% include "partials/topbar.html" %}
+        <main class="billing-container">
+            <div class="billing-header">
+                <h1>Invoices</h1>
+                <p>View and download your billing invoices</p>
+            </div>
+            <div class="billing-card">
+                {% if invoices %}
+                <div class="invoice-table-container">
+                    <table class="invoice-table">
+                        <thead>
+                            <tr><th>Invoice</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for invoice in invoices %}
+                            <tr>
+                                <td><span class="invoice-number">{{ invoice.invoice_number }}</span></td>
+                                <td>{{ invoice.created_at.strftime('%b %d, %Y') }}</td>
+                                <td><span class="invoice-amount">${{ invoice.total_amount }}</span></td>
+                                <td><span class="invoice-status {{ invoice.status }}">{{ invoice.status }}</span></td>
+                                <td><a href="{{ url_for('billing.invoice_detail', invoice_id=invoice.id) }}" class="btn btn-ghost btn-sm">View</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <h3 class="text-lg font-semibold mb-2">No invoices yet</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Your invoices will appear here once you upgrade to a paid plan.</p>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
