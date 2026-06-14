@@ -164,8 +164,6 @@ class ProductionConfig(Config):
     @classmethod
     def init_app(cls, app):
         """Production initialization."""
-        Config.init_app(app)
-        
         if cls.SENTRY_DSN:
             import sentry_sdk
             from sentry_sdk.integrations.flask import FlaskIntegration
