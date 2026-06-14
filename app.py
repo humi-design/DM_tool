@@ -137,3 +137,15 @@ def _init_context_processors(app: Flask) -> None:
             "site": site_info,
             "current_year": __import__("datetime").datetime.now().year,
         }
+    
+    @app.context_processor
+    def csrf_token_processor():
+        """Inject CSRF token into all templates."""
+        from flask_wtf.csrf import generate_csrf
+        return dict(csrf_token=generate_csrf)
+    
+    @login_manager.user_loader
+    def load_user(user_id: str):
+        """Load user for Flask-Login."""
+        from models.user import User
+        return User.query.get(user_id)

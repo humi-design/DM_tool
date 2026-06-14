@@ -11,37 +11,136 @@
             </p>
         </div>
         
-        <form class="mt-8 space-y-6" method="POST" action="{{ url_for('auth.verify_otp') }}">
+        <div id="alert-container"></div>
+        
+        <form class="mt-8 space-y-6" x-data="verifyOtpForm()">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
             
             <div class="flex justify-center space-x-2">
-                <input type="text" name="code_1" maxlength="1" required
-                    class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                <input type="text" name="code_2" maxlength="1" required
-                    class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                <input type="text" name="code_3" maxlength="1" required
-                    class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                <input type="text" name="code_4" maxlength="1" required
-                    class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                <input type="text" name="code_5" maxlength="1" required
-                    class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                <input type="text" name="code_6" maxlength="1" required
-                    class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                <template x-for="(digit, index) in 6" :key="index">
+                    <input type="text" maxlength="1" x-model="digits[index]" @input="handleInput($event, index)" @keydown="handleKeydown($event, index)" @paste="handlePaste($event)" 
+                        class="w-12 h-12 text-center text-2xl border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        :class="{ 'border-red-500': error }">
+                </template>
             </div>
             
             <div>
-                <button type="submit"
-                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Verify
+                <button type="submit" :disabled="loading || digits.join('').length !== 6"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+                    <span x-show="loading">Verifying...</span>
+                    <span x-show="!loading">Verify</span>
                 </button>
             </div>
             
             <div class="text-center">
                 <p class="text-sm text-gray-600">
-                    Didn't receive the code? <button type="button" class="text-indigo-600 hover:text-indigo-500">Resend</button>
+                    Didn't receive the code?
+                    <button type="button" @click="resendCode" :disabled="cooldown > 0" class="text-indigo-600 hover:text-indigo-500 disabled:opacity-50">
+                        <span x-show="cooldown > 0">Resend in <span x-text="cooldown"></span>s</span>
+                        <span x-show="cooldown === 0">Resend</span>
+                    </button>
                 </p>
             </div>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function verifyOtpForm() {
+    return {
+        digits: ['', '', '', '', '', ''],
+        error: false,
+        loading: false,
+        cooldown: 0,
+        userId: '{{ user_id }}',
+        
+        handleInput(e, index) {
+            const value = e.target.value;
+            if (value && index < 5) {
+                document.querySelectorAll('input')[index + 1].focus();
+            }
+            this.error = false;
+        },
+        
+        handleKeydown(e, index) {
+            if (e.key === 'Backspace' && !this.digits[index] && index > 0) {
+                document.querySelectorAll('input')[index - 1].focus();
+            }
+        },
+        
+        handlePaste(e) {
+            e.preventDefault();
+            const pasted = e.clipboardData.getData('text').slice(0, 6);
+            for (let i = 0; i < pasted.length && i < 6; i++) {
+                if (/\d/.test(pasted[i])) {
+                    this.digits[i] = pasted[i];
+                }
+            }
+        },
+        
+        async resendCode() {
+            if (this.cooldown > 0 || !this.userId) return;
+            
+            try {
+                const response = await fetch('/auth/api/resend-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content },
+                    body: JSON.stringify({ user_id: this.userId, type: 'email' })
+                });
+                
+                if (response.ok) {
+                    this.startCooldown();
+                    this.showAlert('success', 'Verification code resent');
+                }
+            } catch (error) {
+                this.showAlert('error', 'Failed to resend code');
+            }
+        },
+        
+        startCooldown() {
+            this.cooldown = 60;
+            const interval = setInterval(() => {
+                this.cooldown--;
+                if (this.cooldown === 0) clearInterval(interval);
+            }, 1000);
+        },
+        
+        async handleSubmit(e) {
+            e.preventDefault();
+            this.loading = true;
+            
+            try {
+                const response = await fetch('/auth/api/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content },
+                    body: JSON.stringify({ user_id: this.userId, code: this.digits.join('') })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showAlert('success', 'Verified! Redirecting...');
+                    setTimeout(() => window.location.href = '/dashboard', 1500);
+                } else {
+                    this.error = true;
+                    this.showAlert('error', data.error?.message || 'Invalid code');
+                }
+            } catch (error) {
+                this.showAlert('error', 'An error occurred');
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        showAlert(type, message) {
+            const container = document.getElementById('alert-container');
+            const alertClass = type === 'success' ? 'bg-green-50 border-green-500 text-green-800' : 'bg-red-50 border-red-500 text-red-800';
+            container.innerHTML = '<div class="rounded-md border p-4 ' + alertClass + '"><p class="text-sm">' + message + '</p></div>';
+        }
+    };
+}
+</script>
 {% endblock %}
