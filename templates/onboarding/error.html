@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.name }} - Error{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-tertiary: #94a3b8;
+        --border-color: #e2e8f0;
+        --accent-color: #6366f1;
+        --accent-hover: #4f46e5;
+        --accent-light: #eef2ff;
+        --error-color: #ef4444;
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        line-height: 1.6;
+    }
+
+    .onboarding-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .onboarding-header {
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--accent-color), #a855f7);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+    }
+
+    .onboarding-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 40px;
+    }
+
+    .error-card {
+        background: var(--bg-primary);
+        border-radius: 24px;
+        padding: 60px 80px;
+        text-align: center;
+        max-width: 500px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+    }
+
+    .error-icon {
+        width: 80px;
+        height: 80px;
+        background: #fef2f2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        font-size: 36px;
+    }
+
+    .error-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+    }
+
+    .error-message {
+        font-size: 16px;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent-color);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+        background: var(--accent-hover);
+    }
+
+    @media (max-width: 768px) {
+        .error-card {
+            padding: 40px 32px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="onboarding-container">
+    <header class="onboarding-header">
+        <a href="{{ url_for('onboarding.index') }}" class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>DM_tool</span>
+        </a>
+    </header>
+
+    <main class="onboarding-main">
+        <div class="error-card">
+            <div class="error-icon">⚠️</div>
+            <h1 class="error-title">Oops!</h1>
+            <p class="error-message">{{ message|default("Something went wrong. Please try again.") }}</p>
+            <a href="{{ url_for('onboarding.index') }}" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Go Home
+            </a>
+        </div>
+    </main>
+</div>
+{% endblock %}

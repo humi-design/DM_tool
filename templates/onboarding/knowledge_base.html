@@ -1,0 +1,783 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.name }} - Knowledge Base{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-tertiary: #94a3b8;
+        --border-color: #e2e8f0;
+        --accent-color: #6366f1;
+        --accent-hover: #4f46e5;
+        --accent-light: #eef2ff;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+        --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.06);
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        line-height: 1.6;
+    }
+
+    .onboarding-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .onboarding-header {
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--accent-color), #a855f7);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+    }
+
+    .dark-mode-toggle {
+        width: 48px;
+        height: 28px;
+        background: var(--bg-tertiary);
+        border-radius: 14px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+    }
+
+    .dark-mode-toggle::after {
+        content: '☀️';
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+    }
+
+    .dark-mode-toggle.active {
+        background: var(--accent-color);
+    }
+
+    .dark-mode-toggle.active::after {
+        content: '🌙';
+        left: auto;
+        right: 4px;
+    }
+
+    .onboarding-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 1000px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 48px 24px;
+    }
+
+    .page-header {
+        margin-bottom: 40px;
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+        font-size: 16px;
+        color: var(--text-secondary);
+    }
+
+    .kb-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 32px;
+        animation: fadeInUp 0.5s ease-out 0.1s both;
+    }
+
+    .kb-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .kb-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .kb-nav-item:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+    }
+
+    .kb-nav-item.active {
+        background: var(--accent-light);
+        color: var(--accent-color);
+    }
+
+    .kb-nav-icon {
+        font-size: 18px;
+    }
+
+    .kb-content {
+        flex: 1;
+    }
+
+    .kb-section {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 32px;
+        margin-bottom: 24px;
+    }
+
+    .kb-section-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .kb-section-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .kb-section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .kb-section-desc {
+        font-size: 14px;
+        color: var(--text-tertiary);
+    }
+
+    .faq-item {
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+        border-color: var(--accent-color);
+    }
+
+    .faq-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: var(--bg-primary);
+        transition: all 0.2s ease;
+    }
+
+    .faq-question:hover {
+        background: var(--bg-tertiary);
+    }
+
+    .faq-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .faq-item.open .faq-icon {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer {
+        padding: 0 20px 16px;
+        max-height: 200px;
+    }
+
+    .faq-answer textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 14px;
+        resize: vertical;
+        min-height: 80px;
+        font-family: inherit;
+        background: var(--bg-secondary);
+    }
+
+    .faq-answer textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+    }
+
+    .add-faq-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: var(--bg-tertiary);
+        border: 1px dashed var(--border-color);
+        border-radius: 10px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .add-faq-btn:hover {
+        background: var(--accent-light);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+
+    .resource-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+        background: var(--bg-tertiary);
+        border-radius: 12px;
+        margin-bottom: 12px;
+        transition: all 0.2s ease;
+    }
+
+    .resource-card:hover {
+        background: var(--accent-light);
+    }
+
+    .resource-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--bg-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .resource-info {
+        flex: 1;
+    }
+
+    .resource-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 2px;
+    }
+
+    .resource-type {
+        font-size: 12px;
+        color: var(--text-tertiary);
+    }
+
+    .resource-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .resource-action {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        border: none;
+        background: var(--bg-primary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-tertiary);
+        transition: all 0.2s ease;
+    }
+
+    .resource-action:hover {
+        color: var(--accent-color);
+        background: var(--accent-light);
+    }
+
+    .resource-action.delete:hover {
+        color: #ef4444;
+        background: #fef2f2;
+    }
+
+    .upload-zone {
+        border: 2px dashed var(--border-color);
+        border-radius: 16px;
+        padding: 32px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--bg-secondary);
+    }
+
+    .upload-zone:hover {
+        border-color: var(--accent-color);
+        background: var(--accent-light);
+    }
+
+    .upload-zone.dragover {
+        border-color: var(--accent-color);
+        background: var(--accent-light);
+    }
+
+    .upload-icon {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+
+    .upload-text {
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+    .upload-text strong {
+        color: var(--accent-color);
+    }
+
+    .upload-types {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--text-tertiary);
+    }
+
+    .upload-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .upload-card {
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: var(--bg-primary);
+    }
+
+    .upload-card:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-2px);
+        box-shadow: var(--card-hover-shadow);
+    }
+
+    .upload-card-icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
+
+    .upload-card-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+    }
+
+    .upload-card-desc {
+        font-size: 12px;
+        color: var(--text-tertiary);
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 24px;
+        border-top: 1px solid var(--border-color);
+        animation: fadeInUp 0.5s ease-out 0.2s both;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+    }
+
+    .continue-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 28px;
+        background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        text-decoration: none;
+    }
+
+    .continue-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    @media (max-width: 900px) {
+        .kb-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .kb-sidebar {
+            flex-direction: row;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .kb-nav-item {
+            white-space: nowrap;
+        }
+
+        .upload-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .onboarding-header {
+            padding: 16px 20px;
+        }
+
+        .onboarding-main {
+            padding: 24px 16px;
+        }
+
+        .kb-section {
+            padding: 24px;
+        }
+
+        .upload-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="onboarding-container" x-data="{
+    darkMode: false,
+    activeSection: 'faq',
+    faqs: [
+        { question: 'What services do you offer?', answer: '' },
+        { question: 'What is your pricing?', answer: '' }
+    ],
+    resources: [],
+    
+    toggleFaq(index) {
+        this.faqs[index].open = !this.faqs[index].open;
+    },
+    
+    addFaq() {
+        this.faqs.push({ question: '', answer: '', open: true });
+    },
+    
+    removeFaq(index) {
+        this.faqs.splice(index, 1);
+    },
+    
+    triggerUpload(type) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.pdf,.doc,.docx,.png,.jpg,.jpeg';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                this.resources.push({
+                    name: file.name,
+                    type: type,
+                    size: (file.size / 1024 / 1024).toFixed(2) + ' MB'
+                });
+            }
+        };
+        input.click();
+    },
+    
+    removeResource(index) {
+        this.resources.splice(index, 1);
+    }
+}" :class="{ 'dark': darkMode }">
+    <header class="onboarding-header">
+        <a href="{{ url_for('onboarding.index') }}" class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>DM_tool</span>
+        </a>
+        <div class="dark-mode-toggle" @click="darkMode = !darkMode" :class="{ 'active': darkMode }"></div>
+    </header>
+
+    <main class="onboarding-main">
+        <div class="page-header">
+            <h1 class="page-title">Knowledge Base</h1>
+            <p class="page-subtitle">Build your FAQ, upload documents, and add resources</p>
+        </div>
+
+        <div class="kb-grid">
+            <nav class="kb-sidebar">
+                <a href="#" class="kb-nav-item" :class="{ 'active': activeSection === 'faq' }" @click.prevent="activeSection = 'faq'">
+                    <span class="kb-nav-icon">❓</span>
+                    <span>FAQ</span>
+                </a>
+                <a href="#" class="kb-nav-item" :class="{ 'active': activeSection === 'documents' }" @click.prevent="activeSection = 'documents'">
+                    <span class="kb-nav-icon">📄</span>
+                    <span>Documents</span>
+                </a>
+                <a href="#" class="kb-nav-item" :class="{ 'active': activeSection === 'resources' }" @click.prevent="activeSection = 'resources'">
+                    <span class="kb-nav-icon">🔗</span>
+                    <span>Resources</span>
+                </a>
+            </nav>
+
+            <div class="kb-content">
+                <!-- FAQ Section -->
+                <div class="kb-section" x-show="activeSection === 'faq'">
+                    <div class="kb-section-header">
+                        <div class="kb-section-icon" style="background: #fef3c7;">❓</div>
+                        <div>
+                            <div class="kb-section-title">Frequently Asked Questions</div>
+                            <div class="kb-section-desc">Add common questions your audience might ask</div>
+                        </div>
+                    </div>
+
+                    <template x-for="(faq, index) in faqs" :key="index">
+                        <div class="faq-item" :class="{ 'open': faq.open }">
+                            <div class="faq-question" @click="toggleFaq(index)">
+                                <input type="text" x-model="faq.question" placeholder="Enter question..." style="flex: 1; border: none; background: transparent; font-weight: 500; color: var(--text-primary);" @click.stop>
+                                <span class="faq-icon">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <textarea x-model="faq.answer" placeholder="Enter answer..."></textarea>
+                            </div>
+                        </div>
+                    </template>
+
+                    <button class="add-faq-btn" @click="addFaq">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Add Question
+                    </button>
+                </div>
+
+                <!-- Documents Section -->
+                <div class="kb-section" x-show="activeSection === 'documents'">
+                    <div class="kb-section-header">
+                        <div class="kb-section-icon" style="background: #dbeafe;">📄</div>
+                        <div>
+                            <div class="kb-section-title">Upload Documents</div>
+                            <div class="kb-section-desc">Upload brochures, menus, catalogs, or any other documents</div>
+                        </div>
+                    </div>
+
+                    <div class="upload-grid">
+                        <div class="upload-card" @click="triggerUpload('menu')">
+                            <div class="upload-card-icon">🍽️</div>
+                            <div class="upload-card-name">Menu</div>
+                            <div class="upload-card-desc">Restaurant menu</div>
+                        </div>
+                        <div class="upload-card" @click="triggerUpload('catalog')">
+                            <div class="upload-card-icon">📚</div>
+                            <div class="upload-card-name">Catalog</div>
+                            <div class="upload-card-desc">Product catalog</div>
+                        </div>
+                        <div class="upload-card" @click="triggerUpload('brochure')">
+                            <div class="upload-card-icon">📰</div>
+                            <div class="upload-card-name">Brochure</div>
+                            <div class="upload-card-desc">Company brochure</div>
+                        </div>
+                        <div class="upload-card" @click="triggerUpload('pdf')">
+                            <div class="upload-card-icon">📑</div>
+                            <div class="upload-card-name">PDF</div>
+                            <div class="upload-card-desc">Other PDF file</div>
+                        </div>
+                        <div class="upload-card" @click="triggerUpload('pricing')">
+                            <div class="upload-card-icon">💰</div>
+                            <div class="upload-card-name">Pricing</div>
+                            <div class="upload-card-desc">Pricing sheet</div>
+                        </div>
+                        <div class="upload-card" @click="triggerUpload('other')">
+                            <div class="upload-card-icon">📎</div>
+                            <div class="upload-card-name">Other</div>
+                            <div class="upload-card-desc">Any other file</div>
+                        </div>
+                    </div>
+
+                    <template x-if="resources.length > 0">
+                        <div style="margin-top: 24px;">
+                            <div style="font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 12px;">Uploaded Documents</div>
+                            <template x-for="(resource, index) in resources" :key="index">
+                                <div class="resource-card">
+                                    <div class="resource-icon">📄</div>
+                                    <div class="resource-info">
+                                        <div class="resource-name" x-text="resource.name"></div>
+                                        <div class="resource-type" x-text="resource.type + ' • ' + resource.size"></div>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="resource-action delete" @click="removeResource(index)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="kb-section" x-show="activeSection === 'resources'">
+                    <div class="kb-section-header">
+                        <div class="kb-section-icon" style="background: #dcfce7;">🔗</div>
+                        <div>
+                            <div class="kb-section-title">External Resources</div>
+                            <div class="kb-section-desc">Add links to guides, tools, and other useful resources</div>
+                        </div>
+                    </div>
+
+                    <div class="upload-zone" style="margin-bottom: 20px;">
+                        <div class="upload-icon">🔗</div>
+                        <div class="upload-text">
+                            <strong>Add a resource link</strong><br>
+                            Paste a URL to any helpful resource
+                        </div>
+                        <input type="url" placeholder="https://example.com/resource" style="margin-top: 16px; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 400px; font-size: 14px;">
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">📖</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Getting Started Guide</div>
+                            <div class="resource-type">https://example.com/guide</div>
+                        </div>
+                        <div class="resource-actions">
+                            <button class="resource-action">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="resource-action delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 6L6 18M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="add-faq-btn" style="margin-top: 16px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Add Resource Link
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="{{ url_for('onboarding.profile') }}" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back
+            </a>
+            <a href="{{ url_for('onboarding.complete') }}" class="continue-btn">
+                Complete Setup
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+            </a>
+        </div>
+    </main>
+</div>
+{% endblock %}

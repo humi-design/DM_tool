@@ -1,0 +1,804 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.name }} - AI Conversation{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-tertiary: #94a3b8;
+        --border-color: #e2e8f0;
+        --accent-color: #6366f1;
+        --accent-hover: #4f46e5;
+        --accent-light: #eef2ff;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --ai-bg: #f8fafc;
+        --user-bg: var(--accent-light);
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+        --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.06);
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        line-height: 1.6;
+    }
+
+    .onboarding-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .onboarding-header {
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--accent-color), #a855f7);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .skip-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-tertiary);
+        text-decoration: none;
+        font-size: 14px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .skip-button:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-secondary);
+    }
+
+    .dark-mode-toggle {
+        width: 48px;
+        height: 28px;
+        background: var(--bg-tertiary);
+        border-radius: 14px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+    }
+
+    .dark-mode-toggle::after {
+        content: '☀️';
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+    }
+
+    .dark-mode-toggle.active {
+        background: var(--accent-color);
+    }
+
+    .dark-mode-toggle.active::after {
+        content: '🌙';
+        left: auto;
+        right: 4px;
+    }
+
+    .onboarding-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 900px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 40px 24px;
+    }
+
+    .progress-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 40px;
+    }
+
+    .progress-step {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--text-tertiary);
+    }
+
+    .progress-step.active {
+        color: var(--accent-color);
+        font-weight: 500;
+    }
+
+    .progress-step.completed {
+        color: var(--success-color);
+    }
+
+    .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border-color);
+    }
+
+    .progress-step.active .progress-dot {
+        background: var(--accent-color);
+        box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .progress-step.completed .progress-dot {
+        background: var(--success-color);
+    }
+
+    .progress-line {
+        flex: 1;
+        height: 2px;
+        background: var(--border-color);
+        border-radius: 1px;
+    }
+
+    .chat-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .message {
+        display: flex;
+        gap: 16px;
+        animation: messageIn 0.4s ease-out;
+    }
+
+    @keyframes messageIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .message.ai {
+        align-items: flex-start;
+    }
+
+    .message.user {
+        flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .message.ai .message-avatar {
+        background: linear-gradient(135deg, var(--accent-color), #a855f7);
+        color: white;
+    }
+
+    .message.user .message-avatar {
+        background: var(--bg-tertiary);
+    }
+
+    .message-content {
+        max-width: 70%;
+        padding: 16px 20px;
+        border-radius: 16px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .message.ai .message-content {
+        background: var(--ai-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 4px 16px 16px 16px;
+    }
+
+    .message.user .message-content {
+        background: var(--accent-color);
+        color: white;
+        border-radius: 16px 4px 16px 16px;
+    }
+
+    .input-container {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 8px;
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .input-container:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .chat-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 12px 16px;
+        font-size: 15px;
+        resize: none;
+        max-height: 120px;
+        color: var(--text-primary);
+        font-family: inherit;
+    }
+
+    .chat-input:focus {
+        outline: none;
+    }
+
+    .chat-input::placeholder {
+        color: var(--text-tertiary);
+    }
+
+    .send-button {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .send-button:hover {
+        background: var(--accent-hover);
+        transform: scale(1.05);
+    }
+
+    .send-button:disabled {
+        background: var(--border-color);
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .quick-action {
+        padding: 8px 16px;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: 100px;
+        font-size: 13px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .quick-action:hover {
+        background: var(--accent-light);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+
+    .input-type-selector {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .input-type-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        color: var(--text-tertiary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .input-type-btn:hover,
+    .input-type-btn.active {
+        background: var(--accent-light);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+
+    .typing-indicator {
+        display: flex;
+        gap: 4px;
+        padding: 16px;
+    }
+
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--text-tertiary);
+        animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-8px); }
+    }
+
+    .upload-zone {
+        border: 2px dashed var(--border-color);
+        border-radius: 16px;
+        padding: 32px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--bg-primary);
+    }
+
+    .upload-zone:hover {
+        border-color: var(--accent-color);
+        background: var(--accent-light);
+    }
+
+    .upload-zone.dragover {
+        border-color: var(--accent-color);
+        background: var(--accent-light);
+    }
+
+    .upload-icon {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+
+    .upload-text {
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+    .upload-text strong {
+        color: var(--accent-color);
+    }
+
+    .upload-types {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--text-tertiary);
+    }
+
+    .file-preview {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: var(--bg-tertiary);
+        border-radius: 12px;
+        margin-top: 12px;
+    }
+
+    .file-icon {
+        font-size: 24px;
+    }
+
+    .file-info {
+        flex: 1;
+    }
+
+    .file-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .file-size {
+        font-size: 12px;
+        color: var(--text-tertiary);
+    }
+
+    .remove-file {
+        background: none;
+        border: none;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    .remove-file:hover {
+        color: #ef4444;
+    }
+
+    .suggestions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .suggestion-btn {
+        padding: 12px 16px;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 14px;
+        color: var(--text-primary);
+    }
+
+    .suggestion-btn:hover {
+        background: var(--accent-light);
+        border-color: var(--accent-color);
+        transform: translateX(4px);
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-tertiary);
+        text-decoration: none;
+        font-size: 14px;
+        margin-top: 24px;
+    }
+
+    .back-link:hover {
+        color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+        .onboarding-header {
+            padding: 16px 20px;
+        }
+
+        .onboarding-main {
+            padding: 24px 16px;
+        }
+
+        .message-content {
+            max-width: 85%;
+        }
+
+        .progress-bar {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="onboarding-container" x-data="{ 
+    darkMode: false,
+    messages: [],
+    userInput: '',
+    currentStep: 0,
+    collectedData: {},
+    uploadedFiles: [],
+    isTyping: false,
+    inputMode: 'text',
+    selectedFiles: null,
+    
+    init() {
+        // Initialize with welcome message
+        this.addMessage('ai', this.getWelcomeMessage());
+    },
+    
+    getWelcomeMessage() {
+        const typeMessages = {
+            creator: \"Hey there, Creator! ✨ I'm your AI assistant, here to help you set up your profile. Let's get started!\n\nFirst, tell me a bit about yourself — what's your content niche? (e.g., Tech reviews, lifestyle, fitness, etc.)\",
+            business: \"Welcome aboard! 🚀 I'm your AI assistant, here to help you set up your business profile.\n\nLet's start with the basics — what industry are you in? (e.g., SaaS, E-commerce, Finance, Healthcare...)\",
+            restaurant: \"Hello there! 🍽️ I'm your AI assistant, ready to help you set up your restaurant's profile.\n\nLet's start — what type of cuisine do you specialize in? (e.g., Italian, Japanese, Mexican, American...)\",
+            agency: \"Welcome! 👋 I'm your AI assistant, here to help you set up your agency profile.\n\nLet's begin — what type of agency do you run? (e.g., Marketing, Design, PR, Consulting...)\",
+            coach: \"Great to meet you! 🎯 I'm your AI assistant, here to help you set up your coaching profile.\n\nLet's start — what type of coaching do you specialize in? (e.g., Life, Business, Executive, Career...)\"
+        };
+        return typeMessages['{{ user_type }}'] || typeMessages.creator;
+    },
+    
+    addMessage(type, content) {
+        this.messages.push({
+            type,
+            content,
+            timestamp: new Date().toISOString()
+        });
+        this.$nextTick(() => {
+            const container = document.querySelector('.chat-container');
+            container.scrollTop = container.scrollHeight;
+        });
+    },
+    
+    async sendMessage() {
+        if (!this.userInput.trim()) return;
+        
+        const message = this.userInput;
+        this.addMessage('user', message);
+        this.userInput = '';
+        this.isTyping = true;
+        
+        // Simulate AI response
+        await this.simulateAIResponse(message);
+    },
+    
+    async simulateAIResponse(userMessage) {
+        // Simulate typing delay
+        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+        this.isTyping = false;
+        
+        const responses = [
+            {
+                message: \"That's great! Now, do you have a website? You can paste the URL here, or we can skip this for now.\",
+                type: 'input',
+                placeholder: 'https://yourwebsite.com',
+                inputType: 'url'
+            },
+            {
+                message: \"Perfect! What's your Instagram handle? This helps us showcase your social presence.\",
+                type: 'input',
+                placeholder: '@yourusername'
+            },
+            {
+                message: \"Nice! Do you have any pricing information you'd like to share with potential customers? You can describe your pricing or paste a pricing page URL.\",
+                type: 'input',
+                placeholder: 'e.g., Starting at $99/month, or describe your pricing tiers...',
+                inputType: 'textarea'
+            },
+            {
+                message: \"Got it! Now let's talk about your portfolio or previous work. Do you have a portfolio URL or would you like to share some examples?",
+                type: 'input',
+                placeholder: 'https://yourportfolio.com or describe your best work...',
+                inputType: 'textarea'
+            },
+            {
+                message: \"Would you like to upload any documents? I can process PDFs, brochures, menus, or catalogs to extract information automatically.\",
+                type: 'upload',
+                acceptedTypes: ['.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg']
+            },
+            {
+                message: \"Let's create your FAQ section! Would you like to add common questions, or should I suggest some based on your profile?",
+                type: 'suggestion',
+                suggestions: ['Add custom Q&A', 'Suggest common questions', 'Skip for now']
+            },
+            {
+                message: \"Excellent progress! 🌟 You've provided a lot of great information. Would you like to add any additional resources, links, or materials for your audience? Or shall we create your profile now?",
+                type: 'suggestion',
+                suggestions: ['Add resources/links', 'Upload more documents', 'Create my profile']
+            }
+        ];
+        
+        // Cycle through responses based on current step
+        const response = responses[this.currentStep % responses.length];
+        this.addMessage('ai', response.message);
+        
+        if (response.type === 'suggestion') {
+            this.addSuggestions(response.suggestions);
+        } else if (response.type === 'upload') {
+            this.addUploadZone(response);
+        }
+        
+        this.currentStep++;
+    },
+    
+    addSuggestions(suggestions) {
+        // Add suggestion buttons after the last AI message
+        const lastMessage = document.querySelector('.message.ai:last-child .message-content');
+        if (lastMessage) {
+            const container = document.createElement('div');
+            container.className = 'suggestions';
+            suggestions.forEach(suggestion => {
+                const btn = document.createElement('button');
+                btn.className = 'suggestion-btn';
+                btn.textContent = suggestion;
+                btn.onclick = () => {
+                    this.addMessage('user', suggestion);
+                    this.simulateAIResponse(suggestion);
+                };
+                container.appendChild(btn);
+            });
+            lastMessage.appendChild(container);
+        }
+    },
+    
+    addUploadZone(config) {
+        const lastMessage = document.querySelector('.message.ai:last-child .message-content');
+        if (lastMessage) {
+            const zone = document.createElement('div');
+            zone.className = 'upload-zone';
+            zone.innerHTML = `
+                <div class='upload-icon'>📄</div>
+                <div class='upload-text'>
+                    <strong>Click to upload</strong> or drag and drop<br>
+                    <span class='upload-types'>${config.acceptedTypes.join(', ')} (max 10MB)</span>
+                </div>
+            `;
+            zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('dragover'); };
+            zone.ondragleave = () => zone.classList.remove('dragover');
+            zone.onclick = () => document.getElementById('fileInput').click();
+            lastMessage.appendChild(zone);
+        }
+    },
+    
+    handleKeyDown(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            this.sendMessage();
+        }
+    },
+    
+    triggerFileUpload() {
+        document.getElementById('fileInput').click();
+    },
+    
+    handleFileSelect(event) {
+        const files = event.target.files;
+        for (let file of files) {
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File too large. Maximum size is 10MB.');
+                continue;
+            }
+            this.uploadedFiles.push({
+                name: file.name,
+                size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
+                type: file.type
+            });
+            this.addMessage('user', `📎 Uploaded: ${file.name}`);
+        }
+        this.simulateAIResponse('File uploaded');
+    }
+}" :class="{ 'dark': darkMode }">
+    <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" @change="handleFileSelect">
+
+    <header class="onboarding-header">
+        <a href="{{ url_for('onboarding.index') }}" class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>DM_tool</span>
+        </a>
+        <div class="header-actions">
+            <a href="{{ url_for('onboarding.profile') }}" class="skip-button">
+                Skip & Continue
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <div class="dark-mode-toggle" @click="darkMode = !darkMode" :class="{ 'active': darkMode }"></div>
+        </div>
+    </header>
+
+    <main class="onboarding-main">
+        <div class="progress-bar">
+            <div class="progress-step completed">
+                <div class="progress-dot"></div>
+                <span>Start</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step active">
+                <div class="progress-dot"></div>
+                <span>Profile Info</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="progress-dot"></div>
+                <span>Documents</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="progress-dot"></div>
+                <span>Complete</span>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <template x-for="msg in messages" :key="msg.timestamp">
+                <div class="message" :class="msg.type">
+                    <div class="message-avatar">
+                        <span x-text="msg.type === 'ai' ? '🤖' : '👤'"></span>
+                    </div>
+                    <div class="message-content" x-html="msg.content.replace(/\n/g, '<br>')"></div>
+                </div>
+            </template>
+            
+            <template x-if="isTyping">
+                <div class="message ai">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div class="input-container">
+            <textarea 
+                class="chat-input" 
+                x-model="userInput" 
+                @keydown="handleKeyDown"
+                placeholder="Type your message..."
+                rows="1"
+            ></textarea>
+            <button class="send-button" @click="sendMessage" :disabled="!userInput.trim()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="quick-actions">
+            <button class="quick-action" @click="userInput = 'Yes, let\\'s continue'; sendMessage()">
+                <span>👍</span> Continue
+            </button>
+            <button class="quick-action" @click="userInput = 'Tell me more'; sendMessage()">
+                <span>💬</span> Tell me more
+            </button>
+            <button class="quick-action" @click="userInput = 'Skip for now'; sendMessage()">
+                <span>⏭️</span> Skip
+            </button>
+        </div>
+    </main>
+</div>
+{% endblock %}
