@@ -4,8 +4,15 @@ from models.base import BaseModel, TimestampMixin, SoftDeleteMixin, UUIDPrimaryK
 from models.user import User
 from models.organization import Organization, OrganizationMember
 from models.business import Business, BusinessProfile
-from models.auth import RefreshToken, AuditLog
-from models.instagram import InstagramAccount, InstagramPost, InstagramComment, InstagramDM
+from models.auth import (
+    RefreshToken,
+    AuditLog,
+    LoginAttempt,
+    OTPCode,
+    PasswordResetToken,
+    EmailVerification,
+    UserSession,
+)
 
 __all__ = [
     "BaseModel",
@@ -19,8 +26,9 @@ __all__ = [
     "BusinessProfile",
     "RefreshToken",
     "AuditLog",
-    "InstagramAccount",
-    "InstagramPost",
-    "InstagramComment",
-    "InstagramDM",
+    "LoginAttempt",
+    "OTPCode",
+    "PasswordResetToken",
+    "EmailVerification",
+    "UserSession",
 ]
