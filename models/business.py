@@ -43,6 +43,7 @@ class Business(BaseModel, SoftDeleteMixin):
     comments = db.relationship("Comment", foreign_keys="Comment.business_id", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
     resources = db.relationship("Resource", foreign_keys="Resource.business_id", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
     reports = db.relationship("Report", foreign_keys="Report.business_id", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
+    ai_processing_logs = db.relationship("AIProcessingLog", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
     
     __table_args__ = (
         db.UniqueConstraint("organization_id", "slug", name="uq_business_org_slug"),

@@ -1,0 +1,562 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-brain text-primary mr-2"></i>
+                Comment Intelligence
+            </h1>
+            <p class="text-muted small mb-0">AI-powered comment analysis and response generation</p>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="processCommentBtn">
+                <i class="fas fa-magic mr-1"></i> Process Comment
+            </button>
+            <button type="button" class="btn btn-outline-secondary" id="refreshStats">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Processed
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalProcessed">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Avg Confidence
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="avgConfidence">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Avg Processing Time
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="avgTime">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Error Rate
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="errorRate">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Intent Distribution Chart -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Intent Distribution</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area" style="height: 300px;">
+                        <canvas id="intentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Intents -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Top Intents</h6>
+                </div>
+                <div class="card-body">
+                    <div id="topIntentsList">
+                        <div class="text-center py-4">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Questions and Resources -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-question-circle mr-2"></i>Most Common Questions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div id="topQuestionsList" class="list-group list-group-flush">
+                        <div class="text-center py-2">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-database mr-2"></i>Knowledge Base
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div id="knowledgeStats" class="mb-3">
+                        <div class="text-center py-2">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-sm btn-outline-primary" id="manageKnowledgeBtn">
+                            <i class="fas fa-cog mr-1"></i> Manage Knowledge Base
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Processing Logs -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-history mr-2"></i>Recent Processing Logs
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="logsTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Comment</th>
+                            <th>Intent</th>
+                            <th>Confidence</th>
+                            <th>Status</th>
+                            <th>Processing Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Process Comment Modal -->
+<div class="modal fade" id="processCommentModal" tabindex="-1" role="dialog" aria-labelledby="processCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="processCommentModalLabel">
+                    <i class="fas fa-brain text-primary mr-2"></i>Process Comment
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="commentText">Comment Text</label>
+                    <textarea class="form-control" id="commentText" rows="3" placeholder="Enter comment to analyze..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="authorUsername">Author Username (optional)</label>
+                    <input type="text" class="form-control" id="authorUsername" placeholder="@username">
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isReply">
+                        <label class="custom-control-label" for="isReply">This is a reply</label>
+                    </div>
+                </div>
+                <hr>
+                <div id="processingResults" style="display: none;">
+                    <h6 class="font-weight-bold">Analysis Results</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="small text-muted">Detected Intent</label>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge badge-primary badge-pill mr-2" id="resultIntent">-</span>
+                                    <span class="small" id="resultConfidence">-</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="small text-muted">Reasoning</label>
+                                <p class="small mb-0" id="resultReasoning">-</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="small text-muted">Recommended Action</label>
+                                <span class="badge badge-success badge-pill" id="resultAction">-</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="small text-muted">Should Auto-Reply</label>
+                                <span id="resultAutoReply">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted">Generated Response</label>
+                        <div class="bg-light p-3 rounded" id="resultResponse">-</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted">Emoji Reactions</label>
+                        <div id="resultEmojis">-</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="runProcessBtn">
+                    <i class="fas fa-magic mr-1"></i> Analyze
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+$(document).ready(function() {
+    let intentChart = null;
+    
+    // Load initial data
+    loadDashboardData();
+    
+    // Refresh button
+    $('#refreshStats').click(function() {
+        loadDashboardData();
+    });
+    
+    // Process comment modal
+    $('#processCommentBtn').click(function() {
+        $('#processCommentModal').modal('show');
+        $('#processingResults').hide();
+    });
+    
+    // Run process
+    $('#runProcessBtn').click(function() {
+        const text = $('#commentText').val();
+        const author = $('#authorUsername').val();
+        const isReply = $('#isReply').is(':checked');
+        
+        if (!text.trim()) {
+            toastr.error('Please enter a comment to analyze');
+            return;
+        }
+        
+        const $btn = $(this);
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm mr-1"></span> Analyzing...');
+        
+        $.ajax({
+            url: '/api/comments/ai/process',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                text: text,
+                author: author || null,
+                is_reply: isReply
+            }),
+            success: function(response) {
+                if (response.success) {
+                    displayProcessingResults(response.data);
+                } else {
+                    toastr.error(response.error || 'Processing failed');
+                }
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON?.error || 'Processing failed');
+            },
+            complete: function() {
+                $btn.prop('disabled', false).html('<i class="fas fa-magic mr-1"></i> Analyze');
+            }
+        });
+    });
+    
+    function displayProcessingResults(data) {
+        $('#processingResults').show();
+        
+        $('#resultIntent').text(data.intent || 'other').removeClass().addClass('badge badge-' + getIntentColor(data.intent) + ' badge-pill mr-2');
+        $('#resultConfidence').text('Confidence: ' + ((data.intent_confidence || 0) * 100).toFixed(0) + '%');
+        $('#resultReasoning').text(data.intent_reasoning || 'No reasoning provided');
+        $('#resultAction').text(data.primary_action || 'unknown');
+        $('#resultAutoReply').text(data.should_reply ? 'Yes' : 'No');
+        $('#resultResponse').html(data.response || '<em class="text-muted">No response generated</em>');
+        
+        const emojiHtml = data.emoji_responses && data.emoji_responses.length > 0
+            ? data.emoji_responses.map(function(e) { return '<span class="badge badge-info mr-1">' + e + '</span>'; }).join('')
+            : '<em class="text-muted">No emoji reactions detected</em>';
+        $('#resultEmojis').html(emojiHtml);
+    }
+    
+    function getIntentColor(intent) {
+        const colors = {
+            'interest': 'primary',
+            'price': 'success',
+            'booking': 'info',
+            'resource': 'warning',
+            'support': 'danger',
+            'question': 'secondary',
+            'order': 'primary',
+            'greeting': 'success',
+            'general': 'secondary',
+            'other': 'dark'
+        };
+        return colors[intent] || 'secondary';
+    }
+    
+    function loadDashboardData() {
+        $.ajax({
+            url: '/api/comments/ai/analytics',
+            method: 'GET',
+            success: function(response) {
+                if (response.success) {
+                    updateDashboard(response.data);
+                }
+            },
+            error: function() {
+                toastr.error('Failed to load dashboard data');
+            }
+        });
+    }
+    
+    function updateDashboard(data) {
+        // Stats cards
+        $('#totalProcessed').text(data.processing?.total_processed || 0);
+        
+        const avgConf = data.processing?.average_confidence || 0;
+        $('#avgConfidence').html('<span class="text-' + (avgConf > 0.7 ? 'success' : avgConf > 0.5 ? 'warning' : 'danger') + '">' + (avgConf * 100).toFixed(0) + '%</span>');
+        
+        const avgTime = data.processing?.average_processing_time_ms || 0;
+        $('#avgTime').text(avgTime.toFixed(0) + ' ms');
+        
+        const errorRate = data.processing?.error_rate || 0;
+        $('#errorRate').html('<span class="text-' + (errorRate < 0.05 ? 'success' : errorRate < 0.1 ? 'warning' : 'danger') + '">' + (errorRate * 100).toFixed(1) + '%</span>');
+        
+        // Intent distribution chart
+        updateIntentChart(data.processing?.intent_distribution || {});
+        
+        // Top intents list
+        updateTopIntentsList(data.top_intents || []);
+        
+        // Load questions and logs
+        loadTopQuestions();
+        loadProcessingLogs();
+        loadKnowledgeStats();
+    }
+    
+    function updateIntentChart(distribution) {
+        const ctx = document.getElementById('intentChart').getContext('2d');
+        
+        const labels = Object.keys(distribution);
+        const values = Object.values(distribution);
+        
+        const colors = [
+            'rgba(78, 115, 223, 0.8)',
+            'rgba(28, 200, 138, 0.8)',
+            'rgba(54, 185, 204, 0.8)',
+            'rgba(255, 193, 7, 0.8)',
+            'rgba(231, 76, 60, 0.8)',
+            'rgba(155, 89, 182, 0.8)',
+            'rgba(52, 152, 219, 0.8)',
+            'rgba(46, 204, 113, 0.8)',
+            'rgba(241, 196, 15, 0.8)',
+            'rgba(149, 165, 166, 0.8)'
+        ];
+        
+        if (intentChart) {
+            intentChart.destroy();
+        }
+        
+        intentChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels.map(function(l) { return l.charAt(0).toUpperCase() + l.slice(1); }),
+                datasets: [{
+                    data: values,
+                    backgroundColor: colors.slice(0, labels.length),
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function updateTopIntentsList(topIntents) {
+        const html = topIntents.length > 0
+            ? topIntents.map(function(item, idx) {
+                return '<div class="d-flex justify-content-between align-items-center mb-2">' +
+                    '<span class="badge badge-' + getIntentColor(item[0]) + ' mr-2">' + (idx + 1) + '</span>' +
+                    '<span class="flex-grow-1">' + item[0].charAt(0).toUpperCase() + item[0].slice(1) + '</span>' +
+                    '<span class="badge badge-secondary">' + item[1] + '</span>' +
+                '</div>';
+            }).join('')
+            : '<p class="text-muted text-center mb-0">No data yet</p>';
+        
+        $('#topIntentsList').html(html);
+    }
+    
+    function loadTopQuestions() {
+        $.ajax({
+            url: '/api/comments/ai/analytics/top-questions',
+            method: 'GET',
+            success: function(response) {
+                if (response.success && response.data.length > 0) {
+                    const html = response.data.map(function(q) {
+                        return '<div class="list-group-item d-flex justify-content-between align-items-center">' +
+                            '<span class="text-truncate mr-3">' + q.question + '</span>' +
+                            '<span class="badge badge-primary badge-pill">' + q.count + '</span>' +
+                        '</div>';
+                    }).join('');
+                    $('#topQuestionsList').html(html);
+                } else {
+                    $('#topQuestionsList').html('<p class="text-muted text-center mb-0">No questions recorded yet</p>');
+                }
+            }
+        });
+    }
+    
+    function loadProcessingLogs() {
+        $.ajax({
+            url: '/api/comments/ai/logs?limit=20',
+            method: 'GET',
+            success: function(response) {
+                if (response.success && response.data.length > 0) {
+                    const html = response.data.map(function(log) {
+                        return '<tr>' +
+                            '<td class="small">' + formatTime(log.timestamp) + '</td>' +
+                            '<td class="small text-truncate" style="max-width: 200px;">' + (log.comment || '-') + '</td>' +
+                            '<td><span class="badge badge-' + getIntentColor(log.intent) + ' badge-pill">' + (log.intent || '-') + '</span></td>' +
+                            '<td>' + ((log.confidence || 0) * 100).toFixed(0) + '%</td>' +
+                            '<td class="small">' + (log.error ? '<span class="text-danger">Error</span>' : 'OK') + '</td>' +
+                            '<td class="small">' + (log.processing_time_ms || 0).toFixed(0) + ' ms</td>' +
+                        '</tr>';
+                    }).join('');
+                    $('#logsTableBody').html(html);
+                } else {
+                    $('#logsTableBody').html('<tr><td colspan="6" class="text-center text-muted py-4">No processing logs yet</td></tr>');
+                }
+            }
+        });
+    }
+    
+    function loadKnowledgeStats() {
+        $.ajax({
+            url: '/api/comments/ai/knowledge',
+            method: 'GET',
+            success: function(response) {
+                if (response.success) {
+                    const html = '<div class="d-flex justify-content-around text-center">' +
+                        '<div>' +
+                            '<div class="h4 mb-0 text-primary">' + response.data.count + '</div>' +
+                            '<div class="small text-muted">Entries</div>' +
+                        '</div>' +
+                        '<div>' +
+                            '<div class="h4 mb-0 text-success">' + response.data.categories.length + '</div>' +
+                            '<div class="small text-muted">Categories</div>' +
+                        '</div>' +
+                    '</div>';
+                    $('#knowledgeStats').html(html);
+                }
+            }
+        });
+    }
+    
+    function formatTime(timestamp) {
+        if (!timestamp) return '-';
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadDashboardData, 30000);
+});
+</script>
+{% endblock %}
