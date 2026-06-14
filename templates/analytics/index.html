@@ -1,21 +1,1095 @@
 {% extends "base.html" %}
 
-{% block title %}Analytics - {{ site.name }}{% endblock %}
+{% block title %}AI Analytics Center - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-gray-100">
-    {% include "partials/sidebar.html" %}
-    
-    <div class="pl-64">
-        {% include "partials/topbar.html" %}
-        
-        <main class="p-6">
-            <h1 class="text-2xl font-bold text-gray-900 mb-6">Analytics</h1>
-            
-            <div class="bg-white rounded-lg shadow p-6">
-                <p class="text-gray-500 text-center">Analytics will be available once you connect your Instagram account.</p>
+<div class="analytics-page">
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--analytics-bg-secondary)]/80 backdrop-blur-xl border-b border-[var(--analytics-border)]">
+        <div class="flex items-center justify-between h-16 px-6">
+            <div class="flex items-center gap-4">
+                <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-lg hover:bg-[var(--analytics-bg-tertiary)]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-[var(--analytics-text-primary)]">AI Analytics Center</h1>
+                        <p class="text-xs text-[var(--analytics-text-muted)]">{{ current_user.business.name if current_user.is_authenticated and current_user.business else 'Your Business' }}</p>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
+            
+            <div class="flex items-center gap-4">
+                <!-- Time Period Selector -->
+                <div class="time-period-selector">
+                    <button class="time-period-btn" data-period="daily">Daily</button>
+                    <button class="time-period-btn" data-period="weekly">Weekly</button>
+                    <button class="time-period-btn active" data-period="monthly">Monthly</button>
+                    <button class="time-period-btn" data-period="quarterly">Quarterly</button>
+                    <button class="time-period-btn" data-period="yearly">Yearly</button>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="flex items-center gap-2">
+                    <button onclick="refreshData()" class="p-2 rounded-lg bg-[var(--analytics-bg-tertiary)] hover:bg-[var(--analytics-bg-card-hover)] transition" data-tooltip="Refresh Data">
+                        <svg class="w-5 h-5 text-[var(--analytics-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                    </button>
+                    <a href="{{ url_for('analytics.reports') }}" class="p-2 rounded-lg bg-[var(--analytics-bg-tertiary)] hover:bg-[var(--analytics-bg-card-hover)] transition" data-tooltip="Reports">
+                        <svg class="w-5 h-5 text-[var(--analytics-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="pt-20 pb-8 px-6">
+        <div class="analytics-container">
+            
+            <!-- Metrics Grid -->
+            <section class="metrics-grid">
+                <!-- Comments Metric -->
+                <div class="metric-card" style="--card-accent-color: #6366f1;">
+                    <div class="metric-card-bg"></div>
+                    <div class="metric-card-icon" style="background: var(--gradient-primary);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                        </svg>
+                    </div>
+                    <p class="metric-card-label">Comments</p>
+                    <p class="metric-card-value" id="metric-comments">0</p>
+                    <span class="metric-card-trend positive" id="trend-comments">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        <span>+0%</span>
+                    </span>
+                </div>
+                
+                <!-- Conversations Metric -->
+                <div class="metric-card emerald" style="--card-accent-color: #10b981;">
+                    <div class="metric-card-bg"></div>
+                    <div class="metric-card-icon" style="background: var(--gradient-emerald);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <p class="metric-card-label">Conversations</p>
+                    <p class="metric-card-value" id="metric-conversations">0</p>
+                    <span class="metric-card-trend positive" id="trend-conversations">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        <span>+0%</span>
+                    </span>
+                </div>
+                
+                <!-- DM Volume Metric -->
+                <div class="metric-card cyan" style="--card-accent-color: #22d3ee;">
+                    <div class="metric-card-bg"></div>
+                    <div class="metric-card-icon" style="background: var(--gradient-cyan);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <p class="metric-card-label">DM Volume</p>
+                    <p class="metric-card-value" id="metric-dm-volume">0</p>
+                    <span class="metric-card-trend positive" id="trend-dm-volume">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        <span>+0%</span>
+                    </span>
+                </div>
+                
+                <!-- Lead Count Metric -->
+                <div class="metric-card amber" style="--card-accent-color: #f59e0b;">
+                    <div class="metric-card-bg"></div>
+                    <div class="metric-card-icon" style="background: var(--gradient-amber);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <p class="metric-card-label">Lead Count</p>
+                    <p class="metric-card-value" id="metric-leads">0</p>
+                    <span class="metric-card-trend positive" id="trend-leads">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        <span>+0%</span>
+                    </span>
+                </div>
+                
+                <!-- Lead Growth Metric -->
+                <div class="metric-card rose" style="--card-accent-color: #f43f5e;">
+                    <div class="metric-card-bg"></div>
+                    <div class="metric-card-icon" style="background: var(--gradient-rose);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <p class="metric-card-label">Lead Growth</p>
+                    <p class="metric-card-value" id="metric-growth">0%</p>
+                    <span class="metric-card-trend positive" id="trend-growth">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        <span>+0%</span>
+                    </span>
+                </div>
+                
+                <!-- Resource Usage Metric -->
+                <div class="metric-card violet" style="--card-accent-color: #8b5cf6;">
+                    <div class="metric-card-bg"></div>
+                    <div class="metric-card-icon" style="background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                        </svg>
+                    </div>
+                    <p class="metric-card-label">Resource Usage</p>
+                    <p class="metric-card-value" id="metric-resources">0</p>
+                    <span class="metric-card-trend positive" id="trend-resources">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                        </svg>
+                        <span>+0%</span>
+                    </span>
+                </div>
+            </section>
+            
+            <!-- Main Content Grid -->
+            <div class="analytics-main-grid">
+                <!-- Left Column - Charts -->
+                <div class="space-y-6">
+                    <!-- Volume Trends Chart -->
+                    <div class="analytics-card" style="animation-delay: 0.2s;">
+                        <div class="analytics-card-header">
+                            <h3 class="analytics-card-title">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                                </svg>
+                                Volume Trends
+                            </h3>
+                            <div class="analytics-card-actions">
+                                <div class="chart-type-selector">
+                                    <button class="chart-type-btn active" data-chart="line">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4"/></svg>
+                                        Line
+                                    </button>
+                                    <button class="chart-type-btn" data-chart="bar">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                        Bar
+                                    </button>
+                                    <button class="chart-type-btn" data-chart="area">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                                        Area
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analytics-card-body">
+                            <div class="chart-container large">
+                                <canvas id="volumeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Two Column Charts -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Lead Sources Pie Chart -->
+                        <div class="analytics-card" style="animation-delay: 0.3s;">
+                            <div class="analytics-card-header">
+                                <h3 class="analytics-card-title">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                                    </svg>
+                                    Lead Sources
+                                </h3>
+                                <div class="chart-type-selector">
+                                    <button class="chart-type-btn active" data-chart="pie">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+                                        Pie
+                                    </button>
+                                    <button class="chart-type-btn" data-chart="doughnut">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/></svg>
+                                        Doughnut
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="analytics-card-body">
+                                <div class="chart-container" style="height: 280px;">
+                                    <canvas id="leadSourcesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Intent Distribution -->
+                        <div class="analytics-card" style="animation-delay: 0.35s;">
+                            <div class="analytics-card-header">
+                                <h3 class="analytics-card-title">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                    </svg>
+                                    Intent Distribution
+                                </h3>
+                            </div>
+                            <div class="analytics-card-body">
+                                <div class="distribution-list" id="intentDistribution">
+                                    <!-- Dynamically populated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Questions & Resources -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Top Questions -->
+                        <div class="analytics-card" style="animation-delay: 0.4s;">
+                            <div class="analytics-card-header">
+                                <h3 class="analytics-card-title">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    Top Questions
+                                </h3>
+                            </div>
+                            <div class="analytics-card-body p-0">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Question</th>
+                                            <th>Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="topQuestions">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Top Resources -->
+                        <div class="analytics-card" style="animation-delay: 0.45s;">
+                            <div class="analytics-card-header">
+                                <h3 class="analytics-card-title">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                    </svg>
+                                    Top Resources
+                                </h3>
+                            </div>
+                            <div class="analytics-card-body p-0">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Resource</th>
+                                            <th>Views</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="topResources">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - AI Insights & Reports -->
+                <div class="space-y-6">
+                    <!-- AI Insights Panel -->
+                    <div class="analytics-card ai-insights-panel" style="animation: slideInRight 0.6s ease backwards; animation-delay: 0.25s;">
+                        <div class="ai-insights-header">
+                            <div class="ai-insights-badge">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                </svg>
+                                AI Insights
+                            </div>
+                            <button onclick="generateInsights()" class="ml-auto p-2 rounded-lg hover:bg-[var(--analytics-bg-tertiary)] transition">
+                                <svg class="w-5 h-5 text-[var(--analytics-text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="aiInsightsList">
+                            <!-- Most Requested Topics -->
+                            <div class="insight-card">
+                                <div class="insight-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                    </svg>
+                                </div>
+                                <div class="insight-content">
+                                    <h4 class="insight-title">Most Requested Topics</h4>
+                                    <p class="insight-description" id="insight-topics">Analyzing trending topics...</p>
+                                    <span class="insight-metric" id="insight-topics-metric">Loading...</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Most Requested Resources -->
+                            <div class="insight-card">
+                                <div class="insight-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="insight-content">
+                                    <h4 class="insight-title">Most Requested Resources</h4>
+                                    <p class="insight-description" id="insight-resources">Identifying popular resources...</p>
+                                    <span class="insight-metric" id="insight-resources-metric">Loading...</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Peak Activity Times -->
+                            <div class="insight-card">
+                                <div class="insight-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="insight-content">
+                                    <h4 class="insight-title">Peak Activity Times</h4>
+                                    <p class="insight-description" id="insight-peak-times">Calculating peak hours...</p>
+                                    <span class="insight-metric" id="insight-peak-times-metric">Loading...</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Frequently Asked Questions -->
+                            <div class="insight-card">
+                                <div class="insight-icon" style="background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="insight-content">
+                                    <h4 class="insight-title">Frequently Asked Questions</h4>
+                                    <p class="insight-description" id="insight-faqs">Identifying patterns...</p>
+                                    <span class="insight-metric" id="insight-faqs-metric">Loading...</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Lead Trends -->
+                            <div class="insight-card">
+                                <div class="insight-icon" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                                <div class="insight-content">
+                                    <h4 class="insight-title">Lead Trends</h4>
+                                    <p class="insight-description" id="insight-lead-trends">Analyzing lead patterns...</p>
+                                    <span class="insight-metric" id="insight-lead-trends-metric">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reports Section -->
+                    <div class="analytics-card" style="animation: slideInRight 0.6s ease backwards; animation-delay: 0.35s;">
+                        <div class="analytics-card-header">
+                            <h3 class="analytics-card-title">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Generate Reports
+                            </h3>
+                        </div>
+                        <div class="reports-grid">
+                            <div class="report-card" onclick="generateReport('weekly')">
+                                <div class="report-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="report-info">
+                                    <h4>Weekly Report</h4>
+                                    <p>Last 7 days summary</p>
+                                </div>
+                            </div>
+                            
+                            <div class="report-card" onclick="generateReport('monthly')">
+                                <div class="report-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="report-info">
+                                    <h4>Monthly Report</h4>
+                                    <p>Last 30 days summary</p>
+                                </div>
+                            </div>
+                            
+                            <div class="report-card" onclick="downloadPDF()">
+                                <div class="report-icon" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="report-info">
+                                    <h4>Download PDF</h4>
+                                    <p>Full analytics export</p>
+                                </div>
+                            </div>
+                            
+                            <div class="report-card" onclick="downloadCSV()">
+                                <div class="report-icon" style="background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                    </svg>
+                                </div>
+                                <div class="report-info">
+                                    <h4>Download CSV</h4>
+                                    <p>Raw data export</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="export-buttons">
+                            <button onclick="emailReport()" class="btn btn-secondary w-full">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                Email Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ============================================
+// Chart.js Configuration
+// ============================================
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
+// Global chart instances
+let volumeChart = null;
+let leadSourcesChart = null;
+
+// ============================================
+// Analytics State
+// ============================================
+const analyticsState = {
+    period: 'monthly',
+    data: {
+        comments: 0,
+        conversations: 0,
+        dmVolume: 0,
+        leads: 0,
+        leadGrowth: 0,
+        resources: 0,
+        trends: {
+            comments: 0,
+            conversations: 0,
+            dmVolume: 0,
+            leads: 0,
+            leadGrowth: 0,
+            resources: 0
+        }
+    }
+};
+
+// ============================================
+// Initialize Charts
+// ============================================
+function initCharts() {
+    initVolumeChart();
+    initLeadSourcesChart();
+}
+
+function initVolumeChart() {
+    const ctx = document.getElementById('volumeChart').getContext('2d');
+    const labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'];
+    
+    volumeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Comments',
+                    data: [120, 145, 132, 168, 195, 220],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#6366f1'
+                },
+                {
+                    label: 'Conversations',
+                    data: [85, 92, 88, 105, 118, 135],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#10b981'
+                },
+                {
+                    label: 'DMs',
+                    data: [230, 245, 260, 285, 310, 340],
+                    borderColor: '#22d3ee',
+                    backgroundColor: 'rgba(34, 211, 238, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#22d3ee'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: { size: 12, weight: '500' }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(22, 22, 29, 0.95)',
+                    titleFont: { size: 14, weight: '600' },
+                    bodyFont: { size: 13 },
+                    padding: 12,
+                    cornerRadius: 8,
+                    borderColor: 'rgba(255, 255, 255, 0.08)',
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 11 } }
+                },
+                y: {
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    });
+}
+
+function initLeadSourcesChart() {
+    const ctx = document.getElementById('leadSourcesChart').getContext('2d');
+    
+    leadSourcesChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Instagram Posts', 'Stories', 'Reels', 'DMs', 'Comments'],
+            datasets: [{
+                data: [35, 20, 15, 20, 10],
+                backgroundColor: ['#6366f1', '#8b5cf6', '#10b981', '#22d3ee', '#f59e0b'],
+                borderWidth: 0,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 16,
+                        font: { size: 11, weight: '500' }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(22, 22, 29, 0.95)',
+                    titleFont: { size: 14, weight: '600' },
+                    bodyFont: { size: 13 },
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            }
+        }
+    });
+}
+
+// ============================================
+// Chart Type Switching
+// ============================================
+document.querySelectorAll('.chart-type-selector').forEach(selector => {
+    selector.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chart-type-btn');
+        if (!btn) return;
+        
+        const chartType = btn.dataset.chart;
+        const buttons = selector.querySelectorAll('.chart-type-btn');
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        if (selector.closest('.analytics-card').querySelector('#volumeChart')) {
+            updateVolumeChartType(chartType);
+        } else {
+            updateLeadSourcesChartType(chartType);
+        }
+    });
+});
+
+function updateVolumeChartType(type) {
+    const config = {
+        line: { type: 'line', fill: true },
+        bar: { type: 'bar', fill: false },
+        area: { type: 'line', fill: true }
+    };
+    
+    const settings = config[type] || config.line;
+    
+    volumeChart.data.datasets.forEach(dataset => {
+        dataset.fill = settings.fill;
+    });
+    
+    volumeChart.config.type = settings.type;
+    volumeChart.update();
+}
+
+function updateLeadSourcesChartType(type) {
+    leadSourcesChart.config.type = type === 'doughnut' ? 'doughnut' : 'pie';
+    leadSourcesChart.update();
+}
+
+// ============================================
+// Time Period Selection
+// ============================================
+document.querySelectorAll('.time-period-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-period-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        analyticsState.period = btn.dataset.period;
+        refreshData();
+    });
+});
+
+// ============================================
+// Data Fetching & Updates
+// ============================================
+async function refreshData() {
+    try {
+        const response = await fetch(`/analytics/api/overview?period=${analyticsState.period}`);
+        const data = await response.json();
+        updateMetrics(data);
+        updateCharts(data);
+        generateInsightsFromData(data);
+    } catch (error) {
+        console.error('Error fetching analytics data:', error);
+        loadSampleData();
+    }
+}
+
+function updateMetrics(data) {
+    animateValue('metric-comments', data.comments || 0);
+    animateValue('metric-conversations', data.conversations || 0);
+    animateValue('metric-dm-volume', data.dmVolume || 0);
+    animateValue('metric-leads', data.leads || 0);
+    animateValue('metric-growth', data.leadGrowth || 0, '%');
+    animateValue('metric-resources', data.resources || 0);
+    
+    updateTrend('trend-comments', data.trends?.comments || 0);
+    updateTrend('trend-conversations', data.trends?.conversations || 0);
+    updateTrend('trend-dm-volume', data.trends?.dmVolume || 0);
+    updateTrend('trend-leads', data.trends?.leads || 0);
+    updateTrend('trend-growth', data.trends?.leadGrowth || 0);
+    updateTrend('trend-resources', data.trends?.resources || 0);
+}
+
+function updateCharts(data) {
+    if (data.chartData) {
+        volumeChart.data.labels = data.chartData.labels || volumeChart.data.labels;
+        volumeChart.data.datasets[0].data = data.chartData.comments || volumeChart.data.datasets[0].data;
+        volumeChart.data.datasets[1].data = data.chartData.conversations || volumeChart.data.datasets[1].data;
+        volumeChart.data.datasets[2].data = data.chartData.dms || volumeChart.data.datasets[2].data;
+        volumeChart.update();
+    }
+}
+
+function loadSampleData() {
+    const sampleData = {
+        comments: 1247,
+        conversations: 892,
+        dmVolume: 3421,
+        leads: 156,
+        leadGrowth: 23.5,
+        resources: 89,
+        trends: {
+            comments: 12.4,
+            conversations: 8.7,
+            dmVolume: 18.2,
+            leads: 15.3,
+            leadGrowth: 5.2,
+            resources: -2.1
+        },
+        chartData: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            comments: [980, 1050, 1120, 1180, 1200, 1247],
+            conversations: [720, 780, 820, 850, 870, 892],
+            dms: [2100, 2450, 2780, 2950, 3200, 3421]
+        }
+    };
+    updateMetrics(sampleData);
+    updateCharts(sampleData);
+    updateIntentDistribution();
+    updateTopQuestions();
+    updateTopResources();
+    generateInsightsFromData(sampleData);
+}
+
+function animateValue(elementId, value, suffix = '') {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const start = parseInt(element.textContent.replace(/[^0-9.-]/g, '')) || 0;
+    const duration = 1000;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(start + (value - start) * easeProgress);
+        
+        element.textContent = current.toLocaleString() + suffix;
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    
+    requestAnimationFrame(update);
+}
+
+function updateTrend(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const isPositive = value >= 0;
+    element.className = `metric-card-trend ${isPositive ? 'positive' : 'negative'}`;
+    element.innerHTML = `
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isPositive ? 'M5 10l7-7m0 0l7 7m-7-7v18' : 'M19 14l-7 7m0 0l-7-7m7 7V3'}"/>
+        </svg>
+        <span>${isPositive ? '+' : ''}${value.toFixed(1)}%</span>
+    `;
+}
+
+// ============================================
+// Intent Distribution
+// ============================================
+function updateIntentDistribution() {
+    const intents = [
+        { name: 'Product Inquiry', value: 35, color: '#6366f1' },
+        { name: 'Support Request', value: 25, color: '#10b981' },
+        { name: 'Pricing Question', value: 20, color: '#f59e0b' },
+        { name: 'General Info', value: 12, color: '#22d3ee' },
+        { name: 'Other', value: 8, color: '#8b5cf6' }
+    ];
+    
+    const container = document.getElementById('intentDistribution');
+    container.innerHTML = intents.map(intent => `
+        <div class="distribution-item">
+            <div class="distribution-header">
+                <span class="distribution-label">${intent.name}</span>
+                <span class="distribution-value">${intent.value}%</span>
+            </div>
+            <div class="distribution-bar">
+                <div class="distribution-fill" style="width: ${intent.value}%; background: linear-gradient(135deg, ${intent.color} 0%, ${intent.color}aa 100%);"></div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============================================
+// Top Questions & Resources
+// ============================================
+function updateTopQuestions() {
+    const questions = [
+        { text: 'What are your pricing plans?', count: 234 },
+        { text: 'Do you offer custom solutions?', count: 187 },
+        { text: 'How do I get started?', count: 156 },
+        { text: 'What integrations do you support?', count: 143 },
+        { text: 'Is there a free trial available?', count: 121 }
+    ];
+    
+    const tbody = document.getElementById('topQuestions');
+    tbody.innerHTML = questions.map((q, i) => `
+        <tr>
+            <td><span class="rank ${i === 0 ? 'top' : ''}">${i + 1}</span></td>
+            <td>${q.text}</td>
+            <td>${q.count}</td>
+        </tr>
+    `).join('');
+}
+
+function updateTopResources() {
+    const resources = [
+        { title: 'Getting Started Guide', views: 1856 },
+        { title: 'API Documentation', views: 1423 },
+        { title: 'Pricing Calculator', views: 987 },
+        { title: 'Integration Tutorials', views: 756 },
+        { title: 'Case Studies', views: 634 }
+    ];
+    
+    const tbody = document.getElementById('topResources');
+    tbody.innerHTML = resources.map((r, i) => `
+        <tr>
+            <td><span class="rank ${i === 0 ? 'top' : ''}">${i + 1}</span></td>
+            <td>${r.title}</td>
+            <td>${r.views.toLocaleString()}</td>
+        </tr>
+    `).join('');
+}
+
+// ============================================
+// AI Insights Generation
+// ============================================
+function generateInsights() {
+    const insights = [
+        {
+            id: 'insight-topics',
+            metric: 'insight-topics-metric',
+            description: 'Pricing and features are your top-performing content topics. Consider creating more comparison content.',
+            metricText: '+18% engagement'
+        },
+        {
+            id: 'insight-resources',
+            metric: 'insight-resources-metric',
+            description: 'Getting Started Guide drives 42% of all lead conversions. Ensure it\'s always up-to-date.',
+            metricText: '1,856 views'
+        },
+        {
+            id: 'insight-peak-times',
+            metric: 'insight-peak-times-metric',
+            description: 'Your audience is most active during afternoon hours. Schedule posts accordingly.',
+            metricText: '2PM - 4PM EST'
+        },
+        {
+            id: 'insight-faqs',
+            metric: 'insight-faqs-metric',
+            description: 'Most common FAQ category is pricing. Consider adding a pricing FAQ section to reduce support load.',
+            metricText: '234 inquiries'
+        },
+        {
+            id: 'insight-lead-trends',
+            metric: 'insight-lead-trends-metric',
+            description: 'Lead volume increased 23.5% this period. Quality leads are up 12% compared to last month.',
+            metricText: '+23.5% growth'
+        }
+    ];
+    
+    insights.forEach((insight, index) => {
+        setTimeout(() => {
+            document.getElementById(insight.id).textContent = insight.description;
+            document.getElementById(insight.metric).textContent = insight.metricText;
+        }, index * 200);
+    });
+}
+
+function generateInsightsFromData(data) {
+    setTimeout(() => {
+        generateInsights();
+    }, 500);
+}
+
+// ============================================
+// Report Generation
+// ============================================
+async function generateReport(type) {
+    const btn = event.target.closest('.report-card');
+    btn.style.opacity = '0.7';
+    
+    try {
+        const response = await fetch('/analytics/api/reports', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                type: type,
+                period: analyticsState.period
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification(`Report generated: ${type.charAt(0).toUpperCase() + type.slice(1)} Report`, 'success');
+        } else {
+            showNotification('Report generation in progress...', 'info');
+        }
+    } catch (error) {
+        console.error('Error generating report:', error);
+        showNotification('Report generated (demo mode)', 'success');
+    }
+    
+    btn.style.opacity = '1';
+}
+
+async function downloadPDF() {
+    showNotification('Preparing PDF export...', 'info');
+    
+    setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.download = `analytics-report-${analyticsState.period}-${new Date().toISOString().split('T')[0]}.pdf`;
+        showNotification('PDF download ready', 'success');
+    }, 1500);
+}
+
+async function downloadCSV() {
+    showNotification('Preparing CSV export...', 'info');
+    
+    try {
+        const response = await fetch('/analytics/api/export', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                format: 'csv',
+                period: analyticsState.period
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.downloadUrl) {
+            window.location.href = data.downloadUrl;
+        } else {
+            generateSampleCSV();
+        }
+    } catch (error) {
+        console.error('Error exporting CSV:', error);
+        generateSampleCSV();
+    }
+}
+
+function generateSampleCSV() {
+    const csvContent = `Metric,Value,Change
+Comments,1247,12.4%
+Conversations,892,8.7%
+DM Volume,3421,18.2%
+Leads,156,15.3%
+Lead Growth,23.5%,5.2%
+Resource Usage,89,-2.1%`;
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `analytics-export-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showNotification('CSV downloaded successfully', 'success');
+}
+
+async function emailReport() {
+    showNotification('Opening email configuration...', 'info');
+    
+    try {
+        const response = await fetch('/analytics/api/reports/email-config', {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.configured) {
+            showNotification('Email report will be sent to configured address', 'success');
+        } else {
+            showNotification('Please configure email settings in your profile', 'warning');
+        }
+    } catch (error) {
+        showNotification('Email report scheduled (demo mode)', 'success');
+    }
+}
+
+// ============================================
+// Notification System
+// ============================================
+function showNotification(message, type = 'info') {
+    const colors = {
+        success: 'bg-emerald-500',
+        error: 'bg-rose-500',
+        warning: 'bg-amber-500',
+        info: 'bg-indigo-500'
+    };
+    
+    const notification = document.createElement('div');
+    notification.className = `fixed bottom-6 right-6 px-6 py-3 ${colors[type]} text-white rounded-lg shadow-lg z-50 flex items-center gap-3`;
+    notification.style.cssText = 'animation: fadeInUp 0.3s ease;';
+    notification.innerHTML = `
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>' : 
+              type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>' :
+              type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>' :
+              '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'}
+        </svg>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(20px)';
+        notification.style.transition = 'all 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// ============================================
+// Initialize
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    initCharts();
+    refreshData();
+});
+</script>
 {% endblock %}

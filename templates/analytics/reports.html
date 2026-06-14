@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Reports - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="analytics-page">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--analytics-bg-secondary)]/80 backdrop-blur-xl border-b border-[var(--analytics-border)]">
+        <div class="flex items-center justify-between h-16 px-6">
+            <div class="flex items-center gap-4">
+                <a href="{{ url_for('analytics.index') }}" class="p-2 rounded-lg hover:bg-[var(--analytics-bg-tertiary)] transition">
+                    <svg class="w-6 h-6 text-[var(--analytics-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                </a>
+                <div>
+                    <h1 class="text-lg font-bold text-[var(--analytics-text-primary)]">Analytics Reports</h1>
+                    <p class="text-xs text-[var(--analytics-text-muted)]">Generate and schedule reports</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="pt-20 pb-8 px-6">
+        <div class="analytics-container max-w-4xl">
+            
+            <!-- Report Generation Section -->
+            <section class="mb-8" style="animation: fadeInUp 0.5s ease;">
+                <h2 class="text-xl font-bold text-[var(--analytics-text-primary)] mb-4">Generate Report</h2>
+                
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Create New Report
+                        </h3>
+                    </div>
+                    <div class="analytics-card-body">
+                        <form id="reportForm" class="space-y-6">
+                            <!-- Report Type -->
+                            <div>
+                                <label class="block text-sm font-medium text-[var(--analytics-text-secondary)] mb-2">Report Type</label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <label class="report-type-option">
+                                        <input type="radio" name="report_type" value="weekly" checked class="sr-only peer">
+                                        <div class="p-4 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <svg class="w-6 h-6 mx-auto mb-2 text-[var(--analytics-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                            </svg>
+                                            <p class="text-sm font-medium text-center">Weekly</p>
+                                        </div>
+                                    </label>
+                                    <label class="report-type-option">
+                                        <input type="radio" name="report_type" value="monthly" class="sr-only peer">
+                                        <div class="p-4 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <svg class="w-6 h-6 mx-auto mb-2 text-[var(--analytics-accent-emerald)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                            <p class="text-sm font-medium text-center">Monthly</p>
+                                        </div>
+                                    </label>
+                                    <label class="report-type-option">
+                                        <input type="radio" name="report_type" value="quarterly" class="sr-only peer">
+                                        <div class="p-4 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <svg class="w-6 h-6 mx-auto mb-2 text-[var(--analytics-accent-amber)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                            </svg>
+                                            <p class="text-sm font-medium text-center">Quarterly</p>
+                                        </div>
+                                    </label>
+                                    <label class="report-type-option">
+                                        <input type="radio" name="report_type" value="yearly" class="sr-only peer">
+                                        <div class="p-4 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <svg class="w-6 h-6 mx-auto mb-2 text-[var(--analytics-accent-rose)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                            </svg>
+                                            <p class="text-sm font-medium text-center">Yearly</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Export Format -->
+                            <div>
+                                <label class="block text-sm font-medium text-[var(--analytics-text-secondary)] mb-2">Export Format</label>
+                                <div class="flex gap-3">
+                                    <label class="flex-1">
+                                        <input type="radio" name="format" value="pdf" checked class="sr-only peer">
+                                        <div class="p-3 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition text-center peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <span class="text-sm font-medium">PDF</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex-1">
+                                        <input type="radio" name="format" value="csv" class="sr-only peer">
+                                        <div class="p-3 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition text-center peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <span class="text-sm font-medium">CSV</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex-1">
+                                        <input type="radio" name="format" value="email" class="sr-only peer">
+                                        <div class="p-3 rounded-lg border border-[var(--analytics-border)] cursor-pointer transition text-center peer-checked:border-[var(--analytics-primary)] peer-checked:bg-[var(--gradient-glass)]">
+                                            <span class="text-sm font-medium">Email</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Email Input (shown when email is selected) -->
+                            <div id="emailInput" class="hidden">
+                                <label class="block text-sm font-medium text-[var(--analytics-text-secondary)] mb-2">Recipient Email</label>
+                                <input type="email" name="email" value="{{ current_user.email if current_user.is_authenticated else '' }}" 
+                                       class="w-full px-4 py-3 rounded-lg bg-[var(--analytics-bg-secondary)] border border-[var(--analytics-border)] text-[var(--analytics-text-primary)] focus:border-[var(--analytics-primary)] focus:outline-none" 
+                                       placeholder="report@company.com">
+                            </div>
+                            
+                            <!-- Generate Button -->
+                            <div class="flex gap-3">
+                                <button type="submit" class="btn btn-primary flex-1">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    Generate Report
+                                </button>
+                                <button type="button" onclick="downloadReport()" class="btn btn-secondary">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                    </svg>
+                                    Download
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Scheduled Reports Section -->
+            <section class="mb-8" style="animation: fadeInUp 0.5s ease; animation-delay: 0.1s;">
+                <h2 class="text-xl font-bold text-[var(--analytics-text-primary)] mb-4">Scheduled Reports</h2>
+                
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Recurring Deliveries
+                        </h3>
+                    </div>
+                    <div class="analytics-card-body">
+                        <!-- Schedule Options -->
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-[var(--analytics-bg-secondary)]">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-[var(--analytics-text-primary)]">Weekly Report</h4>
+                                        <p class="text-sm text-[var(--analytics-text-muted)]">Delivered every Monday at 9:00 AM</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" id="scheduleWeekly">
+                                    <div class="w-11 h-6 bg-[var(--analytics-bg-tertiary)] rounded-full peer peer-checked:bg-[var(--gradient-primary)] transition"></div>
+                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></div>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-[var(--analytics-bg-secondary)]">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-[var(--analytics-text-primary)]">Monthly Report</h4>
+                                        <p class="text-sm text-[var(--analytics-text-muted)]">Delivered on the 1st of each month</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" id="scheduleMonthly">
+                                    <div class="w-11 h-6 bg-[var(--analytics-bg-tertiary)] rounded-full peer peer-checked:bg-[var(--gradient-primary)] transition"></div>
+                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></div>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-[var(--analytics-bg-secondary)]">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-[var(--analytics-text-primary)]">Email Configuration</h4>
+                                        <p class="text-sm text-[var(--analytics-text-muted)]" id="emailStatus">{{ current_user.email if current_user.is_authenticated and current_user.email else 'Not configured' }}</p>
+                                    </div>
+                                </div>
+                                <button onclick="configureEmail()" class="btn btn-sm btn-secondary">
+                                    {{ 'Update' if current_user.is_authenticated and current_user.email else 'Configure' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Recent Reports Section -->
+            <section style="animation: fadeInUp 0.5s ease; animation-delay: 0.2s;">
+                <h2 class="text-xl font-bold text-[var(--analytics-text-primary)] mb-4">Recent Reports</h2>
+                
+                <div class="analytics-card">
+                    <div class="analytics-card-body p-0">
+                        <div id="recentReports" class="divide-y divide-[var(--analytics-border)]">
+                            <!-- Empty State -->
+                            <div class="p-8 text-center">
+                                <svg class="w-12 h-12 mx-auto mb-4 text-[var(--analytics-text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <p class="text-[var(--analytics-text-muted)]">No reports generated yet</p>
+                                <p class="text-sm text-[var(--analytics-text-muted)] mt-1">Generate your first report above</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Form handling
+document.getElementById('reportForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const data = {
+        type: formData.get('report_type'),
+        format: formData.get('format'),
+        email: formData.get('email')
+    };
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...';
+    
+    try {
+        const response = await fetch('/analytics/api/reports', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification(result.message, 'success');
+            loadRecentReports();
+        } else {
+            showNotification('Failed to generate report', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('Error generating report', 'error');
+    }
+    
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Generate Report';
+});
+
+// Format selection toggle
+document.querySelectorAll('input[name="format"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const emailInput = document.getElementById('emailInput');
+        if (e.target.value === 'email') {
+            emailInput.classList.remove('hidden');
+        } else {
+            emailInput.classList.add('hidden');
+        }
+    });
+});
+
+// Download report
+async function downloadReport() {
+    const formData = new FormData(document.getElementById('reportForm'));
+    const format = formData.get('format');
+    
+    showNotification('Preparing download...', 'info');
+    
+    if (format === 'csv') {
+        try {
+            const response = await fetch('/analytics/api/export', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ format: 'csv' })
+            });
+            
+            const data = await response.json();
+            
+            if (data.downloadUrl) {
+                window.location.href = data.downloadUrl;
+                showNotification('Download started', 'success');
+            }
+        } catch (error) {
+            console.error('Download error:', error);
+            showNotification('Download failed', 'error');
+        }
+    } else if (format === 'pdf') {
+        showNotification('PDF generation coming soon', 'info');
+    }
+}
+
+// Configure email
+async function configureEmail() {
+    const email = prompt('Enter email address for report delivery:', '{{ current_user.email if current_user.is_authenticated else "" }}');
+    if (email) {
+        try {
+            const response = await fetch('/analytics/api/reports/schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ frequency: 'weekly', email: email })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                document.getElementById('emailStatus').textContent = email;
+                showNotification('Email configured successfully', 'success');
+            }
+        } catch (error) {
+            console.error('Configure error:', error);
+            showNotification('Failed to configure email', 'error');
+        }
+    }
+}
+
+// Load recent reports
+async function loadRecentReports() {
+    try {
+        const response = await fetch('/analytics/api/reports');
+        const data = await response.json();
+        
+        if (data.reports && data.reports.length > 0) {
+            const container = document.getElementById('recentReports');
+            container.innerHTML = data.reports.map(report => `
+                <div class="p-4 flex items-center justify-between hover:bg-[var(--analytics-bg-tertiary)] transition">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-[var(--analytics-text-primary)]">${report.name}</h4>
+                            <p class="text-sm text-[var(--analytics-text-muted)]">${new Date(report.created_at).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-secondary">Download</button>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Load reports error:', error);
+    }
+}
+
+// Schedule toggles
+document.getElementById('scheduleWeekly')?.addEventListener('change', async (e) => {
+    if (e.target.checked) {
+        await scheduleReport('weekly');
+    }
+});
+
+document.getElementById('scheduleMonthly')?.addEventListener('change', async (e) => {
+    if (e.target.checked) {
+        await scheduleReport('monthly');
+    }
+});
+
+async function scheduleReport(frequency) {
+    try {
+        const response = await fetch('/analytics/api/reports/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ frequency })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification(`${frequency} reports scheduled`, 'success');
+        } else {
+            showNotification('Failed to schedule report', 'error');
+        }
+    } catch (error) {
+        console.error('Schedule error:', error);
+        showNotification('Failed to schedule report', 'error');
+    }
+}
+
+// Notification
+function showNotification(message, type = 'info') {
+    const colors = {
+        success: 'bg-emerald-500',
+        error: 'bg-rose-500',
+        warning: 'bg-amber-500',
+        info: 'bg-indigo-500'
+    };
+    
+    const notification = document.createElement('div');
+    notification.className = `fixed bottom-6 right-6 px-6 py-3 ${colors[type]} text-white rounded-lg shadow-lg z-50 flex items-center gap-3`;
+    notification.style.cssText = 'animation: fadeInUp 0.3s ease;';
+    notification.innerHTML = `<span>${message}</span>`;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(20px)';
+        notification.style.transition = 'all 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Load initial state
+loadRecentReports();
+</script>
+{% endblock %}
