@@ -1,8 +1,8 @@
 """Analytics routes."""
 
 from datetime import datetime, timedelta
-from flask import Blueprint, request, jsonify, render_template, current_user, send_file
-from flask_login import login_required
+from flask import Blueprint, request, jsonify, render_template, send_file
+from flask_login import login_required, current_user
 from sqlalchemy import func, desc, and_
 from app import db
 
