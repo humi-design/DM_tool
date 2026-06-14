@@ -52,6 +52,9 @@ class Subscription(BaseModel):
     
     # Relationships
     organization = db.relationship("Organization", foreign_keys=[organization_id], back_populates="subscriptions")
+    invoices = db.relationship("Invoice", foreign_keys="Invoice.subscription_id", back_populates="subscription", lazy="dynamic", cascade="all, delete-orphan")
+    payments = db.relationship("Payment", foreign_keys="Payment.subscription_id", back_populates="subscription", lazy="dynamic", cascade="all, delete-orphan")
+    usage_records = db.relationship("UsageRecord", foreign_keys="UsageRecord.subscription_id", back_populates="subscription", lazy="dynamic", cascade="all, delete-orphan")
     
     __table_args__ = (
         db.Index("idx_sub_org_status", "organization_id", "status"),

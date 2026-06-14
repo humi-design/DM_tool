@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Invoice {{ invoice.invoice_number }} - {{ site.name }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/billing.css') }}">
+{% endblock %}
+{% block body %}
+<div class="billing-page">
+    {% include "partials/sidebar.html" %}
+    <div class="pl-64">
+        {% include "partials/topbar.html" %}
+        <main class="billing-container">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <a href="{{ url_for('billing.invoices') }}" class="text-blue-500 hover:underline mb-2 inline-block">&larr; Back</a>
+                    <h1 class="text-2xl font-bold">Invoice {{ invoice.invoice_number }}</h1>
+                </div>
+                <button onclick="window.print()" class="btn btn-ghost">Print</button>
+            </div>
+            <div class="billing-card">
+                <div class="grid grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 mb-2">BILLED TO</h3>
+                        <p class="font-semibold">{{ organization.name }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p><span class="text-gray-500">Date:</span> {{ invoice.created_at.strftime('%B %d, %Y') }}</p>
+                        <p><span class="text-gray-500">Status:</span> <span class="invoice-status {{ invoice.status }}">{{ invoice.status }}</span></p>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="w-64">
+                        <div class="flex justify-between py-2"><span class="text-gray-500">Subtotal</span><span>${{ invoice.subtotal }}</span></div>
+                        <div class="flex justify-between py-3 border-t font-semibold text-lg"><span>Total</span><span>${{ invoice.total_amount }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

@@ -32,6 +32,10 @@ from models.onboarding import (
     OnboardingTemplate,
 )
 from models.ai_processing_log import AIProcessingLog
+from models.plan import Plan, PlanFeature, OrganizationFeature
+from models.invoice import Invoice
+from models.payment import Payment
+from models.usage import UsageRecord, OrganizationUsage
 
 __all__ = [
     # Base
@@ -56,6 +60,13 @@ __all__ = [
     "Lead",
     # Billing
     "Subscription",
+    "Plan",
+    "PlanFeature",
+    "OrganizationFeature",
+    "Invoice",
+    "Payment",
+    "UsageRecord",
+    "OrganizationUsage",
     # Auth & Security
     "AuditLog",
     "APIKey",

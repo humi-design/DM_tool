@@ -35,6 +35,11 @@ class Organization(BaseModel, SoftDeleteMixin):
     api_keys = db.relationship("APIKey", foreign_keys="APIKey.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
     audit_logs = db.relationship("AuditLog", foreign_keys="AuditLog.organization_id", back_populates="organization", lazy="dynamic")
     settings_rel = db.relationship("Setting", foreign_keys="Setting.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    invoices = db.relationship("Invoice", foreign_keys="Invoice.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    payments = db.relationship("Payment", foreign_keys="Payment.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    usage_records = db.relationship("UsageRecord", foreign_keys="UsageRecord.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    organization_usage = db.relationship("OrganizationUsage", foreign_keys="OrganizationUsage.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    organization_features = db.relationship("OrganizationFeature", foreign_keys="OrganizationFeature.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
     
     __table_args__ = (
         db.Index("idx_org_slug_active", "slug", "is_active"),

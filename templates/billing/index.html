@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Billing - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/billing.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="billing-page">
+    {% include "partials/sidebar.html" %}
+    
+    <div class="pl-64">
+        {% include "partials/topbar.html" %}
+        
+        <main class="billing-container">
+            <div class="billing-header">
+                <h1>Billing & Subscription</h1>
+                <p>Manage your subscription, invoices, and usage</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="billing-card lg:col-span-2">
+                    <div class="billing-card-header">
+                        <div>
+                            <h2 class="billing-card-title">Current Plan</h2>
+                            <p class="billing-card-subtitle">{{ plan.name if plan else 'Free' }} Plan</p>
+                        </div>
+                        <span class="subscription-status {{ subscription.status if subscription else 'canceled' }}">
+                            {% if subscription and subscription.is_active %}
+                            <span class="status-dot"></span> Active
+                            {% elif subscription and subscription.is_trial %}
+                            <span class="status-dot"></span> Trial
+                            {% else %} Free {% endif %}
+                        </span>
+                    </div>
+                    
+                    {% if subscription %}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Billing Cycle</p>
+                            <p class="text-lg font-semibold capitalize">{{ subscription.billing_cycle }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Next Billing</p>
+                            <p class="text-lg font-semibold">{{ subscription.billing_period_end.strftime('%b %d, %Y') if subscription.billing_period_end else 'N/A' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Amount</p>
+                            <p class="text-lg font-semibold">${{ subscription.total_amount }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
+                            <p class="text-lg font-semibold capitalize">{{ subscription.status.replace('_', ' ') }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-8">
+                        <p class="text-gray-500 dark:text-gray-400 mb-4">You're on the free plan</p>
+                        <a href="{{ url_for('billing.plans') }}" class="btn btn-primary">Upgrade Now</a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="billing-card">
+                    <h3 class="billing-card-title mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="{{ url_for('billing.plans') }}" class="btn btn-secondary btn-block">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            Upgrade Plan
+                        </a>
+                        <a href="{{ url_for('billing.invoices') }}" class="btn btn-secondary btn-block">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            View Invoices
+                        </a>
+                        <a href="{{ url_for('billing.payment_methods') }}" class="btn btn-secondary btn-block">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                            Payment Methods
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="billing-card mb-8">
+                <div class="billing-card-header">
+                    <div>
+                        <h2 class="billing-card-title">Usage This Month</h2>
+                        <p class="billing-card-subtitle">Track your resource consumption</p>
+                    </div>
+                    <a href="{{ url_for('billing.usage') }}" class="btn btn-ghost btn-sm">View Details</a>
+                </div>
+                
+                <div class="usage-grid">
+                    <div class="usage-card">
+                        <div class="usage-card-header">
+                            <span class="usage-card-title">API Requests</span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div class="usage-card-value">{{ usage.api_requests.used | default(0) }}</div>
+                        <div class="usage-card-limit">{% if usage.api_requests.limit %}{{ usage.api_requests.used }}/{{ usage.api_requests.limit }}{% else %}Unlimited{% endif %}</div>
+                        <div class="usage-progress">
+                            <div class="usage-progress-bar {% if usage.api_requests.percentage < 50 %}low{% elif usage.api_requests.percentage < 80 %}medium{% else %}high{% endif %}" style="width: {{ usage.api_requests.percentage | default(0) }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-card">
+                        <div class="usage-card-header">
+                            <span class="usage-card-title">AI Requests</span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        </div>
+                        <div class="usage-card-value">{{ usage.ai_requests.used | default(0) }}</div>
+                        <div class="usage-card-limit">{% if usage.ai_requests.limit %}{{ usage.ai_requests.used }}/{{ usage.ai_requests.limit }}{% else %}Unlimited{% endif %}</div>
+                        <div class="usage-progress">
+                            <div class="usage-progress-bar {% if usage.ai_requests.percentage < 50 %}low{% elif usage.ai_requests.percentage < 80 %}medium{% else %}high{% endif %}" style="width: {{ usage.ai_requests.percentage | default(0) }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-card">
+                        <div class="usage-card-header">
+                            <span class="usage-card-title">Storage</span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                        </div>
+                        <div class="usage-card-value">{{ usage.storage_mb.used | default(0) }} <span class="text-sm font-normal">MB</span></div>
+                        <div class="usage-card-limit">{% if usage.storage_mb.limit %}{{ usage.storage_mb.used }}/{{ usage.storage_mb.limit }} MB{% else %}Unlimited{% endif %}</div>
+                        <div class="usage-progress">
+                            <div class="usage-progress-bar {% if usage.storage_mb.percentage < 50 %}low{% elif usage.storage_mb.percentage < 80 %}medium{% else %}high{% endif %}" style="width: {{ usage.storage_mb.percentage | default(0) }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-card">
+                        <div class="usage-card-header">
+                            <span class="usage-card-title">Messages</span>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                        </div>
+                        <div class="usage-card-value">{{ usage.messages_sent.used | default(0) }}</div>
+                        <div class="usage-card-limit unlimited">Unlimited</div>
+                        <div class="usage-progress"><div class="usage-progress-bar low" style="width: 0%"></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="billing-card">
+                    <div class="billing-card-header">
+                        <div>
+                            <h2 class="billing-card-title">Recent Invoices</h2>
+                            <p class="billing-card-subtitle">Your billing history</p>
+                        </div>
+                        <a href="{{ url_for('billing.invoices') }}" class="btn btn-ghost btn-sm">View All</a>
+                    </div>
+                    {% if recent_invoices %}
+                    <div class="space-y-4">
+                        {% for invoice in recent_invoices %}
+                        <div class="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-0">
+                            <div>
+                                <p class="font-medium">{{ invoice.invoice_number }}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ invoice.created_at.strftime('%b %d, %Y') }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">${{ invoice.total_amount }}</p>
+                                <span class="invoice-status {{ invoice.status }}">{{ invoice.status }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-8">No invoices yet</p>
+                    {% endif %}
+                </div>
+                
+                <div class="billing-card">
+                    <div class="billing-card-header">
+                        <div>
+                            <h2 class="billing-card-title">Payment History</h2>
+                            <p class="billing-card-subtitle">Recent transactions</p>
+                        </div>
+                    </div>
+                    {% if recent_payments %}
+                    <div class="space-y-4">
+                        {% for payment in recent_payments %}
+                        <div class="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-0">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium capitalize">{{ payment.payment_method_type or 'Payment' }}</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ payment.processed_at.strftime('%b %d, %Y') if payment.processed_at else 'Processing' }}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">${{ payment.amount }}</p>
+                                <span class="text-sm {% if payment.is_succeeded %}text-green-500{% else %}text-yellow-500{% endif %}">{{ payment.status.replace('_', ' ').title() }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-8">No payment history</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

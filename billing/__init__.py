@@ -1,7 +1,5 @@
-"""Billing blueprint."""
+"""Billing package."""
 
-from flask import Blueprint
+from billing.routes import billing_bp
 
-billing_bp = Blueprint("billing", __name__)
-
-from billing import routes  # noqa: E402, F401
+__all__ = ["billing_bp"]
