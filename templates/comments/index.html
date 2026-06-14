@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Comments - {{ site.name }}{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100">
+    {% include "partials/sidebar.html" %}
+    
+    <div class="pl-64">
+        {% include "partials/topbar.html" %}
+        
+        <main class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-2xl font-bold text-gray-900">Comments</h1>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6">
+                    <p class="text-gray-500 text-center">Connect your Instagram account to manage comments.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
