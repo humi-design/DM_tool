@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}{{ account.username }} - Instagram Account - {{ site.name }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .instagram-gradient {
+        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.05));
+        border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    
+    .glow-effect {
+        box-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
+    }
+    
+    @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .animate-spin-slow {
+        animation: spin-slow 3s linear infinite;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-950 text-gray-100">
+    <!-- Top Navigation -->
+    <nav class="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('instagram.accounts') }}" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-500">/</span>
+                    <span class="text-sm text-gray-400">Instagram</span>
+                    <span class="text-gray-500">/</span>
+                    <span class="text-sm text-white">{{ account.username }}</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('admin.instagram_diagnostics') }}" class="text-gray-400 hover:text-white text-sm transition">
+                        Diagnostics
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Account Header -->
+        <div class="gradient-border rounded-2xl p-6 mb-8 glow-effect">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+                <!-- Profile Picture -->
+                <div class="relative">
+                    {% if account.profile_picture_url %}
+                    <img src="{{ account.profile_picture_url }}" alt="{{ account.username }}" 
+                         class="w-24 h-24 rounded-2xl object-cover ring-4 ring-purple-500/30">
+                    {% else %}
+                    <div class="w-24 h-24 rounded-2xl instagram-gradient flex items-center justify-center">
+                        <span class="text-4xl font-bold text-white">{{ account.username[0]|upper }}</span>
+                    </div>
+                    {% endif %}
+                    <!-- Connection Status Indicator -->
+                    <div class="absolute -bottom-2 -right-2">
+                        {% if status.connected and status.token_valid %}
+                        <span class="relative flex h-5 w-5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-5 w-5 bg-green-500 border-2 border-gray-950"></span>
+                        </span>
+                        {% elif status.connected %}
+                        <span class="relative flex h-5 w-5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-5 w-5 bg-amber-500 border-2 border-gray-950"></span>
+                        </span>
+                        {% else %}
+                        <span class="h-5 w-5 rounded-full bg-gray-500 border-2 border-gray-950"></span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Account Info -->
+                <div class="flex-1">
+                    <h1 class="text-2xl font-bold text-white">{{ account.username }}</h1>
+                    <p class="text-gray-400">{{ account.full_name or 'Instagram Business Account' }}</p>
+                    {% if account.biography %}
+                    <p class="text-sm text-gray-500 mt-2 max-w-xl">{{ account.biography[:150] }}{% if account.biography|length > 150 %}...{% endif %}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="syncAccount()" id="sync-btn"
+                            class="inline-flex items-center px-4 py-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition disabled:opacity-50">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Sync
+                    </button>
+                    
+                    {% if account.is_connected %}
+                    <form action="{{ url_for('instagram.oauth_disconnect', account_id=account.id) }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" onclick="return confirm('Are you sure you want to disconnect this account?')"
+                                class="inline-flex items-center px-4 py-2 rounded-lg border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/10 transition">
+                            Disconnect
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{{ url_for('instagram.oauth_reconnect', account_id=account.id) }}"
+                       class="inline-flex items-center px-4 py-2 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-sm font-medium hover:bg-green-500/20 transition">
+                        Reconnect
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-white mb-1">{{ account.followers_count|default(0)|int }}</div>
+                <div class="text-sm text-gray-400">Followers</div>
+            </div>
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-white mb-1">{{ account.following_count|default(0)|int }}</div>
+                <div class="text-sm text-gray-400">Following</div>
+            </div>
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-white mb-1">{{ account.media_count|default(0)|int }}</div>
+                <div class="text-sm text-gray-400">Posts</div>
+            </div>
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-white mb-1">{{ webhook_stats.processed|default(0) + webhook_stats.failed|default(0) }}</div>
+                <div class="text-sm text-gray-400">Events</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Connection Status -->
+            <div class="bg-gray-900/50 rounded-xl border border-gray-800 p-6">
+                <h2 class="text-lg font-semibold text-white mb-4">Connection Status</h2>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Status</span>
+                        <span class="flex items-center">
+                            {% if status.connected %}
+                            <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                            <span class="text-green-400">Connected</span>
+                            {% else %}
+                            <span class="w-2 h-2 rounded-full bg-gray-500 mr-2"></span>
+                            <span class="text-gray-400">Disconnected</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Token Valid</span>
+                        <span class="flex items-center">
+                            {% if status.token_valid %}
+                            <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                            <span class="text-green-400">Valid</span>
+                            {% else %}
+                            <span class="w-2 h-2 rounded-full bg-red-500 mr-2"></span>
+                            <span class="text-red-400">Invalid</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Token Expires</span>
+                        <span class="text-gray-300">
+                            {% if status.token_expires_at %}
+                                {{ status.token_expires_at }}
+                            {% else %}
+                                Never
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    {% if status.token_error %}
+                    <div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+                        <span class="text-red-400 text-sm">{{ status.token_error }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Last Activity</span>
+                        <span class="text-gray-300">
+                            {% if status.last_activity %}
+                                {{ status.last_activity }}
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Connected Since</span>
+                        <span class="text-gray-300">
+                            {% if status.connected_at %}
+                                {{ status.connected_at }}
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meta Info -->
+            <div class="bg-gray-900/50 rounded-xl border border-gray-800 p-6">
+                <h2 class="text-lg font-semibold text-white mb-4">Account Details</h2>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Account ID</span>
+                        <span class="text-gray-300 font-mono text-sm">{{ account.instagram_user_id }}</span>
+                    </div>
+                    
+                    {% if account.facebook_page_id %}
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Facebook Page</span>
+                        <span class="text-gray-300 font-mono text-sm">{{ account.facebook_page_id[:12] }}...</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if account.meta_user_id %}
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Meta User ID</span>
+                        <span class="text-gray-300 font-mono text-sm">{{ account.meta_user_id[:12] }}...</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Account Type</span>
+                        <span class="text-gray-300">
+                            {% if account.is_business %}
+                            Business
+                            {% else %}
+                            Personal
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-800/50">
+                        <span class="text-gray-400">Last Synced</span>
+                        <span class="text-gray-300">
+                            {% if account.last_synced_at %}
+                                {{ account.last_synced_at.strftime('%Y-%m-%d %H:%M UTC') }}
+                            {% else %}
+                                Never
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Events -->
+        <div class="mt-8 bg-gray-900/50 rounded-xl border border-gray-800 p-6">
+            <h2 class="text-lg font-semibold text-white mb-4">Recent Events</h2>
+            
+            {% if recent_events %}
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left text-gray-400 text-sm border-b border-gray-800">
+                            <th class="pb-3 font-medium">Event</th>
+                            <th class="pb-3 font-medium">Time</th>
+                            <th class="pb-3 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        {% for event in recent_events %}
+                        <tr class="border-b border-gray-800/50">
+                            <td class="py-3 text-white">{{ event.event_type|title }}</td>
+                            <td class="py-3 text-gray-400">{{ event.event_time.strftime('%Y-%m-%d %H:%M') if event.event_time else 'N/A' }}</td>
+                            <td class="py-3">
+                                {% if event.status == 'processed' %}
+                                <span class="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs">Processed</span>
+                                {% elif event.status == 'failed' %}
+                                <span class="px-2 py-1 rounded-full bg-red-500/20 text-red-400 text-xs">Failed</span>
+                                {% else %}
+                                <span class="px-2 py-1 rounded-full bg-gray-500/20 text-gray-400 text-xs">{{ event.status|title }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-8 text-gray-500">
+                <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <p>No events recorded yet</p>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function syncAccount() {
+        const btn = document.getElementById('sync-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<svg class="w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Syncing...';
+        
+        fetch('{{ url_for("instagram.sync_account", account_id=account.id) }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Sync failed: ' + (data.error || 'Unknown error'));
+                btn.disabled = false;
+                btn.innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Sync';
+            }
+        })
+        .catch(error => {
+            console.error('Sync error:', error);
+            alert('Sync failed: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Sync';
+        });
+    }
+</script>
+{% endblock %}

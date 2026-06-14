@@ -87,7 +87,7 @@ def _init_blueprints(app: Flask) -> None:
     app.register_blueprint(users_bp, url_prefix="/users")
     app.register_blueprint(organizations_bp, url_prefix="/organizations")
     app.register_blueprint(businesses_bp, url_prefix="/businesses")
-    app.register_blueprint(instagram_bp, url_prefix="/instagram")
+    app.register_blueprint(instagram_bp)  # Blueprint already has url_prefix="/instagram"
     app.register_blueprint(comments_bp, url_prefix="/comments")
     app.register_blueprint(dm_bp, url_prefix="/dm")
     app.register_blueprint(resources_bp, url_prefix="/resources")

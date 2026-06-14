@@ -76,6 +76,13 @@ class Config:
     GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
     GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "/auth/oauth/google/callback")
     
+    # Meta / Instagram Business OAuth
+    META_APP_ID = os.getenv("META_APP_ID")
+    META_APP_SECRET = os.getenv("META_APP_SECRET")
+    META_REDIRECT_URI = os.getenv("META_REDIRECT_URI", "/instagram/oauth/callback")
+    META_WEBHOOK_VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", os.urandom(32).hex())
+    META_WEBHOOK_CALLBACK_URL = os.getenv("META_WEBHOOK_CALLBACK_URL")
+    
     # OTP Configuration
     OTP_ISSUER_NAME = "Viraly"
     OTP_DIGITS = 6
