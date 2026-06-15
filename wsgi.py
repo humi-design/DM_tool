@@ -2,7 +2,7 @@
 
 import os
 import logging
-from logging.handlers import RotatingFileHandler
+import sys
 
 from app import create_app
 from config import get_config
@@ -10,20 +10,13 @@ from config import get_config
 app = create_app(os.getenv("FLASK_ENV", "production"))
 
 if not app.debug:
-    if not os.path.exists("logs"):
-        os.mkdir("logs")
-    
-    file_handler = RotatingFileHandler(
-        "logs/viraly.log",
-        maxBytes=10240000,
-        backupCount=10
-    )
-    file_handler.setFormatter(logging.Formatter(
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(logging.Formatter(
         "%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]"
     ))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    
+    stream_handler.setLevel(logging.INFO)
+    app.logger.addHandler(stream_handler)
+
     app.logger.setLevel(logging.INFO)
     app.logger.info("Viraly startup")
 
