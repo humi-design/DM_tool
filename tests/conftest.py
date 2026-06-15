@@ -6,10 +6,10 @@ import os
 os.environ["FLASK_ENV"] = "testing"
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def app():
     """Create test application."""
-    from app import create_app
+    from app import create_app, db
     
     test_app = create_app("testing")
     test_app.config.update({
@@ -24,9 +24,9 @@ def app():
     })
     
     with test_app.app_context():
-        from app import db
         db.create_all()
         yield test_app
+        db.session.remove()
         db.drop_all()
 
 
@@ -48,9 +48,7 @@ def db_session(app):
     """Create database session."""
     from app import db
     with app.app_context():
-        db.session.begin_nested()
         yield db.session
-        db.session.rollback()
 
 
 @pytest.fixture

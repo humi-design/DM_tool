@@ -1,7 +1,5 @@
 """Settings blueprint."""
 
-from flask import Blueprint
+from settings.routes import settings_bp
 
-settings_bp = Blueprint("settings", __name__)
-
-from settings import routes  # noqa: E402, F401
+__all__ = ["settings_bp"]  # noqa: E402, F401

@@ -44,6 +44,7 @@ class Business(BaseModel, SoftDeleteMixin):
     resources = db.relationship("Resource", foreign_keys="Resource.business_id", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
     reports = db.relationship("Report", foreign_keys="Report.business_id", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
     ai_processing_logs = db.relationship("AIProcessingLog", back_populates="business", lazy="dynamic", cascade="all, delete-orphan")
+    business_profile = db.relationship("BusinessProfile", foreign_keys="BusinessProfile.business_id", back_populates="business", uselist=False, cascade="all, delete-orphan")
     
     __table_args__ = (
         db.UniqueConstraint("organization_id", "slug", name="uq_business_org_slug"),
@@ -88,7 +89,7 @@ class BusinessProfile(BaseModel):
     metadata_json = db.Column(db.JSON, default=dict, nullable=False)
     
     # Relationships
-    business = db.relationship("Business", foreign_keys=[business_id], back_populates="instagram_accounts")
+    business = db.relationship("Business", foreign_keys=[business_id], back_populates="business_profile")
     instagram_accounts = db.relationship("InstagramAccount", foreign_keys="InstagramAccount.business_profile_id", back_populates="business_profile", lazy="dynamic", cascade="all, delete-orphan")
     
     __table_args__ = (

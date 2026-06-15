@@ -1,6 +1,7 @@
 """Flask application factory for Viraly platform."""
 
-from flask import Flask, jsonify
+import os
+from flask import Flask, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect

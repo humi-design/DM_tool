@@ -1,7 +1,5 @@
 """Dashboard blueprint."""
 
-from flask import Blueprint
+from dashboard.routes import dashboard_bp
 
-dashboard_bp = Blueprint("dashboard", __name__)
-
-from dashboard import routes  # noqa: E402, F401
+__all__ = ["dashboard_bp"]  # noqa: E402, F401

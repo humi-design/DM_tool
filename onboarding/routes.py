@@ -1,11 +1,14 @@
 """Onboarding routes for AI-first user onboarding flow."""
 import os
 import uuid
-from flask import render_template, request, jsonify, session, current_app
+from flask import render_template, request, jsonify, session, current_app, Blueprint
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from onboarding import onboarding_bp
+onboarding_bp = Blueprint("onboarding", __name__, 
+                          url_prefix="/onboarding",
+                          template_folder="../templates/onboarding",
+                          static_folder="../static")
 
 # Allowed file extensions for uploads
 ALLOWED_EXTENSIONS = {"pdf", "doc", "docx", "txt", "png", "jpg", "jpeg"}

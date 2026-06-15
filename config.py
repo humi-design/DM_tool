@@ -15,18 +15,28 @@ class Config:
     BASE_DIR = Path(__file__).parent
     SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(32))
     
-    # Database
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL",
-        f"postgresql://{os.getenv('DB_USER', 'postgres')}:{os.getenv('DB_PASSWORD', 'postgres')}@"
-        f"{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME', 'viraly')}"
-    )
+    # Database - Support both DATABASE_URL and individual DB vars
+    _db_url = os.getenv("DATABASE_URL")
+    if not _db_url:
+        _db_type = os.getenv("DB_TYPE", "sqlite")
+        if _db_type == "postgresql":
+            _db_url = f"postgresql://{os.getenv('DB_USER', 'postgres')}:{os.getenv('DB_PASSWORD', 'postgres')}@" \
+                      f"{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME', 'viraly')}"
+        else:
+            _db_url = "sqlite:///aios.db"
+    
+    SQLALCHEMY_DATABASE_URI = _db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        "pool_size": 10,
-        "pool_recycle": 3600,
-        "pool_pre_ping": True,
-    }
+    
+    # Use simpler engine options for SQLite
+    if "sqlite" in _db_url:
+        SQLALCHEMY_ENGINE_OPTIONS = {}
+    else:
+        SQLALCHEMY_ENGINE_OPTIONS = {
+            "pool_size": 10,
+            "pool_recycle": 3600,
+            "pool_pre_ping": True,
+        }
     
     # Security
     WTF_CSRF_ENABLED = True
@@ -128,11 +138,13 @@ class DevelopmentConfig(Config):
     DEBUG = True
     TESTING = False
     
+    # Use SQLite for local development
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DEV_DATABASE_URL",
-        "postgresql://postgres:postgres@localhost:5432/viraly_dev"
+        "sqlite:///aios.db"
     )
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ENGINE_OPTIONS = {}
+    SQLALCHEMY_ECHO = False
     
     SESSION_COOKIE_SECURE = False
     WTF_CSRF_ENABLED = False

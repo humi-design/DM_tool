@@ -1,7 +1,5 @@
 """Analytics blueprint."""
 
-from flask import Blueprint
+from analytics.routes import analytics_bp
 
-analytics_bp = Blueprint("analytics", __name__)
-
-from analytics import routes  # noqa: E402, F401
+__all__ = ["analytics_bp"]  # noqa: E402, F401

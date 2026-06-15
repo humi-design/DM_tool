@@ -171,7 +171,7 @@ class LoginAttempt(db.Model):
     user_id = db.Column(db.String(36), db.ForeignKey("users.id", ondelete="CASCADE"), nullable=True, index=True)
     email = db.Column(db.String(255), nullable=False, index=True)
     
-    ip_address = db.Column(db.String(45), nullable=False, index=True)
+    ip_address = db.Column(db.String(45), nullable=True, index=True)
     user_agent = db.Column(db.String(500), nullable=True)
     
     attempted_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
@@ -612,42 +612,3 @@ class UserSession(db.Model):
         count = query.update({"is_active": False}, synchronize_session=False)
         db.session.commit()
         return count
-        token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
-        
-        existing = cls.query.filter_by(user_id=user_id).first()
-        if existing:
-            existing.token_hash = token_hash
-            existing.email = email
-            existing.created_at = datetime.utcnow()
-            existing.expires_at = datetime.utcnow() + timedelta(hours=expires_hours)
-            existing.is_verified = False
-            existing.verified_at = None
-            db.session.commit()
-            return existing, raw_token
-        
-        token = cls(
-            user_id=user_id,
-            token_hash=token_hash,
-            email=email,
-            expires_at=datetime.utcnow() + timedelta(hours=expires_hours),
-        )
-        db.session.add(token)
-        db.session.commit()
-        return token, raw_token
-    
-    @classmethod
-    def find_valid_by_hash(cls, token_hash: str) -> "EmailVerification":
-        """Find a valid verification token."""
-        return cls.query.filter(
-            cls.token_hash == token_hash,
-            cls.is_verified == False,
-            cls.expires_at > datetime.utcnow(),
-        ).first()
-    
-    def verify(self, ip_address: str = None) -> None:
-        """Mark email as verified."""
-        self.is_verified = True
-        self.verified_at = datetime.utcnow()
-        if ip_address:
-            self.ip_address = ip_address
-        db.session.commit()

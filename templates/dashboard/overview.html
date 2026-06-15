@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="p-6">
+    <h1 class="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+    <p class="mt-2 text-gray-600">Welcome to your dashboard overview.</p>
+    
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-700">Total Messages</h3>
+            <p class="text-3xl font-bold text-indigo-600 mt-2">0</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-700">Active Leads</h3>
+            <p class="text-3xl font-bold text-indigo-600 mt-2">0</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-700">Conversations</h3>
+            <p class="text-3xl font-bold text-indigo-600 mt-2">0</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

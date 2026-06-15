@@ -15,8 +15,8 @@ from models.auth import (
     EmailVerification,
     OTPCode,
     UserSession,
-    AuditLog,
 )
+from models.audit_log import AuditLog
 from services.auth_service import (
     AuthService,
     AuthError,
@@ -66,11 +66,14 @@ def client(app):
 @pytest.fixture
 def test_user(app):
     """Create test user."""
+    from models.user import User
+    from app import db
     with app.app_context():
         user = User(
             email="test@example.com",
             first_name="Test",
             last_name="User",
+            is_verified=True,
         )
         user.set_password("TestPassword123!")
         db.session.add(user)
@@ -484,6 +487,8 @@ class TestAuthService:
     
     def test_login_success(self, app, test_user):
         """Test successful login."""
+        from models.user import User
+        from app import db
         with app.app_context():
             result = AuthService.login(
                 email="test@example.com",
