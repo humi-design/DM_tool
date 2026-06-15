@@ -1,7 +1,5 @@
 """Comments blueprint."""
 
-from flask import Blueprint
+from comments.routes import comments_bp
 
-comments_bp = Blueprint("comments", __name__)
-
-from comments import routes  # noqa: E402, F401
+__all__ = ["comments_bp"]  # noqa: E402, F401

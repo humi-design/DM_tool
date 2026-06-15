@@ -63,8 +63,13 @@ class Comment(BaseModel, SoftDeleteMixin):
     instagram_account = db.relationship("InstagramAccount", foreign_keys=[instagram_account_id], back_populates="comments")
     business = db.relationship("Business", foreign_keys=[business_id], back_populates="comments")
     user = db.relationship("User")
-    parent = db.relationship("Comment", remote_side="Comment.id", backref="replies")
-    replies = db.relationship("Comment", backref="parent", remote_side="Comment.parent_id", lazy="dynamic")
+    parent = db.relationship(
+        "Comment",
+        remote_side="Comment.id",
+        backref=db.backref("replies", lazy="dynamic"),
+        foreign_keys=[parent_id],
+        overlaps="parent"
+    )
     
     __table_args__ = (
         db.Index("idx_comment_instagram_parent", "instagram_account_id", "parent_id"),

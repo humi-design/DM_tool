@@ -1,7 +1,5 @@
 """Leads blueprint."""
 
-from flask import Blueprint
+from leads.routes import leads_bp
 
-leads_bp = Blueprint("leads", __name__)
-
-from leads import routes  # noqa: E402, F401
+__all__ = ["leads_bp"]

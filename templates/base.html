@@ -19,8 +19,18 @@
     
     {% block scripts %}{% endblock %}
     <script>
+        // Configure htmx to include CSRF token in all requests
         document.body.addEventListener('htmx:configRequest', function(event) {
             event.detail.headers['X-CSRFToken'] = document.querySelector('meta[name="csrf-token"]').content;
+        });
+        
+        // Handle redirects after htmx requests
+        document.body.addEventListener('htmx:afterRequest', function(event) {
+            // Check for redirect headers
+            const redirectUrl = event.detail.xhr.getResponseHeader('X-Htmx-Redirect');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
         });
     </script>
 </body>

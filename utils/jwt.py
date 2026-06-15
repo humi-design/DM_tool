@@ -2,9 +2,19 @@
 
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
+import json
 
 import jwt
 from flask import current_app, request, g
+
+
+class DateTimeEncoder(json.JSONEncoder):
+    """Custom JSON encoder for datetime objects."""
+    
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 
 class JWTManager:
@@ -37,7 +47,7 @@ class JWTManager:
             payload.update(additional_claims)
         
         secret = current_app.config["JWT_SECRET_KEY"]
-        return jwt.encode(payload, secret, algorithm="HS256", json_encoder=cls._JSONEncoder)
+        return jwt.encode(payload, secret, algorithm="HS256")
     
     @classmethod
     def create_refresh_token(
@@ -62,7 +72,7 @@ class JWTManager:
         }
         
         secret = current_app.config["JWT_SECRET_KEY"]
-        return jwt.encode(payload, secret, algorithm="HS256", json_encoder=cls._JSONEncoder)
+        return jwt.encode(payload, secret, algorithm="HS256")
     
     @classmethod
     def decode_token(cls, token: str, verify: bool = True) -> Optional[Dict[str, Any]]:
@@ -135,11 +145,18 @@ def jwt_required(f):
         from models.auth import UserSession
         
         auth_header = request.headers.get("Authorization", "")
+        token = None
         
-        if not auth_header.startswith("Bearer "):
+        # Check for token in Authorization header first
+        if auth_header.startswith("Bearer "):
+            token = auth_header.split(" ")[1]
+        # Fall back to access_token cookie for browser sessions
+        elif request.cookies.get("access_token"):
+            token = request.cookies.get("access_token")
+        
+        if not token:
             raise AuthError("Missing or invalid authorization header", code="missing_token", status_code=401)
         
-        token = auth_header.split(" ")[1]
         payload = JWTManager.verify_access_token(token)
         
         if not payload:
@@ -150,7 +167,8 @@ def jwt_required(f):
         g.access_token = token
         g.token_jti = payload.get("jti")
         
-        session_token = request.headers.get("X-Session-Token")
+        # Check session token from header or cookie
+        session_token = request.headers.get("X-Session-Token") or request.cookies.get("session_token")
         if session_token:
             session = UserSession.find_valid_by_token(session_token)
             if session:
@@ -172,8 +190,16 @@ def jwt_optional(f):
         g.organization_id = None
         
         auth_header = request.headers.get("Authorization", "")
+        token = None
+        
+        # Check for token in Authorization header first
         if auth_header.startswith("Bearer "):
             token = auth_header.split(" ")[1]
+        # Fall back to access_token cookie for browser sessions
+        elif request.cookies.get("access_token"):
+            token = request.cookies.get("access_token")
+        
+        if token:
             payload = JWTManager.verify_access_token(token)
             if payload:
                 g.current_user_id = payload.get("sub")

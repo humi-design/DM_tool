@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings - AI Social OS</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header h1 { color: #1a1a2e; }
+        .card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .card h2 { margin-bottom: 20px; color: #1a1a2e; border-bottom: 2px solid #4a90d9; padding-bottom: 10px; }
+        .section { margin-bottom: 30px; }
+        .section h3 { margin-bottom: 15px; color: #555; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: #4a90d9; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+        .btn-primary { background: #4a90d9; color: #fff; }
+        .btn-primary:hover { background: #357abd; }
+        .btn-success { background: #28a745; color: #fff; }
+        .btn-success:hover { background: #218838; }
+        .btn-warning { background: #ffc107; color: #333; }
+        .btn-warning:hover { background: #e0a800; }
+        .btn-danger { background: #dc3545; color: #fff; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .status { padding: 10px; border-radius: 4px; margin-top: 10px; }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .masked { font-family: monospace; background: #f8f9fa; padding: 5px 10px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; font-weight: 600; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #eee; }
+        .tab { padding: 10px 20px; cursor: pointer; border: none; background: transparent; color: #666; font-weight: 500; transition: all 0.3s; }
+        .tab:hover { color: #4a90d9; }
+        .tab.active { color: #4a90d9; border-bottom: 2px solid #4a90d9; margin-bottom: -2px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .credentials-box { background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 15px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Admin Settings</h1>
+            <p>Configure API keys, integrations, and test the application</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('api-keys')">🔑 API Keys</button>
+            <button class="tab" onclick="showTab('test-login')">🧪 Test Login</button>
+            <button class="tab" onclick="showTab('demo-data')">📊 Demo Data</button>
+            <button class="tab" onclick="showTab('status')">📋 Status</button>
+        </div>
+
+        <!-- API Keys Tab -->
+        <div id="api-keys" class="tab-content active">
+            <div class="card">
+                <h2>🔐 API Keys Configuration</h2>
+                <p style="color: #666; margin-bottom: 20px;">Enter your API keys below. Keys are saved to the .env file.</p>
+
+                <div class="section">
+                    <h3>🤖 AI Providers</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>OpenAI API Key</label>
+                            <input type="password" id="openai_key" placeholder="sk-...">
+                        </div>
+                        <div class="form-group">
+                            <label>Anthropic API Key (Claude)</label>
+                            <input type="password" id="anthropic_key" placeholder="sk-ant-...">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Google Gemini API Key</label>
+                            <input type="password" id="gemini_key" placeholder="AIza...">
+                        </div>
+                        <div class="form-group">
+                            <label>Ollama Base URL</label>
+                            <input type="text" id="ollama_url" placeholder="http://localhost:11434">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mistral API Key</label>
+                            <input type="password" id="mistral_key" placeholder="...">
+                        </div>
+                        <div class="form-group">
+                            <label>Qwen API Key</label>
+                            <input type="password" id="qwen_key" placeholder="...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📸 Instagram/Meta</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Instagram App ID</label>
+                            <input type="text" id="instagram_app_id" placeholder="...">
+                        </div>
+                        <div class="form-group">
+                            <label>Instagram App Secret</label>
+                            <input type="password" id="instagram_app_secret" placeholder="...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Webhook Verify Token</label>
+                        <input type="text" id="instagram_verify_token" placeholder="Your verify token">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>💳 Billing</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Stripe Secret Key</label>
+                            <input type="password" id="stripe_key" placeholder="sk_live_...">
+                        </div>
+                        <div class="form-group">
+                            <label>Razorpay Key ID</label>
+                            <input type="text" id="razorpay_key" placeholder="...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Razorpay Key Secret</label>
+                        <input type="password" id="razorpay_secret" placeholder="...">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📧 Email</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>SendGrid API Key</label>
+                            <input type="password" id="sendgrid_key" placeholder="SG...">
+                        </div>
+                        <div class="form-group">
+                            <label>SMTP Host</label>
+                            <input type="text" id="smtp_host" placeholder="smtp.example.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>SMTP Port</label>
+                            <input type="text" id="smtp_port" placeholder="587">
+                        </div>
+                        <div class="form-group">
+                            <label>SMTP Username</label>
+                            <input type="text" id="smtp_user" placeholder="...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP Password</label>
+                        <input type="password" id="smtp_password" placeholder="...">
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="saveApiKeys()">💾 Save API Keys</button>
+                    <button class="btn btn-warning" onclick="loadApiKeys()">🔄 Load Current Keys</button>
+                </div>
+                <div id="api-keys-status"></div>
+            </div>
+        </div>
+
+        <!-- Test Login Tab -->
+        <div id="test-login" class="tab-content">
+            <div class="card">
+                <h2>🧪 Create Test User</h2>
+                <p style="color: #666; margin-bottom: 20px;">Create a test user to login and explore the application.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="test_email" value="test@example.com" placeholder="test@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="test_password" value="TestPass123!" placeholder="Password">
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="createTestUser()">🚀 Create Test User & Login</button>
+                </div>
+
+                <div id="test-login-status"></div>
+            </div>
+        </div>
+
+        <!-- Demo Data Tab -->
+        <div id="demo-data" class="tab-content">
+            <div class="card">
+                <h2>📊 Create Demo Data</h2>
+                <p style="color: #666; margin-bottom: 20px;">Generate sample organizations, subscriptions, and test data.</p>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="createDemoData()">🚀 Generate Demo Data</button>
+                </div>
+
+                <div id="demo-data-status"></div>
+            </div>
+
+            <div class="card">
+                <h2>🔄 Reset & Initialize</h2>
+                <p style="color: #666; margin-bottom: 20px;">Reset the database and create initial admin user.</p>
+
+                <div class="form-group">
+                    <label>Admin Email</label>
+                    <input type="email" id="admin_email" value="admin@example.com" placeholder="admin@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Admin Password</label>
+                    <input type="password" id="admin_password" value="AdminPass123!" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label>Organization Name</label>
+                    <input type="text" id="org_name" value="My Company" placeholder="Company Name">
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-danger" onclick="initializeAdmin()">⚠️ Initialize Admin User</button>
+                </div>
+
+                <div id="init-status"></div>
+            </div>
+        </div>
+
+        <!-- Status Tab -->
+        <div id="status" class="tab-content">
+            <div class="card">
+                <h2>📋 System Status</h2>
+                <div id="status-content">
+                    <p>Loading system status...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            if (tabId === 'status') {
+                loadStatus();
+            }
+        }
+
+        async function saveApiKeys() {
+            const statusEl = document.getElementById('api-keys-status');
+            statusEl.innerHTML = '<div class="status info">Saving API keys...</div>';
+
+            const data = {
+                ai_providers: {
+                    openai: document.getElementById('openai_key').value,
+                    anthropic: document.getElementById('anthropic_key').value,
+                    gemini: document.getElementById('gemini_key').value,
+                    ollama: document.getElementById('ollama_url').value,
+                    mistral: document.getElementById('mistral_key').value,
+                    qwen: document.getElementById('qwen_key').value,
+                },
+                instagram: {
+                    app_id: document.getElementById('instagram_app_id').value,
+                    app_secret: document.getElementById('instagram_app_secret').value,
+                    webhook_verify_token: document.getElementById('instagram_verify_token').value,
+                },
+                billing: {
+                    stripe_key: document.getElementById('stripe_key').value,
+                    razorpay_key: document.getElementById('razorpay_key').value,
+                    razorpay_secret: document.getElementById('razorpay_secret').value,
+                },
+                email: {
+                    sendgrid_key: document.getElementById('sendgrid_key').value,
+                    smtp_host: document.getElementById('smtp_host').value,
+                    smtp_port: document.getElementById('smtp_port').value,
+                    smtp_user: document.getElementById('smtp_user').value,
+                    smtp_password: document.getElementById('smtp_password').value,
+                }
+            };
+
+            try {
+                const response = await fetch('/admin/api/settings/keys', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    statusEl.innerHTML = '<div class="status success">✅ ' + result.message + '</div>';
+                } else {
+                    statusEl.innerHTML = '<div class="status error">❌ ' + (result.error || 'Failed to save') + '</div>';
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function loadApiKeys() {
+            const statusEl = document.getElementById('api-keys-status');
+            statusEl.innerHTML = '<div class="status info">Loading current keys...</div>';
+
+            try {
+                const response = await fetch('/admin/api/settings/keys');
+                const result = await response.json();
+                
+                if (result.ai_providers) {
+                    document.getElementById('openai_key').value = result.ai_providers.openai || '';
+                    document.getElementById('anthropic_key').value = result.ai_providers.anthropic || '';
+                    document.getElementById('gemini_key').value = result.ai_providers.gemini || '';
+                    document.getElementById('ollama_url').value = result.ai_providers.ollama || '';
+                    document.getElementById('mistral_key').value = result.ai_providers.mistral || '';
+                    document.getElementById('qwen_key').value = result.ai_providers.qwen || '';
+                }
+                if (result.instagram) {
+                    document.getElementById('instagram_app_id').value = result.instagram.app_id || '';
+                    document.getElementById('instagram_app_secret').value = result.instagram.app_secret || '';
+                    document.getElementById('instagram_verify_token').value = result.instagram.webhook_verify_token || '';
+                }
+                if (result.billing) {
+                    document.getElementById('stripe_key').value = result.billing.stripe_key || '';
+                    document.getElementById('razorpay_key').value = result.billing.razorpay_key || '';
+                    document.getElementById('razorpay_secret').value = result.billing.razorpay_secret || '';
+                }
+                if (result.email) {
+                    document.getElementById('sendgrid_key').value = result.email.sendgrid_key || '';
+                    document.getElementById('smtp_host').value = result.email.smtp_host || '';
+                    document.getElementById('smtp_port').value = result.email.smtp_port || '';
+                    document.getElementById('smtp_user').value = result.email.smtp_user || '';
+                    document.getElementById('smtp_password').value = result.email.smtp_password || '';
+                }
+
+                statusEl.innerHTML = '<div class="status success">✅ Keys loaded (masked for security)</div>';
+            } catch (error) {
+                statusEl.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function createTestUser() {
+            const statusEl = document.getElementById('test-login-status');
+            statusEl.innerHTML = '<div class="status info">Creating test user...</div>';
+
+            const email = document.getElementById('test_email').value;
+            const password = document.getElementById('test_password').value;
+
+            try {
+                const response = await fetch('/admin/api/settings/test-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    statusEl.innerHTML = `
+                        <div class="status success">✅ Test user created!</div>
+                        <div class="credentials-box">
+                            <strong>Login Credentials:</strong><br>
+                            Email: ${result.credentials.email}<br>
+                            Password: ${result.credentials.password}<br>
+                            User ID: ${result.credentials.user_id || 'N/A'}<br>
+                            Organization ID: ${result.credentials.organization_id || 'N/A'}
+                        </div>
+                        <p style="margin-top: 15px;"><a href="/auth/login">Click here to login</a></p>
+                    `;
+                } else {
+                    statusEl.innerHTML = '<div class="status error">❌ ' + (result.error || 'Failed to create user') + '</div>';
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function createDemoData() {
+            const statusEl = document.getElementById('demo-data-status');
+            statusEl.innerHTML = '<div class="status info">Creating demo data...</div>';
+
+            try {
+                const response = await fetch('/admin/api/settings/demo-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    statusEl.innerHTML = `
+                        <div class="status success">✅ Demo data created!</div>
+                        <div class="credentials-box">
+                            Organization: ${result.data.organization_name}<br>
+                            Organization ID: ${result.data.organization_id}<br>
+                            Subscription: ${result.data.subscription_status}
+                        </div>
+                    `;
+                } else {
+                    statusEl.innerHTML = '<div class="status error">❌ ' + (result.error || 'Failed to create demo data') + '</div>';
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function initializeAdmin() {
+            const statusEl = document.getElementById('init-status');
+            statusEl.innerHTML = '<div class="status info">Initializing admin user...</div>';
+
+            const email = document.getElementById('admin_email').value;
+            const password = document.getElementById('admin_password').value;
+            const orgName = document.getElementById('org_name').value;
+
+            try {
+                // First create user
+                const userResponse = await fetch('/admin/api/settings/test-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const userResult = await userResponse.json();
+
+                if (userResult.success) {
+                    // Then create demo data
+                    const dataResponse = await fetch('/admin/api/settings/demo-data', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const dataResult = await dataResponse.json();
+
+                    statusEl.innerHTML = `
+                        <div class="status success">✅ Admin initialized!</div>
+                        <div class="credentials-box">
+                            <strong>Admin Credentials:</strong><br>
+                            Email: ${email}<br>
+                            Password: ${password}<br>
+                            Organization: ${orgName}
+                        </div>
+                        <p style="margin-top: 15px;"><a href="/auth/login">Click here to login</a></p>
+                    `;
+                } else {
+                    statusEl.innerHTML = '<div class="status error">❌ ' + (userResult.error || 'Failed to initialize') + '</div>';
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function loadStatus() {
+            const statusEl = document.getElementById('status-content');
+            
+            try {
+                const response = await fetch('/admin/api/settings/keys');
+                const keys = await response.json();
+
+                let html = '<table><thead><tr><th>Category</th><th>Setting</th><th>Value</th></tr></thead><tbody>';
+                
+                // AI Providers
+                if (keys.ai_providers) {
+                    for (const [key, value] of Object.entries(keys.ai_providers)) {
+                        const status = value ? '✅' : '❌';
+                        html += `<tr><td>AI Provider</td><td>${key.toUpperCase()}</td><td>${status} ${value || 'Not configured'}</td></tr>`;
+                    }
+                }
+                
+                // Instagram
+                if (keys.instagram) {
+                    for (const [key, value] of Object.entries(keys.instagram)) {
+                        const status = value ? '✅' : '❌';
+                        html += `<tr><td>Instagram</td><td>${key}</td><td>${status} ${value || 'Not configured'}</td></tr>`;
+                    }
+                }
+                
+                // Billing
+                if (keys.billing) {
+                    for (const [key, value] of Object.entries(keys.billing)) {
+                        const status = value ? '✅' : '❌';
+                        html += `<tr><td>Billing</td><td>${key}</td><td>${status} ${value || 'Not configured'}</td></tr>`;
+                    }
+                }
+                
+                // App Config
+                if (keys.app) {
+                    html += `<tr><td>App</td><td>Environment</td><td>${keys.app.environment}</td></tr>`;
+                    html += `<tr><td>App</td><td>Debug</td><td>${keys.app.debug ? '🔵 On' : '⚫ Off'}</td></tr>`;
+                }
+                
+                html += '</tbody></table>';
+                statusEl.innerHTML = html;
+            } catch (error) {
+                statusEl.innerHTML = '<div class="status error">❌ Error loading status: ' + error.message + '</div>';
+            }
+        }
+
+        // Load keys on page load
+        window.addEventListener('load', loadApiKeys);
+    </script>
+</body>
+</html>

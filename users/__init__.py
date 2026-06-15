@@ -1,7 +1,5 @@
 """Users blueprint."""
 
-from flask import Blueprint
+from users.routes import users_bp
 
-users_bp = Blueprint("users", __name__)
-
-from users import routes  # noqa: E402, F401
+__all__ = ["users_bp"]

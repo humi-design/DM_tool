@@ -1,7 +1,5 @@
 """Admin blueprint."""
 
-from flask import Blueprint
+from admin.routes import admin_bp
 
-admin_bp = Blueprint("admin", __name__)
-
-from admin import routes  # noqa: E402, F401
+__all__ = ["admin_bp"]  # noqa: E402, F401

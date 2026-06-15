@@ -1,7 +1,5 @@
 """Organizations blueprint."""
 
-from flask import Blueprint
+from organizations.routes import organizations_bp
 
-organizations_bp = Blueprint("organizations", __name__)
-
-from organizations import routes  # noqa: E402, F401
+__all__ = ["organizations_bp"]

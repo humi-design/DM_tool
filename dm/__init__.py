@@ -1,7 +1,5 @@
 """DM blueprint."""
 
-from flask import Blueprint
+from dm.routes import dm_bp
 
-dm_bp = Blueprint("dm", __name__)
-
-from dm import routes  # noqa: E402, F401
+__all__ = ["dm_bp"]  # noqa: E402, F401

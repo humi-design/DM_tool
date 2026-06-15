@@ -27,8 +27,8 @@ class Organization(BaseModel, SoftDeleteMixin):
     is_suspended = db.Column(db.Boolean, default=False, nullable=False, index=True)
     
     # Relationships
-    owner = db.relationship("User", foreign_keys=[owner_id], back_populates="owned_organizations")
-    users = db.relationship("User", foreign_keys="User.organization_id", back_populates="organization")
+    owner = db.relationship("User", foreign_keys=[owner_id], back_populates="owned_organizations", overlaps="owned_organizations")
+    users = db.relationship("User", foreign_keys="User.organization_id", back_populates="organization", overlaps="organization")
     members = db.relationship("OrganizationMember", foreign_keys="OrganizationMember.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
     businesses = db.relationship("Business", foreign_keys="Business.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
     subscriptions = db.relationship("Subscription", foreign_keys="Subscription.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")

@@ -8,8 +8,9 @@ from flask import Blueprint, request, jsonify, render_template, Response
 from app import db
 from models.lead import Lead, LeadTimelineEvent
 from models.business import Business
-from flask_login import current_user
+from flask_login import current_user, login_required
 from functools import wraps
+from utils.jwt import jwt_required, get_current_user_id
 
 leads_bp = Blueprint("leads", __name__)
 
@@ -41,30 +42,35 @@ def api_response(f):
 # =============================================================================
 
 @leads_bp.route("/")
+@login_required
 def index():
     """Leads list page with dashboard."""
     return render_template("leads/index.html")
 
 
 @leads_bp.route("/<lead_id>")
+@login_required
 def detail(lead_id):
     """Lead detail page."""
     return render_template("leads/detail.html", lead_id=lead_id)
 
 
 @leads_bp.route("/pipeline")
+@login_required
 def pipeline():
     """Leads pipeline view."""
     return render_template("leads/pipeline.html")
 
 
 @leads_bp.route("/funnel")
+@login_required
 def funnel():
     """Leads funnel view."""
     return render_template("leads/funnel.html")
 
 
 @leads_bp.route("/segments", methods=["GET", "POST"])
+@login_required
 def segments():
     """Lead segments page."""
     return render_template("leads/segments.html")

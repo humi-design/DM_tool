@@ -78,22 +78,64 @@ def login():
             **_get_request_info(),
         )
         
-        response = make_response(jsonify({
-            "success": True,
-            "message": "Login successful",
-            "user": {
-                "id": result.user.id,
-                "email": result.user.email,
-                "full_name": result.user.full_name,
-            },
-        }))
+        # For API requests (JSON), return JSON response with cookies
+        if request.is_json or request.headers.get("Accept") == "application/json":
+            response = make_response(jsonify({
+                "success": True,
+                "message": "Login successful",
+                "user": {
+                    "id": result.user.id,
+                    "email": result.user.email,
+                    "full_name": result.user.full_name,
+                },
+            }))
+            
+            # Use samesite=None only in development (non-HTTPS) for cookies to work
+            samesite = "None" if not request.is_secure else "Lax"
+            response.set_cookie(
+                "access_token",
+                result.access_token,
+                httponly=True,
+                secure=request.is_secure,
+                samesite=samesite,
+                max_age=60 * 15,
+            )
+            response.set_cookie(
+                "refresh_token",
+                result.refresh_token,
+                httponly=True,
+                secure=request.is_secure,
+                samesite=samesite,
+                max_age=60 * 60 * 24 * 30,
+            )
+            response.set_cookie(
+                "session_token",
+                result.session_token,
+                httponly=True,
+                secure=request.is_secure,
+                samesite=samesite,
+                max_age=60 * 60 * 24 * (30 if remember else 7),
+            )
+            
+            return response
         
+        # For browser form submissions, redirect to dashboard
+        # Also set Flask-Login session for @login_required decorators
+        from flask_login import login_user
+        login_user(result.user, remember=remember)
+        
+        redirect_url = url_for("dashboard.index")
+        response = make_response(redirect(redirect_url))
+        
+        # Also set cookies for browser sessions
+        # Use samesite=None only in development (non-HTTPS) for cookies to work
+        samesite = "None" if not request.is_secure else "Lax"
         response.set_cookie(
             "access_token",
             result.access_token,
             httponly=True,
             secure=request.is_secure,
-            samesite="Lax",
+            samesite=samesite,
             max_age=60 * 15,
         )
         response.set_cookie(
@@ -101,7 +143,7 @@ def login():
             result.refresh_token,
             httponly=True,
             secure=request.is_secure,
-            samesite="Lax",
+            samesite=samesite,
             max_age=60 * 60 * 24 * 30,
         )
         response.set_cookie(
@@ -109,9 +151,12 @@ def login():
             result.session_token,
             httponly=True,
             secure=request.is_secure,
-            samesite="Lax",
+            samesite=samesite,
             max_age=60 * 60 * 24 * (30 if remember else 7),
         )
+        
+        # Add htmx redirect header
+        response.headers["X-Htmx-Redirect"] = redirect_url
         
         return response
         
@@ -204,6 +249,21 @@ def logout():
         
     except AuthError as e:
         return _handle_auth_error(e)
+
+
+@auth_bp.route("/logout", methods=["GET"])
+def logout_get():
+    """User logout via GET request (for browser link clicks)."""
+    from flask_login import logout_user
+    logout_user()
+    
+    response = make_response(redirect(url_for("auth.login")))
+    response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
+    response.delete_cookie("session")
+    response.delete_cookie("session_token")
+    
+    return response
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])

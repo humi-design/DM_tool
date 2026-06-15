@@ -274,7 +274,7 @@ class TestConfigurationLoading:
         
         assert loader.PROVIDER_PREFIXES[ProviderType.OPENAI] == "OPENAI"
         assert loader.PROVIDER_PREFIXES[ProviderType.GEMINI] == "GEMINI"
-        assert loader.PROVIDER_PREFIXES[ProviderType.ANTHROPIC] == "ANTHROPIC"
+        assert loader.PROVIDER_PREFIXES[ProviderType.CLAUDE] == "ANTHROPIC"  # Claude uses Anthropic API
         assert loader.PROVIDER_PREFIXES[ProviderType.OLLAMA] == "OLLAMA"
 
 
@@ -322,7 +322,7 @@ class TestMessageModels:
     def test_message_creation(self):
         """Test creating a message."""
         msg = Message(role=MessageRole.USER, content="Hello")
-        assert msg.role == MessageRole.USER
+        assert msg.role == "user"
         assert msg.content == "Hello"
     
     def test_message_with_string_content(self):
@@ -435,7 +435,7 @@ class TestIntegrationMocked:
         try:
             result = await manager.chat(messages)
             # If we get here, fallback worked
-            assert result.provider == ProviderType.CLAUDE
+            assert result.provider == "claude"  # string value due to use_enum_values
         except AllProvidersFailedError:
             # Expected when fallback also fails
             pass
