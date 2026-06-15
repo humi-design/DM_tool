@@ -13,9 +13,10 @@ from models.plan import Plan, PlanFeature, OrganizationFeature
 from models.invoice import Invoice
 from models.payment import Payment
 from models.usage import UsageRecord, OrganizationUsage
+from models.saas import SaaSPlan, SaaSFeature
 
 from billing.services import BillingService, PlanService, UsageService, FeatureService
-from billing.constants import DEFAULT_PLANS, DEFAULT_FEATURES, get_plan_by_slug
+from billing.constants import get_plans_from_database, get_features_from_database
 
 billing_bp = Blueprint("billing", __name__, url_prefix="/billing")
 
@@ -83,13 +84,21 @@ def plans():
     current_org = get_current_organization()
     current_plan = current_org.plan if current_org else None
     
+    # Get plans from database (dynamic)
+    db_plans = get_plans_from_database()
+    
     plans_data = []
-    for plan_def in DEFAULT_PLANS:
-        plan_obj = Plan.get_by_slug(plan_def["slug"])
+    for plan in db_plans:
         plans_data.append({
-            **plan_def,
-            "is_current": current_plan == plan_def["slug"],
-            "plan_obj": plan_obj
+            "name": plan.name,
+            "slug": plan.slug,
+            "description": plan.description,
+            "price_monthly": float(plan.price_monthly),
+            "price_annual": float(plan.price_annual),
+            "trial_days": plan.trial_days,
+            "features": {f.feature.feature_key: f.is_enabled for f in plan.features if f.feature},
+            "is_current": current_plan == plan.slug,
+            "plan_obj": plan
         })
     
     return render_template(
@@ -239,25 +248,32 @@ def features():
     plan = Plan.get_by_slug(organization.plan) if organization.plan else None
     org_features = FeatureService.get_organization_features(organization.id)
     
+    # Get all available features from database (dynamic)
+    db_features = get_features_from_database()
+    
     # Get all available features
     all_features = []
-    for feature_def in DEFAULT_FEATURES:
-        feature_obj = PlanFeature.get_by_slug(feature_def["slug"])
+    for feature in db_features:
         org_feature = next(
-            (f for f in org_features if f.feature_id == feature_obj.id),
+            (f for f in org_features if f.feature_id == feature.id),
             None
         )
         
         is_enabled = (
             (org_feature.is_enabled if org_feature else False) or
-            (plan.has_feature(feature_def["slug"]) if plan else False)
+            (plan.has_feature(feature.feature_key) if plan else False)
         )
         
         is_trial = org_feature.is_trial if org_feature else False
         trial_expired = org_feature.is_trial_expired() if org_feature else False
         
         all_features.append({
-            **feature_def,
+            "slug": feature.feature_key,
+            "name": feature.feature_name,
+            "description": feature.description,
+            "category": feature.category,
+            "icon": feature.icon,
+            "is_module": feature.is_module,
             "is_enabled": is_enabled and not (is_trial and trial_expired),
             "is_trial": is_trial,
             "trial_expired": trial_expired,
@@ -285,26 +301,23 @@ def features():
 
 @billing_bp.route("/api/plans", methods=["GET"])
 def api_plans():
-    """Get all available plans."""
+    """Get all available plans from database (dynamic)."""
+    db_plans = get_plans_from_database()
+    
     plans_data = []
-    for plan_def in DEFAULT_PLANS:
+    for plan in db_plans:
         plans_data.append({
-            "name": plan_def["name"],
-            "slug": plan_def["slug"],
-            "description": plan_def["description"],
-            "price_monthly": float(plan_def["price_monthly"]),
-            "price_annual": float(plan_def["price_annual"]),
-            "currency": "USD",
-            "trial_days": plan_def["trial_days"],
-            "features": plan_def["features"],
-            "limits": {
-                "max_users": plan_def["max_users"],
-                "max_businesses": plan_def["max_businesses"],
-                "max_api_requests_per_month": plan_def["max_api_requests_per_month"],
-                "max_ai_requests_per_month": plan_def["max_ai_requests_per_month"],
-                "max_storage_mb": plan_def["max_storage_mb"],
-            },
-            "is_featured": plan_def.get("is_featured", False),
+            "id": plan.id,
+            "name": plan.name,
+            "slug": plan.slug,
+            "description": plan.description,
+            "price_monthly": float(plan.price_monthly),
+            "price_annual": float(plan.price_annual),
+            "currency": plan.currency,
+            "trial_days": plan.trial_days,
+            "features": {f.feature.feature_key: f.is_enabled for f in plan.features if f.feature},
+            "limits": plan.get_limit('ai_requests_per_month'),  # Get from plan limits
+            "is_featured": plan.is_featured if hasattr(plan, 'is_featured') else False,
         })
     
     return jsonify({"plans": plans_data})

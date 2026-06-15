@@ -40,6 +40,7 @@ def create_app(config_name: str = None) -> Flask:
     _init_middleware(app)
     _init_blueprints(app)
     _init_error_handlers(app)
+    _init_health_check(app)
     _init_context_processors(app)
     
     return app
@@ -84,6 +85,7 @@ def _init_blueprints(app: Flask) -> None:
     from admin import admin_bp
     from onboarding import onboarding_bp
     from comment_intelligence import comment_intelligence_bp
+    from super_admin import super_admin_bp
     
     # AI DM Employee routes
     try:
@@ -108,6 +110,7 @@ def _init_blueprints(app: Flask) -> None:
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(onboarding_bp, url_prefix="/onboarding")
     app.register_blueprint(comment_intelligence_bp, url_prefix="/comment-intelligence")
+    app.register_blueprint(super_admin_bp, url_prefix="/super-admin")
 
 
 def _init_error_handlers(app: Flask) -> None:
@@ -137,6 +140,70 @@ def _init_error_handlers(app: Flask) -> None:
     def internal_error(error):
         db.session.rollback()
         return jsonify({"error": "Internal Server Error", "message": "An unexpected error occurred"}), 500
+
+
+def _init_health_check(app: Flask) -> None:
+    """Initialize health check endpoint."""
+    from datetime import datetime
+    
+    @app.route("/health")
+    def health_check():
+        """Public health check endpoint."""
+        health = {
+            "status": "ok",
+            "timestamp": datetime.utcnow().isoformat(),
+            "components": {}
+        }
+        
+        # Database check
+        try:
+            db.session.execute(db.text("SELECT 1"))
+            health["components"]["database"] = "connected"
+        except Exception as e:
+            health["components"]["database"] = "disconnected"
+            health["status"] = "degraded"
+        
+        # AI providers check
+        try:
+            from config import Config
+            if Config.has_ai_provider():
+                health["components"]["ai"] = "configured"
+            else:
+                health["components"]["ai"] = "not_configured"
+        except Exception:
+            health["components"]["ai"] = "not_configured"
+        
+        # OAuth providers check
+        try:
+            from config import Config
+            if Config.has_oauth_provider():
+                health["components"]["oauth"] = "configured"
+            else:
+                health["components"]["oauth"] = "not_configured"
+        except Exception:
+            health["components"]["oauth"] = "not_configured"
+        
+        # Payment providers check
+        try:
+            from config import Config
+            if Config.has_payment_provider():
+                health["components"]["payments"] = "configured"
+            else:
+                health["components"]["payments"] = "not_configured"
+        except Exception:
+            health["components"]["payments"] = "not_configured"
+        
+        return jsonify(health)
+    
+    @app.route("/console")
+    def console_redirect():
+        """Redirect /console to /super-admin for SUPER_ADMIN access."""
+        from flask import redirect
+        from flask_login import current_user
+        
+        if current_user.is_authenticated and current_user.is_superuser:
+            return redirect("/super-admin")
+        return redirect("/auth/login")
 
 
 def _init_context_processors(app: Flask) -> None:

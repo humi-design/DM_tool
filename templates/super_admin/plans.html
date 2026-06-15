@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans - Super Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="flex">
+        {% include 'partials/sidebar.html' %}
+        
+        <main class="ml-64 flex-1 p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold">Plans Management</h2>
+                <a href="{{ url_for('super_admin.plans_create') }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg">
+                    <i class="fas fa-plus mr-2"></i>Create Plan
+                </a>
+            </div>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="mb-4 p-4 rounded-lg {% if category == 'success' %}bg-green-600{% else %}bg-red-600{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Slug</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Monthly Price</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Annual Price</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        {% for plan in plans %}
+                        <tr class="hover:bg-gray-700/50">
+                            <td class="px-6 py-4">
+                                <span class="font-medium">{{ plan.name }}</span>
+                                {% if plan.is_default %}
+                                <span class="ml-2 px-2 py-0.5 text-xs bg-indigo-600 rounded">Default</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-gray-400">{{ plan.slug }}</td>
+                            <td class="px-6 py-4">${{ plan.price_monthly }}</td>
+                            <td class="px-6 py-4">${{ plan.price_annual }}</td>
+                            <td class="px-6 py-4">
+                                {% if plan.is_active %}
+                                <span class="px-2 py-1 text-xs bg-green-600/20 text-green-400 rounded">Active</span>
+                                {% else %}
+                                <span class="px-2 py-1 text-xs bg-red-600/20 text-red-400 rounded">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex space-x-2">
+                                    <a href="{{ url_for('super_admin.plans_edit', plan_id=plan.id) }}" class="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 rounded">
+                                        Edit
+                                    </a>
+                                    <form action="{{ url_for('super_admin.plans_duplicate', plan_id=plan.id) }}" method="POST" class="inline">
+                                        <button type="submit" class="px-3 py-1 text-xs bg-gray-600 hover:bg-gray-500 rounded">
+                                            Duplicate
+                                        </button>
+                                    </form>
+                                    <form action="{{ url_for('super_admin.plans_toggle', plan_id=plan.id) }}" method="POST" class="inline">
+                                        <button type="submit" class="px-3 py-1 text-xs {% if plan.is_active %}bg-yellow-600 hover:bg-yellow-700{% else %}bg-green-600 hover:bg-green-700{% endif %} rounded">
+                                            {{ 'Disable' if plan.is_active else 'Enable' }}
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
