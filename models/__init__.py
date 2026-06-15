@@ -37,6 +37,15 @@ from models.invoice import Invoice
 from models.payment import Payment
 from models.usage import UsageRecord, OrganizationUsage
 
+# Dynamic SaaS models (database-driven plans, features, providers)
+from models.saas import (
+    SaaSPlan, SaaSFeature, SaaSPlanFeature, SaaSPlanLimit,
+    SaaSOrganizationOverride, SaaSPricingCard,
+    SaaSSystemIntegration, SaaSPaymentProvider, SaaSOAuthProvider,
+    SaaSAIProvider, SaaSWebhook, SaaSWebhookDelivery,
+    SaaSUsageTracking, SaaSInvoice, SaaSTransaction,
+)
+
 __all__ = [
     # Base
     "BaseModel",
@@ -91,4 +100,20 @@ __all__ = [
     "OnboardingTemplate",
     # AI Processing
     "AIProcessingLog",
+    # Dynamic SaaS models
+    "SaaSPlan",
+    "SaaSFeature",
+    "SaaSPlanFeature",
+    "SaaSPlanLimit",
+    "SaaSOrganizationOverride",
+    "SaaSPricingCard",
+    "SaaSSystemIntegration",
+    "SaaSPaymentProvider",
+    "SaaSOAuthProvider",
+    "SaaSAIProvider",
+    "SaaSWebhook",
+    "SaaSWebhookDelivery",
+    "SaaSUsageTracking",
+    "SaaSInvoice",
+    "SaaSTransaction",
 ]
