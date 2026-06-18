@@ -1,140 +1,263 @@
 {% extends "public/base.html" %}
 
-{% block title %}Viraly - Automate Every DM. Grow While You Sleep.{% endblock %}
+{% block title %}Viraly - AI-Powered Social Media Employee for Instagram & WhatsApp{% endblock %}
+
+{% block extra_head %}
+<meta name="keywords" content="AI DM automation, Instagram automation, WhatsApp automation, social media marketing, lead generation, chatbot">
+<meta property="og:title" content="Viraly - AI-Powered Social Media Employee">
+<meta property="og:description" content="Automate Every DM. Grow While You Sleep. The AI-powered employee that captures leads and converts conversations.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-glow"></div>
+<section class="hero-section">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+        <div class="hero-particles"></div>
+    </div>
     <div class="container">
-        <div class="hero-content animate-on-scroll">
-            <div class="hero-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                </svg>
-                AI-Powered Social Media Employee
+        <div class="hero-wrapper">
+            <div class="hero-content">
+                <!-- Trust Badges -->
+                <div class="trust-badges">
+                    <span class="trust-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <polyline points="9 12 11 14 15 10"/>
+                        </svg>
+                        SOC2 Certified
+                    </span>
+                    <span class="trust-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        256-bit Encryption
+                    </span>
+                    <span class="trust-badge verified">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        Meta Verified Partner
+                    </span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Automate Every <span class="gradient-text">DM</span>.<br>
+                    Grow While You <span class="gradient-text">Sleep</span>.
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Your AI-powered social media employee that captures leads, replies instantly, and turns conversations into customers — 24/7.
+                </p>
+                
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary btn-lg pulse-glow">
+                        <span>Start Free Trial</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                    <a href="#demo" class="btn btn-ghost btn-lg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        <span>Watch Demo</span>
+                    </a>
+                </div>
+                
+                <div class="hero-social-proof">
+                    <div class="social-avatars">
+                        <img src="https://i.pravatar.cc/40?img=1" alt="User">
+                        <img src="https://i.pravatar.cc/40?img=2" alt="User">
+                        <img src="https://i.pravatar.cc/40?img=3" alt="User">
+                        <img src="https://i.pravatar.cc/40?img=4" alt="User">
+                        <img src="https://i.pravatar.cc/40?img=5" alt="User">
+                    </div>
+                    <div class="social-text">
+                        <div class="social-rating">
+                            <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <span><strong>4.9/5</strong> from 2,000+ reviews</span>
+                    </div>
+                </div>
             </div>
-            <h1 class="hero-title">
-                Automate Every <span class="highlight">DM</span>.<br>
-                Grow While You <span class="highlight">Sleep</span>.
-            </h1>
-            <p class="hero-subtitle">
-                Viraly is your AI-powered social media employee that captures leads, replies instantly, and turns conversations into customers.
-            </p>
-            <div class="hero-cta">
-                <a href="#" class="btn btn-primary btn-lg">
-                    Get Started Free
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
-                </a>
-                <a href="/demo" class="btn btn-secondary btn-lg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <polygon points="5 3 19 12 5 21 5 3"/>
-                    </svg>
-                    Watch Demo
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-value counter" data-count="50" data-suffix="K+">50K+</div>
-                    <div class="hero-stat-label">Creators</div>
+            
+            <div class="hero-visual">
+                <div class="app-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="mockup-title">Viraly Dashboard</div>
+                    </div>
+                    <div class="mockup-content">
+                        <div class="dashboard-sidebar">
+                            <div class="sidebar-item active">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            </div>
+                            <div class="sidebar-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            </div>
+                            <div class="sidebar-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                            </div>
+                            <div class="sidebar-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                            </div>
+                        </div>
+                        <div class="dashboard-main">
+                            <div class="message-preview">
+                                <div class="message incoming">
+                                    <div class="message-avatar">
+                                        <img src="https://i.pravatar.cc/32?img=10" alt="">
+                                    </div>
+                                    <div class="message-bubble">
+                                        <p>Hi! I love your content! How much is your course?</p>
+                                        <span class="message-time">Just now</span>
+                                    </div>
+                                </div>
+                                <div class="message outgoing">
+                                    <div class="message-bubble ai">
+                                        <span class="ai-badge">
+                                            <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><circle cx="12" cy="12" r="10"/></svg>
+                                            AI
+                                        </span>
+                                        <p>Thanks! 🎉 Our course is $297. It includes 6 weeks of training, templates, and lifetime access...</p>
+                                        <span class="message-time">2s</span>
+                                    </div>
+                                </div>
+                                <div class="automation-indicator">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    <span>Auto-replied with personalized message</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value counter" data-count="10" data-suffix="M+">10M+</div>
-                    <div class="hero-stat-label">Automated Messages</div>
+                <div class="floating-badge badge-1">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span>Lead Captured</span>
                 </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">99.8%</div>
-                    <div class="hero-stat-label">Uptime</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value counter" data-count="25" data-suffix="M+">$25M+</div>
-                    <div class="hero-stat-label">Revenue Generated</div>
+                <div class="floating-badge badge-2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <span>$127 Sale</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Social Proof Bar -->
-<section class="social-proof">
+<!-- Stats Bar -->
+<section class="stats-bar">
     <div class="container">
-        <div class="social-proof-grid">
-            <div class="social-proof-item">
-                <div class="social-proof-value">200+</div>
-                <div class="social-proof-label">Integrations</div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" data-count="50000">50K+</div>
+                <div class="stat-label">Active Users</div>
             </div>
-            <div class="social-proof-item">
-                <div class="social-proof-value">24/7</div>
-                <div class="social-proof-label">AI Availability</div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" data-count="10000000">10M+</div>
+                <div class="stat-label">Messages Sent</div>
             </div>
-            <div class="social-proof-item">
-                <div class="social-proof-value">&lt;2s</div>
-                <div class="social-proof-label">Response Time</div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime</div>
             </div>
-            <div class="social-proof-item">
-                <div class="social-proof-value">4.9/5</div>
-                <div class="social-proof-label">User Rating</div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" data-count="25000000">$25M+</div>
+                <div class="stat-label">Revenue Generated</div>
             </div>
-            <div class="social-proof-item">
-                <div class="social-proof-value">50+</div>
-                <div class="social-proof-label">Countries</div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number">4.9/5</div>
+                <div class="stat-label">User Rating</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo Video Section -->
+<section class="demo-section" id="demo">
+    <div class="container">
+        <div class="demo-wrapper">
+            <div class="demo-header text-center">
+                <span class="section-tag">See It In Action</span>
+                <h2>Watch How <span class="gradient-text">Viraly</span> Works</h2>
+                <p>See how creators are automating their DMs and growing their business 24/7</p>
+            </div>
+            <div class="demo-video-container">
+                <div class="demo-video">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&h=675&fit=crop" alt="Viraly Demo" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <button class="play-button" aria-label="Play demo video">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                        </button>
+                        <span>Watch 2-min Demo</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Features Section -->
-<section class="section" id="features">
+<section class="features-section" id="features">
     <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Everything You Need to <span class="text-gradient">Automate</span> Your DMs</h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                Powerful features designed to help you capture leads, engage with your audience, and grow your business on autopilot.
-            </p>
+        <div class="section-header text-center">
+            <span class="section-tag">Powerful Features</span>
+            <h2>Everything You Need to <span class="gradient-text">Automate</span> Your DMs</h2>
+            <p>From instant AI responses to complete conversation management — everything in one powerful platform.</p>
         </div>
         
-        <div class="features-grid stagger-children">
-            <div class="feature-card feature-card-animated">
-                <div class="feature-icon feature-icon-animated">
+        <div class="features-grid">
+            <div class="feature-card feature-card-featured">
+                <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12"/>
-                        <path d="M12 8v4l3 3"/>
-                        <path d="M2 12h4"/>
-                        <path d="M18 12h4"/>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">AI DM Employee</h3>
-                <p class="feature-description">Your AI-powered employee that handles DMs 24/7, responds instantly, and never takes a break.</p>
+                <h3>AI DM Employee</h3>
+                <p>Your 24/7 AI employee that responds instantly, captures leads, and converts conversations into customers.</p>
+                <div class="feature-tag">Most Popular</div>
             </div>
             
-            <div class="feature-card feature-card-animated">
-                <div class="feature-icon feature-icon-animated">
+            <div class="feature-card">
+                <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">Comment Intelligence</h3>
-                <p class="feature-description">Automatically respond to comments with AI-powered replies that feel personal and human.</p>
+                <h3>Comment Intelligence</h3>
+                <p>AI-powered replies to comments that feel personal and human — automatically.</p>
             </div>
             
-            <div class="feature-card feature-card-animated">
-                <div class="feature-icon feature-icon-animated">
+            <div class="feature-card">
+                <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="2"/>
                         <path d="M3 9h18"/>
                         <path d="M9 21V9"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">Unified Inbox</h3>
-                <p class="feature-description">Manage all your messages from Instagram, WhatsApp, and Facebook in one single inbox.</p>
+                <h3>Unified Inbox</h3>
+                <p>All messages from Instagram, WhatsApp, and Facebook in one beautiful inbox.</p>
             </div>
             
-            <div class="feature-card feature-card-animated">
-                <div class="feature-icon feature-icon-animated">
+            <div class="feature-card">
+                <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                         <circle cx="9" cy="7" r="4"/>
@@ -142,629 +265,379 @@
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">Lead Management</h3>
-                <p class="feature-description">Capture, organize, and nurture leads with smart tagging and segmentation.</p>
+                <h3>Lead Management</h3>
+                <p>Capture, organize, and nurture leads with smart tagging and segmentation.</p>
             </div>
             
-            <div class="feature-card feature-card-animated">
-                <div class="feature-icon feature-icon-animated">
+            <div class="feature-card">
+                <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 20V10"/>
                         <path d="M18 20V4"/>
                         <path d="M6 20v-4"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">Analytics Dashboard</h3>
-                <p class="feature-description">Track performance with real-time analytics and actionable insights.</p>
+                <h3>Analytics Dashboard</h3>
+                <p>Track performance, understand your audience, and optimize your strategy.</p>
             </div>
             
-            <div class="feature-card feature-card-animated">
-                <div class="feature-icon feature-icon-animated">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                </div>
+                <h3>200+ Integrations</h3>
+                <p>Connect with your favorite tools — CRM, email, SMS, and more.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Simple Setup</span>
+            <h2>Get Started in <span class="gradient-text">3 Easy Steps</span></h2>
+            <p>Start automating your DMs in minutes, not hours.</p>
+        </div>
+        
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                </div>
+                <h3>Connect Your Account</h3>
+                <p>Securely connect your Instagram, WhatsApp, or Facebook account in one click.</p>
+            </div>
+            
+            <div class="step-connector"></div>
+            
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">Broadcast Campaigns</h3>
-                <p class="feature-description">Send targeted broadcasts to your audience segments with personalized messages.</p>
-            </div>
-        </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/features" class="btn btn-secondary">View All Features</a>
-        </div>
-    </div>
-</section>
-
-<!-- How It Works Preview -->
-<section class="section" style="background: var(--surface);">
-    <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>How <span class="text-gradient">Viraly</span> Works</h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                Get started in minutes and start automating your social media DMs.
-            </p>
-        </div>
-        
-        <div class="steps-grid stagger-children">
-            <div class="step-card step-card-animated">
-                <div class="step-number step-number-animated">1</div>
-                <h3 class="step-title">Connect Channels</h3>
-                <p class="step-description">Link your Instagram, WhatsApp, and Facebook accounts in seconds.</p>
+                <h3>Set Up AI Responses</h3>
+                <p>Choose from templates or create custom AI responses for your brand voice.</p>
             </div>
             
-            <div class="step-card step-card-animated">
-                <div class="step-number step-number-animated">2</div>
-                <h3 class="step-title">Train Your AI</h3>
-                <p class="step-description">Customize your AI employee with your brand voice and responses.</p>
-            </div>
+            <div class="step-connector"></div>
             
-            <div class="step-card step-card-animated">
-                <div class="step-number step-number-animated">3</div>
-                <h3 class="step-title">Build Workflows</h3>
-                <p class="step-description">Create automated flows for leads, support, and sales.</p>
-            </div>
-            
-            <div class="step-card step-card-animated">
-                <div class="step-number step-number-animated">4</div>
-                <h3 class="step-title">Capture Leads</h3>
-                <p class="step-description">Automatically collect and organize leads from conversations.</p>
-            </div>
-            
-            <div class="step-card step-card-animated">
-                <div class="step-number step-number-animated">5</div>
-                <h3 class="step-title">Convert Followers</h3>
-                <p class="step-description">Turn followers into customers with smart nurturing.</p>
-            </div>
-            
-            <div class="step-card step-card-animated">
-                <div class="step-number step-number-animated">6</div>
-                <h3 class="step-title">Scale Automatically</h3>
-                <p class="step-description">Grow your business without increasing your workload.</p>
-            </div>
-        </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/how-it-works" class="btn btn-primary">Learn More</a>
-        </div>
-    </div>
-</section>
-
-<!-- Use Cases Preview -->
-<section class="section" id="use-cases">
-    <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Built for <span class="text-gradient">Every Business</span></h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                See how different industries use Viraly to grow their business.
-            </p>
-        </div>
-        
-        <div class="features-grid stagger-children">
-            <div class="card card-hover">
-                <div class="feature-icon">
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="7" width="20" height="14" rx="2"/>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                     </svg>
                 </div>
-                <h3 class="feature-title">Creators & Influencers</h3>
-                <p class="feature-description">Manage DMs from fans, sponsors, and collaborators without burning out.</p>
+                <h3>Watch It Work</h3>
+                <p>Sit back and let Viraly capture leads and convert conversations while you sleep.</p>
             </div>
-            
-            <div class="card card-hover">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                        <polyline points="9 22 9 12 15 12 15 22"/>
-                    </svg>
-                </div>
-                <h3 class="feature-title">Real Estate</h3>
-                <p class="feature-description">Instantly respond to property inquiries and schedule viewings.</p>
-            </div>
-            
-            <div class="card card-hover">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-                        <line x1="6" y1="1" x2="6" y2="4"/>
-                        <line x1="10" y1="1" x2="10" y2="4"/>
-                        <line x1="14" y1="1" x2="14" y2="4"/>
-                    </svg>
-                </div>
-                <h3 class="feature-title">Restaurants</h3>
-                <p class="feature-description">Handle reservations, takeout orders, and customer inquiries automatically.</p>
-            </div>
-            
-            <div class="card card-hover">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
-                </div>
-                <h3 class="feature-title">Agencies</h3>
-                <p class="feature-description">Manage multiple client accounts from a single dashboard.</p>
-            </div>
-            
-            <div class="card card-hover">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                    </svg>
-                </div>
-                <h3 class="feature-title">Coaches & Consultants</h3>
-                <p class="feature-description">Capture leads and book appointments without the back-and-forth.</p>
-            </div>
-            
-            <div class="card card-hover">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="9" cy="21" r="1"/>
-                        <circle cx="20" cy="21" r="1"/>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                    </svg>
-                </div>
-                <h3 class="feature-title">E-commerce</h3>
-                <p class="feature-description">Provide instant customer support and drive sales through DMs.</p>
-            </div>
-        </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/use-cases" class="btn btn-secondary">View All Use Cases</a>
-        </div>
-    </div>
-</section>
-
-<!-- Integrations Section -->
-<section class="section" style="background: var(--surface);">
-    <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Integrates With Your <span class="text-gradient">Stack</span></h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                Connect Viraly with 200+ tools you already use.
-            </p>
-        </div>
-        
-        <div class="integrations-grid stagger-children">
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Instagram</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">WhatsApp</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Facebook</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Shopify</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.441 16.892c-2.102.144-6.784.144-8.883 0C5.282 16.736 5.017 15.622 5 14.025V7.935c.017-1.597.282-2.711.558-3.867h8.441c.276 1.156.542 2.27.558 3.867V14.025c-.017 1.597-.282 2.711-.558 3.867z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Zapier</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Google Sheets</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Slack</span>
-            </div>
-            
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">HubSpot</span>
-            </div>
-        </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/integrations" class="btn btn-secondary">View All Integrations</a>
         </div>
     </div>
 </section>
 
 <!-- Testimonials Section -->
-<section class="section" id="testimonials">
+<section class="testimonials-section">
     <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Loved by <span class="text-gradient">50,000+</span> Creators</h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                See what our customers are saying about Viraly.
-            </p>
+        <div class="section-header text-center">
+            <span class="section-tag">Success Stories</span>
+            <h2>Loved by <span class="gradient-text">50,000+</span> Creators</h2>
         </div>
         
-        <div class="testimonials-grid stagger-children">
-            <div class="testimonial-card testimonial-animated">
-                <div class="testimonial-stars">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="testimonial-rating">
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p>"Viraly completely transformed my business. I went from spending 4 hours daily on DMs to just 30 minutes reviewing. My revenue increased by 180%!"</p>
                 </div>
-                <p class="testimonial-content">"Viraly has completely transformed how I manage my DMs. I used to spend hours every day responding to messages. Now my AI handles everything while I focus on creating content."</p>
                 <div class="testimonial-author">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=face" alt="Sarah Chen" class="testimonial-avatar">
+                    <img src="https://i.pravatar.cc/48?img=32" alt="Sarah Chen">
                     <div>
-                        <div class="testimonial-name">Sarah Chen</div>
-                        <div class="testimonial-role">Lifestyle Creator • 2.5M followers</div>
+                        <strong>Sarah Chen</strong>
+                        <span>Beauty Influencer • 500K followers</span>
                     </div>
                 </div>
             </div>
             
-            <div class="testimonial-card testimonial-animated">
-                <div class="testimonial-stars">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <div class="testimonial-card featured">
+                <div class="featured-badge">Featured Review</div>
+                <div class="testimonial-content">
+                    <div class="testimonial-rating">
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p>"I was skeptical at first, but Viraly's AI is incredible. It handles objections, answers questions, and even closes sales. My conversion rate went from 3% to 12%!"</p>
                 </div>
-                <p class="testimonial-content">"As an agency owner, managing DMs for 20+ clients was a nightmare. Viraly made it so easy. Now we handle everything from one inbox and our clients love it!"</p>
                 <div class="testimonial-author">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face" alt="Marcus Johnson" class="testimonial-avatar">
+                    <img src="https://i.pravatar.cc/48?img=11" alt="Marcus Johnson">
                     <div>
-                        <div class="testimonial-name">Marcus Johnson</div>
-                        <div class="testimonial-role">Agency Owner • SocialBoost</div>
+                        <strong>Marcus Johnson</strong>
+                        <span>Business Coach • $2M+ generated</span>
                     </div>
                 </div>
             </div>
             
-            <div class="testimonial-card testimonial-animated">
-                <div class="testimonial-stars">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="testimonial-rating">
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="#FFB800" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p>"As an agency owner, Viraly helps us manage 50+ client accounts effortlessly. The team collaboration features are a game-changer!"</p>
                 </div>
-                <p class="testimonial-content">"Our restaurant gets 100+ DM inquiries daily. Viraly handles reservations, answers FAQs, and even takes orders. It's like having a full-time social media manager!"</p>
                 <div class="testimonial-author">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop&crop=face" alt="Emily Rodriguez" class="testimonial-avatar">
+                    <img src="https://i.pravatar.cc/48?img=15" alt="Emily Rodriguez">
                     <div>
-                        <div class="testimonial-name">Emily Rodriguez</div>
-                        <div class="testimonial-role">Restaurant Owner • Taco Paradise</div>
+                        <strong>Emily Rodriguez</strong>
+                        <span>Agency Owner • Manages 50+ accounts</span>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/customers" class="btn btn-secondary">Read More Stories</a>
+    </div>
+</section>
+
+<!-- Security Section -->
+<section class="security-section">
+    <div class="container">
+        <div class="security-wrapper">
+            <div class="security-content">
+                <span class="section-tag">Enterprise Security</span>
+                <h2>Your Data is <span class="gradient-text">Safe & Secure</span></h2>
+                <p>We take security seriously. Bank-level encryption, SOC2 compliance, and enterprise-grade infrastructure protect your data.</p>
+                
+                <div class="security-features">
+                    <div class="security-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <div>
+                            <strong>SOC2 Type II Certified</strong>
+                            <span>Independently audited security controls</span>
+                        </div>
+                    </div>
+                    <div class="security-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        <div>
+                            <strong>256-bit AES Encryption</strong>
+                            <span>Military-grade data protection</span>
+                        </div>
+                    </div>
+                    <div class="security-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1v22"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        <div>
+                            <strong>GDPR Compliant</strong>
+                            <span>Full data privacy compliance</span>
+                        </div>
+                    </div>
+                    <div class="security-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <div>
+                            <strong>99.99% Uptime SLA</strong>
+                            <span>Enterprise reliability guarantee</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="security-visual">
+                <div class="security-badge-large">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                    <span>Fully Secured</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Pricing Preview -->
-<section class="section" style="background: var(--surface);" id="pricing">
+<section class="pricing-section" id="pricing">
     <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Simple, <span class="text-gradient">Transparent</span> Pricing</h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                Start free, scale as you grow. No hidden fees, no surprises.
-            </p>
+        <div class="section-header text-center">
+            <span class="section-tag">Simple Pricing</span>
+            <h2>Start <span class="gradient-text">Growing Today</span></h2>
+            <p>No hidden fees. Cancel anytime.</p>
         </div>
         
-        <div class="pricing-grid stagger-children">
-            <div class="pricing-card pricing-card-animated">
-                <div class="pricing-name">Starter</div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Starter</h3>
+                    <p>Perfect for creators just starting</p>
+                </div>
                 <div class="pricing-price">
-                    <span class="pricing-amount">$29</span>
-                    <span class="pricing-period">/month</span>
+                    <span class="currency">$</span>
+                    <span class="amount">29</span>
+                    <span class="period">/month</span>
                 </div>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        1,000 messages/month
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        1 channel (Instagram or WhatsApp)
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Basic AI responses
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Email support
-                    </div>
-                </div>
-                <a href="#" class="btn btn-secondary pricing-cta">Get Started</a>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1 Instagram Account</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1,000 AI Messages/mo</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Basic Templates</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Email Support</li>
+                </ul>
+                <a href="#" class="btn btn-secondary w-full">Get Started</a>
             </div>
             
-            <div class="pricing-card pricing-card-animated featured">
-                <div class="pricing-badge">Most Popular</div>
-                <div class="pricing-name">Growth</div>
+            <div class="pricing-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-header">
+                    <h3>Pro</h3>
+                    <p>For growing creators & businesses</p>
+                </div>
                 <div class="pricing-price">
-                    <span class="pricing-amount">$79</span>
-                    <span class="pricing-period">/month</span>
+                    <span class="currency">$</span>
+                    <span class="amount">79</span>
+                    <span class="period">/month</span>
                 </div>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        10,000 messages/month
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        All channels
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Advanced AI + custom training
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Priority support
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Analytics dashboard
-                    </div>
-                </div>
-                <a href="#" class="btn btn-primary pricing-cta">Get Started</a>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 3 Social Accounts</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 10,000 AI Messages/mo</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Advanced AI Training</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Priority Support</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Analytics Dashboard</li>
+                </ul>
+                <a href="#" class="btn btn-primary w-full">Start Free Trial</a>
             </div>
             
-            <div class="pricing-card pricing-card-animated">
-                <div class="pricing-name">Scale</div>
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Agency</h3>
+                    <p>For agencies & power users</p>
+                </div>
                 <div class="pricing-price">
-                    <span class="pricing-amount">$199</span>
-                    <span class="pricing-period">/month</span>
+                    <span class="currency">$</span>
+                    <span class="amount">199</span>
+                    <span class="period">/month</span>
                 </div>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        50,000 messages/month
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        All channels + API access
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Team collaboration
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Custom integrations
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Dedicated account manager
-                    </div>
-                </div>
-                <a href="#" class="btn btn-secondary pricing-cta">Contact Sales</a>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Accounts</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Messages</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> White Label</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> API Access</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Dedicated Support</li>
+                </ul>
+                <a href="#" class="btn btn-secondary w-full">Contact Sales</a>
             </div>
-            
-            <div class="pricing-card pricing-card-animated">
-                <div class="pricing-name">Enterprise</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount">Custom</span>
-                </div>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Unlimited messages
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        White-label options
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Custom AI training
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        SLA & guarantees
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        On-premise available
-                    </div>
-                </div>
-                <a href="#" class="btn btn-secondary pricing-cta">Contact Sales</a>
-            </div>
-        </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/pricing" class="btn btn-primary btn-lg">View Full Pricing</a>
         </div>
     </div>
 </section>
 
-<!-- FAQ Section -->
-<section class="section" id="faq">
+<!-- Final CTA Section -->
+<section class="cta-section">
     <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Frequently Asked <span class="text-gradient">Questions</span></h2>
-            <p class="mt-lg" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-                Everything you need to know about Viraly.
-            </p>
-        </div>
-        
-        <div class="faq-list stagger-children">
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    How does Viraly work?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"/>
+        <div class="cta-wrapper">
+            <div class="cta-glow"></div>
+            <h2>Ready to Automate Your DMs?</h2>
+            <p>Join 50,000+ creators and businesses who are growing while they sleep.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary btn-lg pulse-glow">
+                    Start Free 14-Day Trial
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
                     </svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Viraly connects to your social media accounts (Instagram, WhatsApp, Facebook) and uses AI to automatically respond to messages, comments, and inquiries. You can customize responses, set up workflows, and manage all conversations from a unified inbox.
-                    </div>
-                </div>
+                </a>
+                <span class="cta-note">No credit card required</span>
             </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can the AI reply automatically?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! Viraly's AI can respond automatically to messages based on your configured responses and learning. You can set it to auto-reply, assist you with suggestions, or require your approval before sending. You have full control over the automation level.
-                    </div>
-                </div>
+            <div class="cta-badges">
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                    Setup in 5 minutes
+                </span>
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                    Cancel anytime
+                </span>
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                    24/7 Support
+                </span>
             </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can I automate Instagram DMs?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Absolutely! Viraly is designed specifically for Instagram automation. You can automate DMs, respond to comments, capture leads from Story replies, and even send broadcast messages to your followers—all within Instagram's terms of service.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Do I need coding skills?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Not at all! Viraly is built for non-technical users. Our visual workflow builder lets you create automations with simple drag-and-drop. If you can use Canva or Notion, you can use Viraly. We also provide pre-made templates to get you started instantly.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can my team collaborate?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! Viraly supports team collaboration with multiple users, role-based permissions, internal notes, and assignment features. Perfect for agencies managing multiple clients or businesses with dedicated social media teams.
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="text-center mt-2xl">
-            <a href="/faq" class="btn btn-secondary">View All FAQs</a>
         </div>
     </div>
 </section>
+{% endblock %}
 
-<!-- CTA Section -->
-<section class="section">
-    <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Ready to Automate Your DMs?</h2>
-                <p>Join 50,000+ creators and businesses who are growing while they sleep with Viraly.</p>
-                <div class="flex justify-center gap-lg mt-xl" style="flex-wrap: wrap;">
-                    <a href="#" class="btn btn-primary btn-lg">
-                        Get Started Free
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                            <polyline points="12 5 19 12 12 19"/>
-                        </svg>
-                    </a>
-                    <a href="/demo" class="btn btn-secondary btn-lg" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
-                        Watch Demo
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{% block scripts %}
+<script>
+// Animate elements on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.feature-card, .step-card, .testimonial-card, .pricing-card').forEach(el => {
+    observer.observe(el);
+});
+
+// Counter animation
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const counters = entry.target.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.dataset.count);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = counter.dataset.count.replace(/(\d+)/, target.toLocaleString());
+                        clearInterval(timer);
+                    }
+                }, 30);
+            });
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stats-grid, .stats-bar').forEach(el => counterObserver.observe(el));
+</script>
 {% endblock %}
