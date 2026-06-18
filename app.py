@@ -1,7 +1,7 @@
 """Flask application factory for Viraly platform."""
 
 import os
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
@@ -86,6 +86,7 @@ def _init_blueprints(app: Flask) -> None:
     from onboarding import onboarding_bp
     from comment_intelligence import comment_intelligence_bp
     from super_admin import super_admin_bp
+    from public import public_bp
     
     # AI DM Employee routes
     try:
@@ -111,35 +112,49 @@ def _init_blueprints(app: Flask) -> None:
     app.register_blueprint(onboarding_bp, url_prefix="/onboarding")
     app.register_blueprint(comment_intelligence_bp, url_prefix="/comment-intelligence")
     app.register_blueprint(super_admin_bp, url_prefix="/super-admin")
+    app.register_blueprint(public_bp)  # Public marketing pages
 
 
 def _init_error_handlers(app: Flask) -> None:
     """Initialize error handlers."""
+    from flask import render_template
     
     @app.errorhandler(400)
     def bad_request(error):
-        return jsonify({"error": "Bad Request", "message": str(error)}), 400
+        if request.accept_mimetypes.accept_json:
+            return jsonify({"error": "Bad Request", "message": str(error)}), 400
+        return render_template("public/400.html"), 400
     
     @app.errorhandler(401)
     def unauthorized(error):
-        return jsonify({"error": "Unauthorized", "message": "Authentication required"}), 401
+        if request.accept_mimetypes.accept_json:
+            return jsonify({"error": "Unauthorized", "message": "Authentication required"}), 401
+        return render_template("auth/login.html"), 401
     
     @app.errorhandler(403)
     def forbidden(error):
-        return jsonify({"error": "Forbidden", "message": "Access denied"}), 403
+        if request.accept_mimetypes.accept_json:
+            return jsonify({"error": "Forbidden", "message": "Access denied"}), 403
+        return render_template("public/403.html"), 403
     
     @app.errorhandler(404)
     def not_found(error):
-        return jsonify({"error": "Not Found", "message": "Resource not found"}), 404
+        if request.accept_mimetypes.accept_json:
+            return jsonify({"error": "Not Found", "message": "Resource not found"}), 404
+        return render_template("public/404.html"), 404
     
     @app.errorhandler(429)
     def rate_limit_exceeded(error):
-        return jsonify({"error": "Rate Limit Exceeded", "message": "Too many requests"}), 429
+        if request.accept_mimetypes.accept_json:
+            return jsonify({"error": "Rate Limit Exceeded", "message": "Too many requests"}), 429
+        return render_template("public/429.html"), 429
     
     @app.errorhandler(500)
     def internal_error(error):
         db.session.rollback()
-        return jsonify({"error": "Internal Server Error", "message": "An unexpected error occurred"}), 500
+        if request.accept_mimetypes.accept_json:
+            return jsonify({"error": "Internal Server Error", "message": "An unexpected error occurred"}), 500
+        return render_template("public/500.html"), 500
 
 
 def _init_health_check(app: Flask) -> None:

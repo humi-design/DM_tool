@@ -1,0 +1,81 @@
+{% extends "public/base.html" %}
+
+{% block title %}About Us - Viraly{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <div class="animate-on-scroll">
+            <h1>About <span class="text-gradient">Viraly</span></h1>
+            <p>We're building the future of social media automation.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container" style="max-width: 900px;">
+        <div class="animate-on-scroll" style="text-align: center; margin-bottom: var(--space-3xl);">
+            <h2 style="margin-bottom: var(--space-lg);">Our Mission</h2>
+            <p style="font-size: 1.25rem; line-height: 1.8;">
+                We believe every business deserves a 24/7 AI employee that never sleeps, never burns out, and always delivers exceptional customer experiences. Our mission is to democratize AI-powered automation so creators, small businesses, and enterprises alike can focus on what they do best—creating value—while Viraly handles the conversations.
+            </p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-3xl);">
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <h3 style="color: var(--primary);">50K+</h3>
+                <p>Active Users</p>
+            </div>
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <h3 style="color: var(--primary);">10M+</h3>
+                <p>Messages Automated</p>
+            </div>
+            <div class="card animate-on-scroll" style="text-align: center;">
+                <h3 style="color: var(--primary);">50+</h3>
+                <p>Countries</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background: var(--surface);">
+    <div class="container">
+        <div class="text-center mb-2xl animate-on-scroll">
+            <h2>Meet the <span class="text-gradient">Team</span></h2>
+        </div>
+        
+        <div class="team-grid" style="max-width: 900px; margin: 0 auto;">
+            <div class="team-card animate-on-scroll">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Alex Chen" class="team-avatar">
+                <h4 class="team-name">Alex Chen</h4>
+                <p class="team-role">CEO & Co-Founder</p>
+                <p class="team-bio">Former Meta engineer. Built messaging systems serving 1B+ users.</p>
+            </div>
+            <div class="team-card animate-on-scroll">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="Sarah Kim" class="team-avatar">
+                <h4 class="team-name">Sarah Kim</h4>
+                <p class="team-role">CTO & Co-Founder</p>
+                <p class="team-bio">AI researcher. Published 15+ papers on NLP and conversational AI.</p>
+            </div>
+            <div class="team-card animate-on-scroll">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Marcus Williams" class="team-avatar">
+                <h4 class="team-name">Marcus Williams</h4>
+                <p class="team-role">Head of Product</p>
+                <p class="team-bio">Ex-Instagram product manager. 10+ years in social media.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-section animate-on-scroll">
+            <div class="cta-content">
+                <h2>Want to Join Our Team?</h2>
+                <p>We're always looking for talented people to help us build the future.</p>
+                <a href="/careers" class="btn btn-primary btn-lg mt-xl">View Open Positions</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
