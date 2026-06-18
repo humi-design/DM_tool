@@ -1,34 +1,23 @@
 """Configuration management for AI Social OS platform.
 
-MANDATORY ENV VARS:
-- DATABASE_URL: Database connection string
-- MASTER_ENCRYPTION_KEY: Encryption key for secrets
+ONLY 2 ENV VARS ARE MANDATORY:
+    DATABASE_URL            - Database connection string
+    MASTER_ENCRYPTION_KEY   - Encryption key for secrets (256-bit)
 
-OPTIONAL ENV VARS (defaults will be generated):
-- SECRET_KEY: Flask secret key (auto-generated if not set)
-- JWT_SECRET: JWT signing secret (auto-generated if not set)
+ALL OTHER CONFIGS ARE OPTIONAL:
+    The application boots and runs without any optional services.
+    Unconfigured providers show as "not_configured" in /health endpoint.
 
-OPTIONAL SERVICE CONFIGS:
-AI Providers:
-- GEMINI_API_KEY, GEMINI_BASE_URL, GEMINI_MODEL
-- OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
-- ANTHROPIC_API_KEY, ANTHROPIC_BASE_URL, ANTHROPIC_MODEL
-- OLLAMA_BASE_URL, OLLAMA_MODEL
-- QWEN_API_KEY, QWEN_BASE_URL
-- GEMMA_API_KEY, GEMMA_BASE_URL
-- MISTRAL_API_KEY, MISTRAL_BASE_URL
+AUTO-GENERATED IF NOT SET:
+    SECRET_KEY    - Flask secret key (generated on first boot)
+    JWT_SECRET    - JWT signing secret (generated on first boot)
 
-OAuth Providers:
-- GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
-- META_APP_ID, META_APP_SECRET
-
-Payment Providers:
-- STRIPE_API_KEY, STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET
-- RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET
-- PAYTM_MERCHANT_KEY, PAYTM_MERCHANT_ID
-- PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
-
-All service configs are optional - application will work without them.
+OPTIONAL SERVICE PROVIDERS (all optional):
+    AI Providers:     GEMINI_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, etc.
+    OAuth:            GOOGLE_CLIENT_ID, META_APP_ID, etc.
+    Payments:         STRIPE_API_KEY, RAZORPAY_KEY_ID, PAYPAL_CLIENT_ID, etc.
+    Email:            MAIL_USERNAME, MAIL_PASSWORD, etc.
+    Cache:            REDIS_URL (defaults to in-memory)
 """
 
 from datetime import timedelta
