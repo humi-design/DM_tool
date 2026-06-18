@@ -86,7 +86,7 @@ def _init_blueprints(app: Flask) -> None:
     from onboarding import onboarding_bp
     from comment_intelligence import comment_intelligence_bp
     from super_admin import super_admin_bp
-    from public import public_bp
+    from marketing import public_bp
     
     # AI DM Employee routes
     try:
