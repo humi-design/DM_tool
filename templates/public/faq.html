@@ -1,128 +1,254 @@
 {% extends "public/base.html" %}
 
-{% block title %}FAQ - Viraly{% endblock %}
+{% block title %}FAQ - Viraly | Frequently Asked Questions{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Frequently asked questions about Viraly - pricing, setup, features, and more.">
+{% endblock %}
 
 {% block content %}
-<section class="page-header">
-    <div class="container">
-        <div class="animate-on-scroll">
-            <h1>Frequently Asked <span class="text-gradient">Questions</span></h1>
-            <p>Everything you need to know about Viraly.</p>
-        </div>
-    </div>
-</section>
 
-<section class="section">
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 40vh;">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+    </div>
     <div class="container">
-        <div class="faq-list stagger-children" style="max-width: 800px; margin: 0 auto;">
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    How does Viraly work?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Viraly connects to your social media accounts (Instagram, WhatsApp, Facebook) via secure OAuth integration. Once connected, our AI analyzes your messages and can automatically respond, capture leads, or route conversations to your team. You maintain full control with the ability to set response rules, customize AI behavior, and monitor all activity.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can the AI reply automatically?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! Viraly's AI can respond automatically based on your configured settings. You can choose between fully automated responses, AI-assisted suggestions that you approve, or a hybrid approach. The AI learns from your conversations and improves over time. You can also set specific hours for automation and fallback to manual responses outside those hours.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can I automate Instagram DMs?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Absolutely! Viraly is built specifically for Instagram automation. You can automate DMs, respond to comments, capture leads from Story replies, send broadcast messages, and manage all conversations from our unified inbox. Our automation is designed to work within Instagram's Terms of Service.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can I automate WhatsApp?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! Viraly supports WhatsApp automation including automated responses, lead capture, appointment booking, and order processing. Note that WhatsApp Business API approval may be required for some features, and we support both WhatsApp Business App and WhatsApp Business API.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can my team collaborate?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! Viraly includes full team collaboration features: multiple team members, role-based permissions (admin, agent, viewer), internal notes on conversations, conversation assignment, and real-time activity tracking. Perfect for agencies managing multiple clients or businesses with dedicated social media teams.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Do I need coding skills?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Not at all! Viraly is built for non-technical users. Our visual workflow builder lets you create automations with simple drag-and-drop—no code required. We also provide 50+ pre-made templates for common use cases. If you can use Canva or Notion, you can use Viraly.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Is my data secure?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Absolutely. We use bank-level encryption (AES-256) for all data, are GDPR compliant, and never store your social media passwords. All connections use OAuth and we maintain SOC 2 Type II certification. Learn more on our Security page.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    What's included in the free trial?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Our 14-day free trial gives you full access to all features on the Growth plan—no credit card required. You can connect one Instagram account, create workflows, and test all features. At the end of your trial, you can choose any plan or let it expire with no obligation.
-                    </div>
-                </div>
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 700px; margin: 0 auto;">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    FAQ
+                </span>
+                
+                <h1 class="hero-title" style="margin-top: var(--space-lg);">
+                    Frequently Asked <span class="gradient-text">Questions</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Everything you need to know about Viraly.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
+<!-- FAQ Sections -->
 <section class="section">
     <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Still have questions?</h2>
-                <p>Our team is here to help you get started.</p>
-                <a href="/contact" class="btn btn-primary btn-lg mt-xl">Contact Us</a>
+        <div class="faq-container">
+            <!-- General -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">General</h2>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">What is Viraly?</h3>
+                    <p class="faq-answer">Viraly is an AI-powered social media automation platform that handles your DMs, comments, and messages automatically. Our AI responds to inquiries, captures leads, and converts conversations - all while sounding human and working 24/7.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">How is Viraly different from other automation tools?</h3>
+                    <p class="faq-answer">Unlike traditional automation tools that require complex triggers and rules, Viraly uses AI that automatically understands context, intent, and sentiment. You don't need to set up 50+ rules - just connect and let AI work. It's simpler, faster, and more effective.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">What platforms does Viraly support?</h3>
+                    <p class="faq-answer">Currently, Viraly supports Instagram (DMs, Comments, Stories) and Facebook Messenger. WhatsApp support is coming soon. We're also working on TikTok integration.</p>
+                </div>
+            </div>
+            
+            <!-- Setup -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Setup & Getting Started</h2>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">How long does it take to set up?</h3>
+                    <p class="faq-answer">Most users are up and running in under 5 minutes. Simply connect your Instagram account, choose your goals (capture leads, answer questions, make sales), and watch the AI work. No coding, no automation rules, no technical skills required.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Do I need to set up triggers or automation rules?</h3>
+                    <p class="faq-answer">No! That's the beauty of Viraly. Unlike other tools, you don't need to set up complex triggers or automation rules. Our AI automatically understands what users want and responds appropriately. Just connect and let it work.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Is my account safe? Will this get me banned?</h3>
+                    <p class="faq-answer">Absolutely safe. Viraly is a Meta Verified Partner and our automation operates within each platform's terms of service. We use official APIs and have built-in safeguards to ensure your account stays secure. Thousands of users have been using Viraly for years without issues.</p>
+                </div>
+            </div>
+            
+            <!-- AI & Features -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">AI & Features</h2>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">How does the AI work?</h3>
+                    <p class="faq-answer">Our AI is trained on millions of social media conversations and understands context, intent, and sentiment. It can recognize returning users, spot buying signals in comments, handle objections, and respond naturally. It's like having a highly trained customer service rep that never sleeps.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I customize how the AI responds?</h3>
+                    <p class="faq-answer">Yes! You can train the AI with your brand voice, preferred responses, and specific offers. You can also set goals (capture emails, book appointments, make sales) and the AI will optimize its responses accordingly.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">What is "Intent Detection"?</h3>
+                    <p class="faq-answer">Intent Detection is our AI's ability to understand what users want. For example, when someone comments "How much?", the AI recognizes this as a buying signal and responds with pricing information. When a returning user messages, it remembers their previous conversation and greets them personally.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Does Viraly work during Instagram Lives?</h3>
+                    <p class="faq-answer">Yes! During live streams, Viraly monitors comments and can auto-reply or suggest responses for you to approve. This is perfect for handling the flood of questions that come in during a live session.</p>
+                </div>
+            </div>
+            
+            <!-- Pricing -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Pricing & Billing</h2>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">How much does Viraly cost?</h3>
+                    <p class="faq-answer">Plans start at $29/month for the Starter plan (1 Instagram account, 1,000 messages). Pro plan at $79/month offers 3 accounts and 10,000 messages. Agency plan at $199/month provides unlimited everything including white-label.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Is there a free trial?</h3>
+                    <p class="faq-answer">Yes! All plans come with a 14-day free trial. No credit card required to start. You get full access to all features during the trial period.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">What happens if I exceed my message limit?</h3>
+                    <p class="faq-answer">You'll receive notifications when you reach 80% of your limit. You can upgrade to a higher plan, or messages will pause until your next billing cycle. We never charge overages without explicit consent.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I cancel anytime?</h3>
+                    <p class="faq-answer">Absolutely. Cancel with one click from your dashboard. No questions asked, no cancellation fees. If you cancel, you'll retain access until the end of your billing period.</p>
+                </div>
+            </div>
+            
+            <!-- Security -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Security & Privacy</h2>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Is my data secure?</h3>
+                    <p class="faq-answer">Yes. We're SOC2 certified and use 256-bit encryption for all data. Your conversations and business information are never stored in plain text. We never sell your data to third parties.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Who owns my data?</h3>
+                    <p class="faq-answer">You do. All your data belongs to you. You can export or delete your data at any time. We only use anonymized, aggregated data for improving our AI models.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">Is Viraly GDPR compliant?</h3>
+                    <p class="faq-answer">Yes, we're fully GDPR compliant. We offer data residency options, right to deletion, and transparent data processing practices.</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Still Have Questions -->
+<section class="section alt-bg">
+    <div class="container">
+        <div class="contact-cta">
+            <h2>Still have questions?</h2>
+            <p>Our team is here to help. Reach out and we'll get back to you within 24 hours.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary">Contact Support</a>
+                <a href="#" class="btn btn-secondary">Book a Demo</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.alt-bg {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-category {
+    margin-bottom: var(--space-3xl);
+}
+
+.faq-category:last-child {
+    margin-bottom: 0;
+}
+
+.faq-category-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--border);
+    color: var(--text);
+}
+
+.faq-item {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-md);
+    border: 1px solid var(--border);
+}
+
+.faq-question {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    color: var(--text);
+}
+
+.faq-answer {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.contact-cta {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--space-3xl);
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+}
+
+.contact-cta h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-md);
+}
+
+.contact-cta p {
+    color: var(--muted);
+    margin-bottom: var(--space-xl);
+}
+
+.contact-cta .cta-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+</style>
 {% endblock %}
