@@ -1,43 +1,32 @@
 {% extends "public/base.html" %}
 
-{% block title %}Pricing - Viraly | Simple & Transparent Pricing{% endblock %}
+{% block title %}Pricing - Viraly | Simple, Transparent Pricing{% endblock %}
 
 {% block extra_head %}
-<meta name="description" content="Viraly pricing plans - Start free, scale as you grow. Choose from Starter, Pro, or Agency plans with no hidden fees.">
+<meta name="description" content="Viraly pricing plans - Start free, scale as you grow. Choose from Starter, Pro, or Agency plans.">
 {% endblock %}
 
 {% block content %}
+
 <!-- Hero Section -->
-<section class="hero-section" style="min-height: 60vh;">
+<section class="hero-section" style="min-height: 50vh;">
     <div class="hero-background">
         <div class="hero-gradient"></div>
     </div>
     <div class="container">
-        <div class="hero-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
-            <div class="hero-content" style="max-width: 100%;">
-                <!-- Trust Badges -->
-                <div class="trust-badges" style="justify-content: center;">
-                    <span class="trust-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <polyline points="9 12 11 14 15 10"/>
-                        </svg>
-                        SOC2 Certified
-                    </span>
-                    <span class="trust-badge verified">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                        Meta Verified Partner
-                    </span>
-                </div>
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    Simple Pricing
+                </span>
                 
-                <h1 class="hero-title" style="margin-top: var(--space-xl);">
-                    Simple, <span class="gradient-text">Transparent</span> Pricing
+                <h1 class="hero-title" style="margin-top: var(--space-lg);">
+                    Start Free. <span class="gradient-text">Scale as You Grow.</span>
                 </h1>
                 
-                <p class="hero-subtitle" style="max-width: 600px; margin: var(--space-lg) auto;">
-                    No hidden fees. No surprises. Start free and scale as you grow. Cancel anytime.
+                <p class="hero-subtitle" style="font-size: 1.125rem; max-width: 600px; margin: var(--space-lg) auto;">
+                    No hidden fees. No surprises. Cancel anytime. All plans include a 14-day free trial.
                 </p>
             </div>
         </div>
@@ -45,135 +34,89 @@
 </section>
 
 <!-- Pricing Cards -->
-<section class="pricing-section" style="padding-top: 0;">
+<section class="section" style="padding-top: 0;">
     <div class="container">
         <div class="pricing-grid">
-            <!-- Starter Plan -->
+            <!-- Starter -->
             <div class="pricing-card">
                 <div class="pricing-header">
                     <h3>Starter</h3>
-                    <p>Perfect for creators just starting</p>
+                    <p>Perfect for creators just starting out</p>
                 </div>
                 <div class="pricing-price">
                     <span class="currency">$</span>
                     <span class="amount">29</span>
                     <span class="period">/month</span>
                 </div>
+                <p class="pricing-note">Billed annually. $39 month-to-month.</p>
                 <ul class="pricing-features">
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        1 Instagram Account
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        1,000 AI Messages/mo
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Basic Templates
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Email Support
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Basic Analytics
-                    </li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1 Instagram Account</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1,000 AI Messages/mo</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Basic Templates</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Email Support</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Basic Analytics</li>
+                    <li class="disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Custom Training</li>
+                    <li class="disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> API Access</li>
                 </ul>
-                <a href="#" class="btn btn-secondary w-full">Get Started</a>
+                <a href="#" class="btn btn-secondary w-full">Start Free Trial</a>
             </div>
             
-            <!-- Pro Plan (Featured) -->
+            <!-- Pro -->
             <div class="pricing-card featured">
                 <div class="popular-badge">Most Popular</div>
                 <div class="pricing-header">
                     <h3>Pro</h3>
-                    <p>For growing creators & businesses</p>
+                    <p>For growing creators and businesses</p>
                 </div>
                 <div class="pricing-price">
                     <span class="currency">$</span>
                     <span class="amount">79</span>
                     <span class="period">/month</span>
                 </div>
+                <p class="pricing-note">Billed annually. $99 month-to-month.</p>
                 <ul class="pricing-features">
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        3 Social Accounts
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        10,000 AI Messages/mo
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Advanced AI Training
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Priority Support
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Full Analytics Dashboard
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Custom Workflows
-                    </li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 3 Social Accounts</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 10,000 AI Messages/mo</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Advanced AI Training</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Priority Support</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Full Analytics Dashboard</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Custom Workflows</li>
+                    <li class="disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> White Label</li>
                 </ul>
                 <a href="#" class="btn btn-primary w-full">Start Free Trial</a>
             </div>
             
-            <!-- Agency Plan -->
+            <!-- Agency -->
             <div class="pricing-card">
                 <div class="pricing-header">
                     <h3>Agency</h3>
-                    <p>For agencies & power users</p>
+                    <p>For agencies and power users</p>
                 </div>
                 <div class="pricing-price">
                     <span class="currency">$</span>
                     <span class="amount">199</span>
                     <span class="period">/month</span>
                 </div>
+                <p class="pricing-note">Billed annually. $249 month-to-month.</p>
                 <ul class="pricing-features">
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Unlimited Accounts
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Unlimited Messages
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        White Label
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        API Access
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Dedicated Support
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        SLA Guarantee
-                    </li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Accounts</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Messages</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Custom AI Training</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Dedicated Support</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Full Analytics + Exports</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> White Label</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> API Access + SLA</li>
                 </ul>
                 <a href="#" class="btn btn-secondary w-full">Contact Sales</a>
             </div>
         </div>
         
-        <p class="text-center mt-2xl" style="color: var(--muted);">
-            All plans include a 14-day free trial. No credit card required.
-        </p>
+        <p class="text-center" style="color: var(--muted); margin-top: var(--space-2xl);">All plans include a 14-day free trial. No credit card required to start.</p>
     </div>
 </section>
 
 <!-- Comparison Table -->
-<section class="section" style="background: var(--background);">
+<section class="section alt-bg">
     <div class="container">
         <div class="section-header text-center">
             <h2>Compare <span class="gradient-text">Plans</span></h2>
@@ -190,60 +133,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Social Accounts</td>
-                        <td>1</td>
-                        <td class="featured">3</td>
-                        <td>Unlimited</td>
-                    </tr>
-                    <tr>
-                        <td>AI Messages/mo</td>
-                        <td>1,000</td>
-                        <td class="featured">10,000</td>
-                        <td>Unlimited</td>
-                    </tr>
-                    <tr>
-                        <td>Team Members</td>
-                        <td>1</td>
-                        <td class="featured">5</td>
-                        <td>Unlimited</td>
-                    </tr>
-                    <tr>
-                        <td>Analytics</td>
-                        <td>Basic</td>
-                        <td class="featured">Advanced</td>
-                        <td>Advanced + Exports</td>
-                    </tr>
-                    <tr>
-                        <td>AI Training</td>
-                        <td>—</td>
-                        <td class="featured">Advanced</td>
-                        <td>Custom Training</td>
-                    </tr>
-                    <tr>
-                        <td>Custom Workflows</td>
-                        <td>—</td>
-                        <td class="featured">✓</td>
-                        <td>✓</td>
-                    </tr>
-                    <tr>
-                        <td>White Label</td>
-                        <td>—</td>
-                        <td class="featured">—</td>
-                        <td>✓</td>
-                    </tr>
-                    <tr>
-                        <td>API Access</td>
-                        <td>—</td>
-                        <td class="featured">—</td>
-                        <td>✓</td>
-                    </tr>
-                    <tr>
-                        <td>Support</td>
-                        <td>Email</td>
-                        <td class="featured">Priority</td>
-                        <td>Dedicated</td>
-                    </tr>
+                    <tr><td>Social Accounts</td><td>1</td><td class="featured">3</td><td>Unlimited</td></tr>
+                    <tr><td>AI Messages/mo</td><td>1,000</td><td class="featured">10,000</td><td>Unlimited</td></tr>
+                    <tr><td>Team Members</td><td>1</td><td class="featured">5</td><td>Unlimited</td></tr>
+                    <tr><td>Analytics</td><td>Basic</td><td class="featured">Advanced</td><td>Advanced + Exports</td></tr>
+                    <tr><td>AI Training</td><td>-</td><td class="featured">Advanced</td><td>Custom Training</td></tr>
+                    <tr><td>Custom Workflows</td><td>-</td><td class="featured"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></td><td><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></td></tr>
+                    <tr><td>White Label</td><td>-</td><td class="featured">-</td><td><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></td></tr>
+                    <tr><td>API Access</td><td>-</td><td class="featured">-</td><td><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></td></tr>
+                    <tr><td>Support</td><td>Email</td><td class="featured">Priority</td><td>Dedicated</td></tr>
                 </tbody>
             </table>
         </div>
@@ -261,63 +159,176 @@
         <div class="faq-grid">
             <div class="faq-item">
                 <h4>Can I change plans later?</h4>
-                <p>Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.</p>
+                <p>Yes! Upgrade or downgrade anytime. Changes take effect immediately.</p>
             </div>
-            
             <div class="faq-item">
-                <h4>What happens when I hit my message limit?</h4>
-                <p>You'll receive a notification when you reach 80% of your limit. You can upgrade or wait until the next billing cycle.</p>
+                <h4>What happens at message limit?</h4>
+                <p>You'll be notified at 80% usage. Upgrade or wait for next billing cycle.</p>
             </div>
-            
             <div class="faq-item">
                 <h4>Is there a free trial?</h4>
-                <p>Yes! All plans come with a 14-day free trial. No credit card required to start.</p>
+                <p>Yes! All plans include 14-day free trial. No credit card required.</p>
             </div>
-            
             <div class="faq-item">
                 <h4>Can I cancel anytime?</h4>
-                <p>Absolutely. Cancel with one click from your dashboard. No questions asked, no cancellation fees.</p>
+                <p>Absolutely. One-click cancellation. No questions, no fees.</p>
             </div>
-            
             <div class="faq-item">
                 <h4>Do you offer refunds?</h4>
-                <p>We offer a 30-day money-back guarantee. If you're not satisfied, contact us for a full refund.</p>
+                <p>30-day money-back guarantee. Not satisfied? Full refund, no questions.</p>
             </div>
-            
             <div class="faq-item">
-                <h4>What payment methods do you accept?</h4>
-                <p>We accept all major credit cards, PayPal, and wire transfers for annual plans.</p>
+                <h4>What payment methods?</h4>
+                <p>Credit cards, PayPal, and wire transfer for annual plans.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
+<!-- CTA -->
 <section class="cta-section">
     <div class="container">
         <div class="cta-wrapper">
             <h2>Start Your Free Trial Today</h2>
-            <p>Join 50,000+ creators and businesses who are growing with Viraly.</p>
+            <p>Join 50,000+ creators growing with Viraly.</p>
             <div class="cta-actions">
-                <a href="#" class="btn btn-primary btn-lg">
+                <a href="#" class="btn btn-primary btn-lg pulse-glow">
                     Start Free 14-Day Trial
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
                 <span class="cta-note">No credit card required</span>
-            </div>
-            <div class="cta-badges">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Setup in 5 minutes</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Cancel anytime</span>
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> 30-day guarantee</span>
             </div>
         </div>
     </div>
 </section>
 
 <style>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.alt-bg {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.pricing-card.featured {
+    border: 2px solid var(--primary);
+    transform: scale(1.02);
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 16px;
+    background: var(--gradient-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.pricing-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.pricing-header p {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.pricing-price {
+    text-align: center;
+    margin-bottom: var(--space-sm);
+}
+
+.pricing-price .currency {
+    font-size: 1.5rem;
+    font-weight: 600;
+    vertical-align: top;
+}
+
+.pricing-price .amount {
+    font-size: 4rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pricing-price .period {
+    font-size: 1rem;
+    color: var(--muted);
+}
+
+.pricing-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: var(--space-xl);
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-xl);
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    font-size: 0.9375rem;
+}
+
+.pricing-features li svg {
+    width: 18px;
+    height: 18px;
+    color: var(--success);
+    flex-shrink: 0;
+}
+
+.pricing-features li.disabled {
+    color: var(--muted);
+}
+
+.pricing-features li.disabled svg {
+    color: var(--muted);
+}
+
+/* Comparison Table */
 .comparison-table {
     overflow-x: auto;
     margin-top: var(--space-2xl);
@@ -342,7 +353,7 @@
 .comparison-table th {
     background: var(--background);
     font-weight: 600;
-    color: var(--text);
+    font-size: 0.875rem;
 }
 
 .comparison-table th.featured {
@@ -351,12 +362,11 @@
 }
 
 .comparison-table td {
-    color: var(--muted);
+    font-size: 0.9375rem;
 }
 
 .comparison-table td.featured {
     background: rgba(124,92,255,0.05);
-    color: var(--text);
     font-weight: 500;
 }
 
@@ -364,6 +374,7 @@
     border-bottom: none;
 }
 
+/* FAQ Grid */
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -386,6 +397,13 @@
 .faq-item p {
     font-size: 0.9375rem;
     color: var(--muted);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .pricing-card.featured {
+        transform: scale(1);
+    }
 }
 </style>
 {% endblock %}

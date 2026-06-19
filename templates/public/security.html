@@ -1,99 +1,478 @@
 {% extends "public/base.html" %}
 
-{% block title %}Security - Viraly{% endblock %}
+{% block title %}Security - Viraly | Enterprise-Grade Security{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Viraly security - SOC2 certified, 256-bit encryption, GDPR compliant. Your data is safe with us.">
+{% endblock %}
 
 {% block content %}
-<section class="page-header">
+
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh;">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+    </div>
     <div class="container">
-        <div class="animate-on-scroll">
-            <h1>Your Data is <span class="text-gradient">Safe</span></h1>
-            <p>Enterprise-grade security for peace of mind.</p>
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Enterprise Security
+                </span>
+                
+                <h1 class="hero-title" style="margin-top: var(--space-lg);">
+                    Your Data is <span class="gradient-text">Safe</span>
+                </h1>
+                
+                <p class="hero-subtitle" style="font-size: 1.125rem; max-width: 600px; margin: var(--space-lg) auto;">
+                    Enterprise-grade security with SOC2 certification, 256-bit encryption, and GDPR compliance. We take security as seriously as you do.
+                </p>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- Security Badges -->
 <section class="section">
     <div class="container">
-        <div class="security-grid">
-            <div class="security-card animate-on-scroll">
-                <div class="security-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
+        <div class="badges-grid">
+            <div class="security-badge">
+                <div class="badge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
                 </div>
-                <h3>Data Encryption</h3>
-                <p>All data is encrypted at rest (AES-256) and in transit (TLS 1.3). Your conversations are never stored in plain text.</p>
+                <h3>SOC2 Certified</h3>
+                <p> Independently audited security controls</p>
             </div>
             
-            <div class="security-card animate-on-scroll">
-                <div class="security-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
+            <div class="security-badge">
+                <div class="badge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <h3>256-bit Encryption</h3>
+                <p>Military-grade data protection</p>
+            </div>
+            
+            <div class="security-badge">
+                <div class="badge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h3>99.9% Uptime</h3>
+                <p>Enterprise reliability SLA</p>
+            </div>
+            
+            <div class="security-badge">
+                <div class="badge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 </div>
                 <h3>GDPR Compliant</h3>
-                <p>We're fully GDPR compliant with data residency options, right to deletion, and transparent data processing.</p>
+                <p>Full data privacy compliance</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Security Features -->
+<section class="section alt-bg">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Security</span>
+            <h2>Enterprise-Grade <span class="gradient-text">Protection</span></h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <h3>Data Encryption</h3>
+                <p>All data encrypted at rest (AES-256) and in transit (TLS 1.3). Conversations never stored in plain text.</p>
             </div>
             
-            <div class="security-card animate-on-scroll">
-                <div class="security-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Access Control</h3>
+                <p>Role-based access control (RBAC) ensures team members only access what they need.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
                 <h3>Privacy First</h3>
                 <p>We never sell your data. Your conversations and business information stay private and secure.</p>
             </div>
             
-            <div class="security-card animate-on-scroll">
-                <div class="security-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 </div>
-                <h3>Access Control</h3>
-                <p>Role-based access control (RBAC) ensures team members only see what they need.</p>
+                <h3>GDPR Compliance</h3>
+                <p>Full GDPR compliance with data residency options, right to deletion, and transparent processing.</p>
             </div>
             
-            <div class="security-card animate-on-scroll">
-                <div class="security-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
                 </div>
                 <h3>Permissions</h3>
-                <p>Granular permissions let you control who can send messages, access data, or modify settings.</p>
+                <p>Granular permissions control who can send messages, access data, or modify settings.</p>
             </div>
             
-            <div class="security-card animate-on-scroll">
-                <div class="security-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 16v-4"/>
-                        <path d="M12 8h.01"/>
-                    </svg>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21H3"/><path d="M18 9v12"/><path d="M14 4v17"/><path d="M10 9v7"/><path d="M6 14v2"/></svg>
                 </div>
-                <h3>SOC 2 Certified</h3>
-                <p>We've completed SOC 2 Type II audit, ensuring enterprise-grade security practices.</p>
+                <h3>Audit Logs</h3>
+                <p>Complete audit trail of all account activity for compliance and security monitoring.</p>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Compliance -->
 <section class="section">
     <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Questions about security?</h2>
-                <p>Our security team is ready to help.</p>
-                <a href="/contact" class="btn btn-primary btn-lg mt-xl">Contact Security Team</a>
+        <div class="compliance-section">
+            <div class="compliance-content">
+                <h2>Compliance You Can <span class="gradient-text">Trust</span></h2>
+                <p>We maintain the highest standards of compliance to protect your business and your customers.</p>
+                
+                <div class="compliance-list">
+                    <div class="compliance-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <div>
+                            <h4>SOC 2 Type II</h4>
+                            <p>Annual third-party security audits</p>
+                        </div>
+                    </div>
+                    <div class="compliance-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <div>
+                            <h4>GDPR Compliant</h4>
+                            <p>Full EU data protection compliance</p>
+                        </div>
+                    </div>
+                    <div class="compliance-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <div>
+                            <h4>CCPA Compliant</h4>
+                            <p>California consumer privacy rights</p>
+                        </div>
+                    </div>
+                    <div class="compliance-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <div>
+                            <h4>HIPAA Ready</h4>
+                            <p>Healthcare data protection standards</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="compliance-visual">
+                <div class="security-visual">
+                    <div class="shield-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    </div>
+                    <p>Your data is protected by enterprise-grade security</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Data Centers -->
+<section class="section alt-bg">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Infrastructure</span>
+            <h2>Global <span class="gradient-text">Data Centers</span></h2>
+        </div>
+        
+        <div class="datacenters-grid">
+            <div class="datacenter-card">
+                <div class="datacenter-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h4>US East</h4>
+                <p>Virginia, USA</p>
+            </div>
+            <div class="datacenter-card">
+                <div class="datacenter-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h4>EU West</h4>
+                <p>Ireland</p>
+            </div>
+            <div class="datacenter-card">
+                <div class="datacenter-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h4>Asia Pacific</h4>
+                <p>Singapore</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-wrapper">
+            <h2>Your Data is in Safe Hands</h2>
+            <p>Enterprise-grade security for peace of mind.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary btn-lg pulse-glow">
+                    Start Free Trial
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <span class="cta-note">SOC2 Certified</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.alt-bg {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.security-badge {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.badge-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
+    border-radius: var(--radius-lg);
+    margin: 0 auto var(--space-lg);
+}
+
+.badge-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--primary);
+}
+
+.security-badge h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+}
+
+.security-badge p {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.feature-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    border: 1px solid var(--border);
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+}
+
+.feature-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+.feature-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+}
+
+.feature-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* Compliance */
+.compliance-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4xl);
+    align-items: center;
+}
+
+.compliance-content h2 {
+    font-size: 2rem;
+    margin-bottom: var(--space-md);
+}
+
+.compliance-content > p {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    margin-bottom: var(--space-xl);
+}
+
+.compliance-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.compliance-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.compliance-item svg {
+    width: 24px;
+    height: 24px;
+    color: var(--success);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.compliance-item h4 {
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.compliance-item p {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.compliance-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.security-visual {
+    background: var(--surface);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-4xl);
+    text-align: center;
+    border: 1px solid var(--border);
+    max-width: 300px;
+}
+
+.shield-icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 50%;
+    margin: 0 auto var(--space-xl);
+}
+
+.shield-icon svg {
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+.security-visual p {
+    font-size: 0.9375rem;
+    color: var(--muted);
+}
+
+/* Data Centers */
+.datacenters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.datacenter-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.datacenter-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
+    border-radius: var(--radius-lg);
+    margin: 0 auto var(--space-md);
+}
+
+.datacenter-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--primary);
+}
+
+.datacenter-card h4 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.datacenter-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+@media (max-width: 768px) {
+    .compliance-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .compliance-visual {
+        order: -1;
+    }
+}
+</style>
 {% endblock %}

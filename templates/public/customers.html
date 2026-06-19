@@ -1,130 +1,91 @@
 {% extends "public/base.html" %}
 
-{% block title %}Customers - Viraly{% endblock %}
+{% block title %}Customers - Viraly | Success Stories{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="See how creators and businesses are growing with Viraly. Real success stories and case studies.">
+{% endblock %}
 
 {% block content %}
-<section class="page-header">
+
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh;">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+    </div>
     <div class="container">
-        <div class="animate-on-scroll">
-            <h1>Success <span class="text-gradient">Stories</span></h1>
-            <p>See how businesses like yours are growing with Viraly.</p>
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Success Stories
+                </span>
+                
+                <h1 class="hero-title" style="margin-top: var(--space-lg);">
+                    Trusted by <span class="gradient-text">50,000+</span> Creators
+                </h1>
+                
+                <p class="hero-subtitle" style="font-size: 1.125rem; max-width: 600px; margin: var(--space-lg) auto;">
+                    From solo creators to enterprise brands, see how businesses are growing with Viraly's AI automation.
+                </p>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- Stats -->
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item"><div class="stat-number">50K+</div><div class="stat-label">Active Users</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">$25M+</div><div class="stat-label">Revenue Generated</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">4.9/5</div><div class="stat-label">Average Rating</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Countries</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Testimonial -->
 <section class="section">
     <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--space-xl);">
-            <div class="story-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=600&h=300&fit=crop" alt="Creator" class="story-image">
-                <div class="story-content">
-                    <span class="story-category">Creator</span>
-                    <h4 class="story-title">How Sarah Chen 10x'd Her Brand Deals</h4>
-                    <p class="story-excerpt">Sarah was spending 20+ hours weekly on DMs. Now she focuses on content while Viraly handles all collaboration inquiries.</p>
-                    <div class="story-stats">
-                        <div>
-                            <div class="story-stat-value">10x</div>
-                            <div class="story-stat-label">More Deals</div>
-                        </div>
-                        <div>
-                            <div class="story-stat-value">20h</div>
-                            <div class="story-stat-label">Saved/Week</div>
-                        </div>
-                    </div>
+        <div class="featured-testimonial">
+            <div class="testimonial-image">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&h=600&fit=crop" alt="Success Story">
+                <div class="testimonial-quote">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                 </div>
             </div>
-            
-            <div class="story-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=300&fit=crop" alt="Agency" class="story-image">
-                <div class="story-content">
-                    <span class="story-category">Agency</span>
-                    <h4 class="story-title">SocialBoost Scales to 50+ Clients</h4>
-                    <p class="story-excerpt">With Viraly's team features and unified inbox, SocialBoost manages 50+ client accounts with just 5 team members.</p>
-                    <div class="story-stats">
-                        <div>
-                            <div class="story-stat-value">50+</div>
-                            <div class="story-stat-label">Clients</div>
-                        </div>
-                        <div>
-                            <div class="story-stat-value">90%</div>
-                            <div class="story-stat-label">Cost Savings</div>
-                        </div>
+            <div class="testimonial-content">
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <blockquote>"Viraly completely transformed my business. I went from spending 4 hours daily on DMs to just 30 minutes reviewing what AI handled. My revenue increased 340% in 6 months."</blockquote>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/64?img=47" alt="Sarah Mitchell">
+                    <div>
+                        <strong>Sarah Mitchell</strong>
+                        <span>Course Creator, 280K Followers</span>
                     </div>
                 </div>
-            </div>
-            
-            <div class="story-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=300&fit=crop" alt="Restaurant" class="story-image">
-                <div class="story-content">
-                    <span class="story-category">Restaurant</span>
-                    <h4 class="story-title">Taco Paradise's DM Revolution</h4>
-                    <p class="story-excerpt">From 50 to 500+ daily reservations, Viraly transformed how this restaurant handles social media inquiries.</p>
-                    <div class="story-stats">
-                        <div>
-                            <div class="story-stat-value">10x</div>
-                            <div class="story-stat-label">Reservations</div>
-                        </div>
-                        <div>
-                            <div class="story-stat-value">$50K</div>
-                            <div class="story-stat-label">Revenue/Month</div>
-                        </div>
+                <div class="testimonial-results">
+                    <div class="result">
+                        <span class="result-value">340%</span>
+                        <span class="result-label">Revenue Increase</span>
                     </div>
-                </div>
-            </div>
-            
-            <div class="story-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=300&fit=crop" alt="E-commerce" class="story-image">
-                <div class="story-content">
-                    <span class="story-category">E-commerce</span>
-                    <h4 class="story-title">StyleBox Increases Conversion by 45%</h4>
-                    <p class="story-excerpt">Automated cart recovery and instant customer support helped StyleBox boost their conversion rate significantly.</p>
-                    <div class="story-stats">
-                        <div>
-                            <div class="story-stat-value">45%</div>
-                            <div class="story-stat-label">More Conversions</div>
-                        </div>
-                        <div>
-                            <div class="story-stat-value">65%</div>
-                            <div class="story-stat-label">Less Support</div>
-                        </div>
+                    <div class="result">
+                        <span class="result-value">4hrs</span>
+                        <span class="result-label">Saved Daily</span>
                     </div>
-                </div>
-            </div>
-            
-            <div class="story-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=300&fit=crop" alt="Real Estate" class="story-image">
-                <div class="story-content">
-                    <span class="story-category">Real Estate</span>
-                    <h4 class="story-title">Premier Homes' Lead Explosion</h4>
-                    <p class="story-excerpt">Instant responses and automated property matching helped Premier Homes capture twice as many qualified leads.</p>
-                    <div class="story-stats">
-                        <div>
-                            <div class="story-stat-value">2x</div>
-                            <div class="story-stat-label">More Leads</div>
-                        </div>
-                        <div>
-                            <div class="story-stat-value">3x</div>
-                            <div class="story-stat-label">Faster Response</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="story-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=300&fit=crop" alt="Coach" class="story-image">
-                <div class="story-content">
-                    <span class="story-category">Coach</span>
-                    <h4 class="story-title">GrowthLab's Consultation Bot</h4>
-                    <p class="story-excerpt">By automating discovery calls and qualification, GrowthLab booked 3x more consultations without hiring.</p>
-                    <div class="story-stats">
-                        <div>
-                            <div class="story-stat-value">3x</div>
-                            <div class="story-stat-label">Bookings</div>
-                        </div>
-                        <div>
-                            <div class="story-stat-value">$120K</div>
-                            <div class="story-stat-label">Revenue</div>
-                        </div>
+                    <div class="result">
+                        <span class="result-value">2.4K</span>
+                        <span class="result-label">New Leads/mo</span>
                     </div>
                 </div>
             </div>
@@ -132,15 +93,370 @@
     </div>
 </section>
 
-<section class="section">
+<!-- Testimonials Grid -->
+<section class="section alt-bg">
     <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Ready to Write Your Success Story?</h2>
-                <p>Join thousands of businesses already growing with Viraly.</p>
-                <a href="#" class="btn btn-primary btn-lg mt-xl">Start Free Trial</a>
+        <div class="section-header text-center">
+            <span class="section-tag">Testimonials</span>
+            <h2>What Our <span class="gradient-text">Customers Say</span></h2>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-card-header">
+                    <img src="https://i.pravatar.cc/48?img=12" alt="Marcus Johnson">
+                    <div>
+                        <strong>Marcus Johnson</strong>
+                        <span>E-commerce Brand Owner</span>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <p>"The AI is incredibly smart. It handled objections, answered questions, and closed sales while I was sleeping. Best investment I've made."</p>
+                <div class="testimonial-results-mini">
+                    <span>+180% Sales</span>
+                    <span>5,200 Leads</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-card-header">
+                    <img src="https://i.pravatar.cc/48?img=32" alt="Emily Rodriguez">
+                    <div>
+                        <strong>Emily Rodriguez</strong>
+                        <span>Fitness Coach, 95K Followers</span>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <p>"I was skeptical at first, but the AI genuinely sounds like me. My followers don't even know they're talking to a bot!"</p>
+                <div class="testimonial-results-mini">
+                    <span>+260% Engagement</span>
+                    <span>890 Clients</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-card-header">
+                    <img src="https://i.pravatar.cc/48?img=15" alt="David Chen">
+                    <div>
+                        <strong>David Chen</strong>
+                        <span>Real Estate Agent</span>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <p>"Every lead that comes through Instagram gets an instant response with property recommendations. My conversion rate went from 8% to 31%."</p>
+                <div class="testimonial-results-mini">
+                    <span>+31% Conversion</span>
+                    <span>$1.2M Sales</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-card-header">
+                    <img src="https://i.pravatar.cc/48?img=44" alt="Jessica Park">
+                    <div>
+                        <strong>Jessica Park</strong>
+                        <span>Beauty Brand CEO</span>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <p>"We handle 500+ DMs daily across three brands. Without Viraly, we'd need a team of 5 people. Now it's just me."</p>
+                <div class="testimonial-results-mini">
+                    <span>-90% Cost</span>
+                    <span>500+ DMs Daily</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-card-header">
+                    <img src="https://i.pravatar.cc/48?img=53" alt="Alex Thompson">
+                    <div>
+                        <strong>Alex Thompson</strong>
+                        <span>Marketing Agency Owner</span>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <p>"I manage 23 client accounts with Viraly. The white-label feature is perfect for my agency. Clients are blown away by the results."</p>
+                <div class="testimonial-results-mini">
+                    <span>23 Clients</span>
+                    <span>$45K/mo Revenue</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-card-header">
+                    <img src="https://i.pravatar.cc/48?img=26" alt="Michelle Lee">
+                    <div>
+                        <strong>Michelle Lee</strong>
+                        <span>Life Coach</span>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#FFB800" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <p>"The 'welcome back' feature is genius. When clients return after months, it remembers everything. They feel so valued."</p>
+                <div class="testimonial-results-mini">
+                    <span>+420% Leads</span>
+                    <span>78% Retention</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-wrapper">
+            <h2>Ready to Write Your Success Story?</h2>
+            <p>Join 50,000+ creators and businesses growing with Viraly.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary btn-lg pulse-glow">
+                    Start Free Trial
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <span class="cta-note">No credit card required</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.alt-bg {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+/* Featured Testimonial */
+.featured-testimonial {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-4xl);
+    align-items: center;
+    background: var(--surface);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.testimonial-image {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+}
+
+.testimonial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-quote {
+    position: absolute;
+    top: var(--space-xl);
+    left: var(--space-xl);
+    color: var(--primary);
+    opacity: 0.3;
+}
+
+.testimonial-content {
+    padding: var(--space-3xl);
+}
+
+.testimonial-rating {
+    display: flex;
+    gap: 4px;
+    margin-bottom: var(--space-lg);
+}
+
+blockquote {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0 0 var(--space-xl);
+    font-style: italic;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.testimonial-author img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+}
+
+.testimonial-author strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.testimonial-author span {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.testimonial-results {
+    display: flex;
+    gap: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border);
+}
+
+.result {
+    text-align: center;
+}
+
+.result-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.result-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+/* Testimonials Grid */
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.testimonial-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.testimonial-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.testimonial-card-header img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.testimonial-card-header strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--text);
+}
+
+.testimonial-card-header span {
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+.testimonial-card .testimonial-rating {
+    margin-bottom: var(--space-md);
+}
+
+.testimonial-card p {
+    font-size: 0.9375rem;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+}
+
+.testimonial-results-mini {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.testimonial-results-mini span {
+    padding: 4px 10px;
+    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
+    border-radius: 12px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .featured-testimonial {
+        grid-template-columns: 1fr;
+    }
+    
+    .testimonial-image {
+        min-height: 300px;
+    }
+    
+    .testimonial-content {
+        padding: var(--space-xl);
+    }
+    
+    blockquote {
+        font-size: 1rem;
+    }
+}
+</style>
 {% endblock %}

@@ -1,81 +1,337 @@
 {% extends "public/base.html" %}
 
-{% block title %}About Us - Viraly{% endblock %}
+{% block title %}About - Viraly | Our Story{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Learn about Viraly - our mission to democratize AI-powered social media automation for creators and businesses.">
+{% endblock %}
 
 {% block content %}
-<section class="page-header">
+
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh;">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+    </div>
     <div class="container">
-        <div class="animate-on-scroll">
-            <h1>About <span class="text-gradient">Viraly</span></h1>
-            <p>We're building the future of social media automation.</p>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container" style="max-width: 900px;">
-        <div class="animate-on-scroll" style="text-align: center; margin-bottom: var(--space-3xl);">
-            <h2 style="margin-bottom: var(--space-lg);">Our Mission</h2>
-            <p style="font-size: 1.25rem; line-height: 1.8;">
-                We believe every business deserves a 24/7 AI employee that never sleeps, never burns out, and always delivers exceptional customer experiences. Our mission is to democratize AI-powered automation so creators, small businesses, and enterprises alike can focus on what they do best—creating value—while Viraly handles the conversations.
-            </p>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-3xl);">
-            <div class="card animate-on-scroll" style="text-align: center;">
-                <h3 style="color: var(--primary);">50K+</h3>
-                <p>Active Users</p>
-            </div>
-            <div class="card animate-on-scroll" style="text-align: center;">
-                <h3 style="color: var(--primary);">10M+</h3>
-                <p>Messages Automated</p>
-            </div>
-            <div class="card animate-on-scroll" style="text-align: center;">
-                <h3 style="color: var(--primary);">50+</h3>
-                <p>Countries</p>
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    Our Mission
+                </span>
+                
+                <h1 class="hero-title" style="margin-top: var(--space-lg);">
+                    Democratizing <span class="gradient-text">AI for Everyone</span>
+                </h1>
+                
+                <p class="hero-subtitle" style="font-size: 1.125rem; max-width: 600px; margin: var(--space-lg) auto;">
+                    We believe every creator and business deserves access to AI that works as hard as they do.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" style="background: var(--surface);">
-    <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Meet the <span class="text-gradient">Team</span></h2>
-        </div>
-        
-        <div class="team-grid" style="max-width: 900px; margin: 0 auto;">
-            <div class="team-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Alex Chen" class="team-avatar">
-                <h4 class="team-name">Alex Chen</h4>
-                <p class="team-role">CEO & Co-Founder</p>
-                <p class="team-bio">Former Meta engineer. Built messaging systems serving 1B+ users.</p>
-            </div>
-            <div class="team-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="Sarah Kim" class="team-avatar">
-                <h4 class="team-name">Sarah Kim</h4>
-                <p class="team-role">CTO & Co-Founder</p>
-                <p class="team-bio">AI researcher. Published 15+ papers on NLP and conversational AI.</p>
-            </div>
-            <div class="team-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Marcus Williams" class="team-avatar">
-                <h4 class="team-name">Marcus Williams</h4>
-                <p class="team-role">Head of Product</p>
-                <p class="team-bio">Ex-Instagram product manager. 10+ years in social media.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
+<!-- Mission Section -->
 <section class="section">
     <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Want to Join Our Team?</h2>
-                <p>We're always looking for talented people to help us build the future.</p>
-                <a href="/careers" class="btn btn-primary btn-lg mt-xl">View Open Positions</a>
+        <div class="about-split">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=500&fit=crop" alt="Our Team">
+            </div>
+            <div class="about-content">
+                <h2>Built by Creators, <span class="gradient-text">for Creators</span></h2>
+                <p>Viraly was founded in 2021 by a team of former social media managers who understood the struggle firsthand. We spent years manually replying to DMs, losing leads while we slept, and watching competitors who had entire teams.</p>
+                <p>We knew there had to be a better way. So we built it.</p>
+                <p>Today, Viraly helps 50,000+ creators and businesses automate their social media conversations with AI that sounds human, works 24/7, and actually converts.</p>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Stats -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-value">2021</div>
+                <div class="stat-label">Founded</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">50K+</div>
+                <div class="stat-label">Users</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">$25M+</div>
+                <div class="stat-label">Revenue Generated</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">50+</div>
+                <div class="stat-label">Team Members</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values -->
+<section class="section alt-bg">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Values</span>
+            <h2>What We <span class="gradient-text">Believe In</span></h2>
+        </div>
+        
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                </div>
+                <h3>Simplicity First</h3>
+                <p>No complex automation rules. No triggers. No coding. AI should just work.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Privacy Matters</h3>
+                <p>Your data is yours. We never sell information. SOC2 certified security.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Customer Obsessed</h3>
+                <p>24/7 support. Monthly updates. We listen to every piece of feedback.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <h3>Results Driven</h3>
+                <p>We measure success by your revenue, not our vanity metrics.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team -->
+<section class="section">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Team</span>
+            <h2>Meet the <span class="gradient-text">Founders</span></h2>
+        </div>
+        
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="https://i.pravatar.cc/200?img=11" alt="Alex Chen">
+                <h4>Alex Chen</h4>
+                <span>CEO & Co-Founder</span>
+                <p>Former Meta PM. Built messaging products used by 1B+ users.</p>
+            </div>
+            
+            <div class="team-card">
+                <img src="https://i.pravatar.cc/200?img=5" alt="Maya Patel">
+                <h4>Maya Patel</h4>
+                <span>CTO & Co-Founder</span>
+                <p>Ex-Google AI researcher. Published 20+ papers on NLP.</p>
+            </div>
+            
+            <div class="team-card">
+                <img src="https://i.pravatar.cc/200?img=3" alt="Jordan Williams">
+                <h4>Jordan Williams</h4>
+                <span>COO & Co-Founder</span>
+                <p>10+ years in SaaS. Scaled 3 companies to $10M+ ARR.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-wrapper">
+            <h2>Join Our Mission</h2>
+            <p>Help us democratize AI for every creator and business.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary btn-lg pulse-glow">
+                    Start Free Trial
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.alt-bg {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+.about-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4xl);
+    align-items: center;
+}
+
+.about-image {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.about-image img {
+    width: 100%;
+    display: block;
+}
+
+.about-content h2 {
+    font-size: 2rem;
+    margin-bottom: var(--space-lg);
+}
+
+.about-content p {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+}
+
+.stats-section {
+    padding: var(--space-4xl) 0;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+.stats-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4xl);
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    text-align: center;
+    color: white;
+}
+
+.stat-box .stat-value {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+}
+
+.stat-box .stat-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.value-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.value-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
+    border-radius: var(--radius-lg);
+    margin: 0 auto var(--space-md);
+}
+
+.value-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--primary);
+}
+
+.value-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+}
+
+.value-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.team-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.team-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: var(--space-lg);
+}
+
+.team-card h4 {
+    font-size: 1.125rem;
+    margin-bottom: 4px;
+}
+
+.team-card span {
+    font-size: 0.8125rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.team-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: var(--space-md);
+}
+
+@media (max-width: 768px) {
+    .about-split {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-row {
+        gap: var(--space-2xl);
+    }
+}
+</style>
 {% endblock %}

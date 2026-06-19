@@ -1,129 +1,570 @@
 {% extends "public/base.html" %}
 
-{% block title %}Integrations - Viraly{% endblock %}
+{% block title %}Integrations - Viraly | Connect Your Favorite Tools{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Connect Viraly with 200+ tools including CRM, email marketing, calendars, and more. One-click integrations.">
+{% endblock %}
 
 {% block content %}
-<section class="page-header">
-    <div class="container">
-        <div class="animate-on-scroll">
-            <h1>Integrates With Your <span class="text-gradient">Entire Stack</span></h1>
-            <p>Connect Viraly with 200+ tools you already use and love.</p>
-        </div>
-    </div>
-</section>
 
-<section class="section">
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 60vh;">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+    </div>
     <div class="container">
-        <div class="integrations-grid stagger-children" style="max-width: 1000px; margin: 0 auto;">
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Instagram</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">WhatsApp</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Facebook</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Shopify</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.441 16.892c-2.102.144-6.784.144-8.883 0C5.282 16.736 5.017 15.622 5 14.025V7.935c.017-1.597.282-2.711.558-3.867h8.441c.276 1.156.542 2.27.558 3.867V14.025c-.017 1.597-.282 2.711-.558 3.867z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Zapier</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">n8n</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M18.164 7.93V5.084a2.198 2.198 0 10-1.28 0v2.846a2.198 2.198 0 101.28 0zm-4.873 0V5.084a2.198 2.198 0 10-1.28 0v2.846a2.198 2.198 0 101.28 0zm-4.873 0V5.084a2.198 2.198 0 10-1.28 0v2.846a2.198 2.198 0 101.28 0zM21.75 13.845a1.61 1.61 0 01-1.61 1.61h-1.61v1.61a1.61 1.61 0 11-3.22 0v-1.61h-1.61a1.61 1.61 0 110-3.22h1.61v-1.61a1.61 1.61 0 113.22 0v1.61h1.61a1.61 1.61 0 011.61 1.61zM7.75 13.845H6.14a1.61 1.61 0 00-1.61 1.61 1.61 1.61 0 001.61 1.61h1.61v1.61a1.61 1.61 0 003.22 0v-1.61h1.61a1.61 1.61 0 000-3.22h-1.61v-1.61a1.61 1.61 0 00-3.22 0v1.61h-.04zM21.75 7.845a1.61 1.61 0 01-1.61 1.61H18.53v1.61a1.61 1.61 0 11-3.22 0v-1.61h-1.61a1.61 1.61 0 110-3.22h1.61V3.035a1.61 1.61 0 013.22 0v1.61h1.61a1.61 1.61 0 011.61 1.61v1.59zM7.75 7.845H6.14a1.61 1.61 0 00-1.61 1.61 1.61 1.61 0 001.61 1.61h1.61v1.61a1.61 1.61 0 003.22 0V11.065h1.61a1.61 1.61 0 000-3.22H10.83v-1.61a1.61 1.61 0 00-3.22 0v1.61H7.75z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">HubSpot</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Slack</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.8a7.2 7.2 0 110 14.4 7.2 7.2 0 010-14.4z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Google Sheets</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 17.785c-1.472 1.473-3.857 1.473-5.329 0l-2.329-2.329 5.329-5.329 2.329 2.329c1.472 1.473 1.472 3.857 0 5.329zM8.106 8.894L5.777 6.565c-1.472-1.473-1.472-3.857 0-5.329 1.472-1.473 3.857-1.473 5.329 0l2.329 2.329-5.329 5.329z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">WooCommerce</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Webhook</span>
-            </div>
-            <div class="integration-card integration-animated">
-                <div class="integration-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                    </svg>
-                </div>
-                <span class="integration-name">Make</span>
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
+                <span class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    200+ Integrations
+                </span>
+                
+                <h1 class="hero-title" style="margin-top: var(--space-lg);">
+                    Connect Your <span class="gradient-text">Entire Stack</span>
+                </h1>
+                
+                <p class="hero-subtitle" style="font-size: 1.125rem; max-width: 600px; margin: var(--space-lg) auto;">
+                    One-click integrations with the tools you already use. CRM, email, calendars, analytics, and more.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Stats -->
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item"><div class="stat-number">200+</div><div class="stat-label">Integrations</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">1-Click</div><div class="stat-label">Setup</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">Zapier</div><div class="stat-label">Native</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">API</div><div class="stat-label">Access</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Platforms -->
 <section class="section">
     <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Don't See Your Tool?</h2>
-                <p>We're constantly adding new integrations. Request one and we'll prioritize it.</p>
-                <a href="#" class="btn btn-primary btn-lg mt-xl">Request Integration</a>
+        <div class="section-header text-center">
+            <span class="section-tag">Social Platforms</span>
+            <h2>Connect Your <span class="gradient-text">Social Accounts</span></h2>
+        </div>
+        
+        <div class="platform-grid">
+            <div class="platform-card ig">
+                <div class="platform-logo">
+                    <svg viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/></svg>
+                </div>
+                <h3>Instagram</h3>
+                <p>DMs, Comments, Stories, Reels</p>
+                <span class="platform-status connected">Connected</span>
+            </div>
+            
+            <div class="platform-card wa">
+                <div class="platform-logo">
+                    <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                </div>
+                <h3>WhatsApp</h3>
+                <p>Business Messages, Orders</p>
+                <span class="platform-status available">Available</span>
+            </div>
+            
+            <div class="platform-card fb">
+                <div class="platform-logo">
+                    <svg viewBox="0 0 24 24" fill="#0084FF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </div>
+                <h3>Facebook</h3>
+                <p>Messenger, Comments</p>
+                <span class="platform-status connected">Connected</span>
+            </div>
+            
+            <div class="platform-card tt">
+                <div class="platform-logo">
+                    <svg viewBox="0 0 24 24" fill="#010101"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                </div>
+                <h3>TikTok</h3>
+                <p>Comments, Live Chat</p>
+                <span class="platform-status coming">Coming Soon</span>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Integration Categories -->
+<section class="section alt-bg">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">Tools</span>
+            <h2>Popular <span class="gradient-text">Integrations</span></h2>
+        </div>
+        
+        <div class="integration-grid">
+            <!-- CRM -->
+            <div class="integration-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>CRM</h3>
+                </div>
+                <div class="integration-list">
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/salesforce.com" alt="Salesforce" onerror="this.src='https://via.placeholder.com/32?text=SF'">
+                        <span>Salesforce</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/hubspot.com" alt="HubSpot" onerror="this.src='https://via.placeholder.com/32?text=HS'">
+                        <span>HubSpot</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/pipedrive.com" alt="Pipedrive" onerror="this.src='https://via.placeholder.com/32?text=PD'">
+                        <span>Pipedrive</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/zoho.com" alt="Zoho" onerror="this.src='https://via.placeholder.com/32?text=Z'">
+                        <span>Zoho CRM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email -->
+            <div class="integration-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <h3>Email Marketing</h3>
+                </div>
+                <div class="integration-list">
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/mailchimp.com" alt="Mailchimp" onerror="this.src='https://via.placeholder.com/32?text=MC'">
+                        <span>Mailchimp</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/convertkit.com" alt="ConvertKit" onerror="this.src='https://via.placeholder.com/32?text=CK'">
+                        <span>ConvertKit</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/activecampaign.com" alt="ActiveCampaign" onerror="this.src='https://via.placeholder.com/32?text=AC'">
+                        <span>ActiveCampaign</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/sendgrid.com" alt="SendGrid" onerror="this.src='https://via.placeholder.com/32?text=SG'">
+                        <span>SendGrid</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendars -->
+            <div class="integration-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <h3>Calendars</h3>
+                </div>
+                <div class="integration-list">
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/google.com" alt="Google Calendar" onerror="this.src='https://via.placeholder.com/32?text=GC'">
+                        <span>Google Calendar</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/calendly.com" alt="Calendly" onerror="this.src='https://via.placeholder.com/32?text=CT'">
+                        <span>Calendly</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/once.com" alt="Once" onerror="this.src='https://via.placeholder.com/32?text=OC'">
+                        <span>Once</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics -->
+            <div class="integration-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21H3"/><path d="M18 9v12"/><path d="M14 4v17"/><path d="M10 9v7"/><path d="M6 14v2"/></svg>
+                    </div>
+                    <h3>Analytics</h3>
+                </div>
+                <div class="integration-list">
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/google.com" alt="Google Analytics" onerror="this.src='https://via.placeholder.com/32?text=GA'">
+                        <span>Google Analytics</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/facebook.com" alt="Meta Pixel" onerror="this.src='https://via.placeholder.com/32?text=MP'">
+                        <span>Meta Pixel</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/datadog.com" alt="Datadog" onerror="this.src='https://via.placeholder.com/32?text=DD'">
+                        <span>Datadog</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payments -->
+            <div class="integration-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    </div>
+                    <h3>Payments</h3>
+                </div>
+                <div class="integration-list">
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/stripe.com" alt="Stripe" onerror="this.src='https://via.placeholder.com/32?text=ST'">
+                        <span>Stripe</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/paypal.com" alt="PayPal" onerror="this.src='https://via.placeholder.com/32?text=PP'">
+                        <span>PayPal</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/razorpay.com" alt="Razorpay" onerror="this.src='https://via.placeholder.com/32?text=RP'">
+                        <span>Razorpay</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slack & Communication -->
+            <div class="integration-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+                    </div>
+                    <h3>Communication</h3>
+                </div>
+                <div class="integration-list">
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/slack.com" alt="Slack" onerror="this.src='https://via.placeholder.com/32?text=SL'">
+                        <span>Slack</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/discord.com" alt="Discord" onerror="this.src='https://via.placeholder.com/32?text=DC'">
+                        <span>Discord</span>
+                    </div>
+                    <div class="integration-item">
+                        <img src="https://logo.clearbit.com/twilio.com" alt="Twilio" onerror="this.src='https://via.placeholder.com/32?text=TW'">
+                        <span>Twilio</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Zapier & API -->
+<section class="section">
+    <div class="container">
+        <div class="api-section">
+            <div class="api-content">
+                <span class="section-tag">Developers</span>
+                <h2>REST API & <span class="gradient-text">Webhooks</span></h2>
+                <p>Build custom integrations with our powerful REST API. Send leads to any endpoint, receive real-time webhooks, and automate anything.</p>
+                <div class="api-features">
+                    <div class="api-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Full REST API Access</span>
+                    </div>
+                    <div class="api-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Real-time Webhooks</span>
+                    </div>
+                    <div class="api-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>SDK in Multiple Languages</span>
+                    </div>
+                    <div class="api-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Detailed Documentation</span>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">View API Docs</a>
+            </div>
+            
+            <div class="api-visual">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">JavaScript</span>
+                    </div>
+                    <pre><code>// Send lead to your system
+const lead = await viraly.leads.create({
+  name: "Sarah Chen",
+  email: "sarah@email.com",
+  source: "instagram_dm",
+  tags: ["hot-lead", "course-interest"]
+});
+
+// Receive webhook
+viraly.webhook.on('lead:created', (lead) => {
+  console.log('New lead:', lead);
+});</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-wrapper">
+            <h2>Ready to Connect Your Tools?</h2>
+            <p>200+ integrations available. If we don't have it, build it with our API.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary btn-lg pulse-glow">
+                    Start Free Trial
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <span class="cta-note">No credit card required</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.alt-bg {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
+}
+
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.platform-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.platform-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.platform-logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.platform-logo svg {
+    width: 100%;
+    height: 100%;
+}
+
+.platform-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: 4px;
+}
+
+.platform-card p {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    margin-bottom: var(--space-md);
+}
+
+.platform-status {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+.platform-status.connected {
+    background: rgba(0,210,106,0.1);
+    color: var(--success);
+}
+
+.platform-status.available {
+    background: rgba(124,92,255,0.1);
+    color: var(--primary);
+}
+
+.platform-status.coming {
+    background: rgba(255,184,0,0.1);
+    color: var(--warning);
+}
+
+/* Integration Categories */
+.integration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.integration-category {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    border: 1px solid var(--border);
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border);
+}
+
+.category-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
+    border-radius: var(--radius-md);
+}
+
+.category-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.category-header h3 {
+    font-size: 1rem;
+}
+
+.integration-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.integration-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm);
+    background: var(--background);
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+}
+
+.integration-item:hover {
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.integration-item img {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: contain;
+}
+
+.integration-item span {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* API Section */
+.api-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4xl);
+    align-items: center;
+}
+
+.api-content p {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    margin: var(--space-lg) 0;
+}
+
+.api-features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+}
+
+.api-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.9375rem;
+}
+
+.api-feature svg {
+    width: 20px;
+    height: 20px;
+    color: var(--success);
+}
+
+.code-block {
+    background: #1e1e1e;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+}
+
+.code-header {
+    padding: var(--space-sm) var(--space-md);
+    background: #2d2d2d;
+    border-bottom: 1px solid #3d3d3d;
+}
+
+.code-lang {
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: 500;
+}
+
+.code-block pre {
+    padding: var(--space-lg);
+    margin: 0;
+    overflow-x: auto;
+}
+
+.code-block code {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.8125rem;
+    color: #d4d4d4;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .api-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .api-visual {
+        order: -1;
+    }
+}
+</style>
 {% endblock %}
