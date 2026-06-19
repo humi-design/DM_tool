@@ -1,62 +1,53 @@
 {% extends "public/base.html" %}
 
-{% block title %}Features - Viraly | AI-Powered Social Media Automation{% endblock %}
+{% block title %}Features - Viraly | Automate Every DM, Comment, Story & Live Chat{% endblock %}
 
 {% block extra_head %}
-<meta name="description" content="Explore all features of Viraly - DM Automation, Comment Automation, Story Automation, Live Chat, Intent Detection, Follow-ups, AI Replies, and Lead Collection.">
+<meta name="description" content="Viraly features: DM Automation, Comment Automation, Story Automation, Live Chat AI, Intent Detection, Smart Follow-ups, Ask for Follow, AI Replies & Data Collection.">
 {% endblock %}
 
 {% block content %}
+
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-background">
         <div class="hero-gradient"></div>
+        <div class="hero-particles"></div>
     </div>
     <div class="container">
-        <div class="hero-wrapper" style="text-align: center; max-width: 900px; margin: 0 auto;">
-            <div class="hero-content" style="max-width: 100%;">
+        <div class="hero-wrapper" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 900px; margin: 0 auto;">
                 <!-- Trust Badges -->
-                <div class="trust-badges" style="justify-content: center;">
+                <div class="trust-badges" style="justify-content: center; flex-wrap: wrap;">
                     <span class="trust-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <polyline points="9 12 11 14 15 10"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
                         SOC2 Certified
                     </span>
                     <span class="trust-badge verified">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         Meta Verified Partner
                     </span>
                     <span class="trust-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                        </svg>
-                        GDPR Compliant
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        256-bit Encryption
                     </span>
                 </div>
                 
-                <h1 class="hero-title" style="margin-top: var(--space-xl);">
-                    Automate Every <span class="gradient-text">Conversation</span>
+                <h1 class="hero-title" style="margin-top: var(--space-xl); font-size: clamp(2.5rem, 5vw, 3.5rem);">
+                    Automate <span class="gradient-text">Every Conversation</span>
                 </h1>
                 
-                <p class="hero-subtitle" style="max-width: 700px; margin: var(--space-lg) auto;">
-                    From DM automation to comment replies, story interactions to live chat — Viraly handles it all with human-like AI. Never miss a lead again.
+                <p class="hero-subtitle" style="font-size: 1.25rem; max-width: 700px; margin: var(--space-lg) auto;">
+                    DM automation, comment replies, story interactions, live chat — all powered by human-like AI that captures leads and converts conversations while you sleep.
                 </p>
                 
-                <div class="hero-actions" style="justify-content: center;">
+                <div class="hero-actions" style="justify-content: center; gap: var(--space-md);">
                     <a href="#" class="btn btn-primary btn-lg pulse-glow">
                         Start Free Trial
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                            <polyline points="12 5 19 12 12 19"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
-                    <a href="#features" class="btn btn-ghost btn-lg">
-                        Explore Features
+                    <a href="#dm-automation" class="btn btn-ghost btn-lg">
+                        See Features
                     </a>
                 </div>
             </div>
@@ -64,72 +55,158 @@
     </div>
 </section>
 
-<!-- DM Automation Section -->
-<section class="features-section" id="features">
+<!-- Stats Bar -->
+<section class="stats-bar">
     <div class="container">
-        <div class="section-header text-center">
-            <span class="section-tag">💬 DM Automation</span>
-            <h2>Smart <span class="gradient-text">DM Automation</span></h2>
-            <p>AI-powered instant responses that convert followers into customers while you sleep</p>
+        <div class="stats-grid">
+            <div class="stat-item"><div class="stat-number">50K+</div><div class="stat-label">Active Users</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">10M+</div><div class="stat-label">Messages Sent</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">3.2x</div><div class="stat-label">More Engagement</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-number">99.9%</div><div class="stat-label">Uptime</div></div>
         </div>
-        
-        <div class="automation-showcase">
-            <div class="automation-visual">
-                <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=600&h=400&fit=crop" alt="DM Automation" class="automation-image">
-                <div class="automation-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    Auto-replied in 2s
+    </div>
+</section>
+
+<!-- DM Automation -->
+<section class="feature-section" id="dm-automation">
+    <div class="container">
+        <div class="feature-split">
+            <div class="feature-content">
+                <span class="feature-tag">💬 DM Automation</span>
+                <h2>Instant AI Replies to <span class="gradient-text">Every DM</span></h2>
+                <p class="feature-desc">Your AI employee responds to every DM in under 2 seconds — 24/7, never tired, always polite. It understands context, handles objections, and closes sales.</p>
+                
+                <div class="feature-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-icon">⚡</div>
+                        <div>
+                            <h4>Instant Response</h4>
+                            <p>Reply in under 2 seconds — faster than any human</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon">🧠</div>
+                        <div>
+                            <h4>Intent Detection</h4>
+                            <p>Recognizes "welcome back" users and greets personally</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon">📊</div>
+                        <div>
+                            <h4>Lead Collection</h4>
+                            <p>Captures name, email, phone automatically</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="automation-features">
-                <div class="automation-feature">
-                    <div class="automation-feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                        </svg>
+            <div class="feature-visual">
+                <div class="chat-preview">
+                    <div class="chat-header-bar">
+                        <span class="chat-dot"></span>
+                        <span class="chat-dot"></span>
+                        <span class="chat-dot"></span>
+                        <span class="chat-title">Instagram DM</span>
                     </div>
-                    <div>
-                        <h4>Instant AI Replies</h4>
-                        <p>Respond to every DM in under 2 seconds with intelligent AI that understands context</p>
+                    <div class="chat-body">
+                        <div class="msg incoming">
+                            <img src="https://i.pravatar.cc/36?img=1" alt="">
+                            <div class="msg-bubble">
+                                <p>Hi! Love your content! Is the course still available?</p>
+                                <span>2:34 PM</span>
+                            </div>
+                        </div>
+                        <div class="msg outgoing ai">
+                            <div class="msg-bubble">
+                                <span class="ai-tag">🤖 AI</span>
+                                <p>Hi Sarah! 💜 Yes, spots are still available! 🎉 Would you like me to send you the syllabus and current pricing?</p>
+                                <span>2:34 PM • 0.8s</span>
+                            </div>
+                        </div>
+                        <div class="msg incoming">
+                            <img src="https://i.pravatar.cc/36?img=1" alt="">
+                            <div class="msg-bubble">
+                                <p>Yes please! What's the investment?</p>
+                                <span>2:35 PM</span>
+                            </div>
+                        </div>
+                        <div class="msg outgoing ai">
+                            <div class="msg-bubble">
+                                <span class="ai-tag">🤖 AI</span>
+                                <p>It's $297 — includes 6 weeks training, all templates & lifetime community access! 👆 Want me to check if we have a payment plan option?</p>
+                                <span>2:35 PM • 1.2s</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="automation-feature">
-                    <div class="automation-feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12"/>
-                            <path d="M12 6v6l4 2"/>
-                        </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Intent Detection -->
+<section class="feature-section alt-bg" id="intent">
+    <div class="container">
+        <div class="feature-split reverse">
+            <div class="feature-visual">
+                <div class="intent-demo">
+                    <div class="intent-header">
+                        <span class="intent-badge">🧠 Intent Detection Active</span>
                     </div>
-                    <div>
-                        <h4>Intent Detection</h4>
-                        <p>"Welcome back!" — Automatically recognizes returning users and greets them personally</p>
+                    <div class="intent-flow">
+                        <div class="intent-step">
+                            <div class="intent-icon">👋</div>
+                            <p>User returns</p>
+                        </div>
+                        <div class="intent-arrow">→</div>
+                        <div class="intent-step">
+                            <div class="intent-icon">🔍</div>
+                            <p>AI recognizes</p>
+                        </div>
+                        <div class="intent-arrow">→</div>
+                        <div class="intent-step highlight">
+                            <div class="intent-icon">💬</div>
+                            <p>"Welcome back Sarah!"</p>
+                        </div>
+                    </div>
+                    <div class="previous-chat">
+                        <div class="prev-msg">
+                            <span class="prev-time">Yesterday</span>
+                            <p>Thanks for the info! I'll think about it.</p>
+                        </div>
+                        <div class="prev-msg">
+                            <span class="prev-time">Today</span>
+                            <p class="highlight">Hi Sarah! Welcome back! 🎉 Did you have any more questions about the course?</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="feature-content">
+                <span class="feature-tag">🧠 Smart Re-Engagement</span>
+                <h2>Intent-Based <span class="gradient-text">Welcome Back</span></h2>
+                <p class="feature-desc">When a previous contact returns, Viraly remembers everything — past conversations, interests, and where they left off. It instantly greets them with "Welcome back, [Name]!"</p>
                 
-                <div class="automation-feature">
-                    <div class="automation-feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
+                <div class="feature-list">
+                    <div class="list-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Remembers conversation history</span>
                     </div>
-                    <div>
-                        <h4>Smart Lead Collection</h4>
-                        <p>Automatically captures name, email, phone, and custom data from conversations</p>
+                    <div class="list-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Personalized greetings with name</span>
                     </div>
-                </div>
-                
-                <div class="automation-feature">
-                    <div class="automation-feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                        </svg>
+                    <div class="list-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Continues from where they left off</span>
                     </div>
-                    <div>
-                        <h4>Smart Follow-ups</h4>
-                        <p>Never lose a lead — automatic reminders and follow-ups based on user behavior</p>
+                    <div class="list-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Increases conversion by 2.3x</span>
                     </div>
                 </div>
             </div>
@@ -138,156 +215,136 @@
 </section>
 
 <!-- Comment Automation -->
-<section class="features-section" style="background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);">
+<section class="feature-section" id="comments">
     <div class="container">
         <div class="section-header text-center">
-            <span class="section-tag">💬 Comment Automation</span>
+            <span class="feature-tag">💬 Comment Automation</span>
             <h2>AI-Powered <span class="gradient-text">Comment Replies</span></h2>
-            <p>Turn every comment into a conversation opportunity with intelligent auto-replies</p>
+            <p style="max-width: 600px; margin: var(--space-md) auto 0;">Turn every comment into a conversation opportunity. AI responds instantly to price questions, inquiries, and engagement.</p>
         </div>
         
-        <div class="comment-showcase">
+        <div class="comment-grid">
             <div class="comment-card">
-                <div class="comment-type">
-                    <span class="comment-badge">🔥 Hot</span>
-                    <span class="comment-trigger">"How much?"</span>
-                </div>
-                <div class="comment-ai">
-                    <div class="ai-header">
-                        <span class="ai-badge-small">AI Reply</span>
-                        <span class="ai-time">2s</span>
-                    </div>
+                <div class="comment-type-tag hot">🔥 Hot Lead</div>
+                <div class="comment-question">"How much is the course?"</div>
+                <div class="comment-ai-response">
+                    <span class="ai-label">🤖 AI Reply</span>
                     <p>"Hi! 🎉 Our course is $297 — includes 6 weeks of training, all templates, and lifetime community access. Want me to send you the syllabus?"</p>
                 </div>
-            </div>
-            
-            <div class="comment-card">
-                <div class="comment-type">
-                    <span class="comment-badge">❤️ Love</span>
-                    <span class="comment-trigger">"Love your content!"</span>
-                </div>
-                <div class="comment-ai">
-                    <div class="ai-header">
-                        <span class="ai-badge-small">AI Reply</span>
-                        <span class="ai-time">1s</span>
-                    </div>
-                    <p>"Thank you so much! 💜 Means the world! Would you like to join our community where we share exclusive tips?"</p>
+                <div class="comment-meta">
+                    <span>⚡ 2s response</span>
+                    <span>📈 High intent</span>
                 </div>
             </div>
             
             <div class="comment-card">
-                <div class="comment-type">
-                    <span class="comment-badge">❓ Question</span>
-                    <span class="comment-trigger">"Is this available?"</span>
+                <div class="comment-type-tag love">❤️ Engagement</div>
+                <div class="comment-question">"Love your content!"</div>
+                <div class="comment-ai-response">
+                    <span class="ai-label">🤖 AI Reply</span>
+                    <p>"Thank you so much! 💜 Means the world! Would you like to join our community for exclusive tips and behind-the-scenes?"</p>
                 </div>
-                <div class="comment-ai">
-                    <div class="ai-header">
-                        <span class="ai-badge-small">AI Reply</span>
-                        <span class="ai-time">3s</span>
-                    </div>
-                    <p>"Yes! We have limited spots available. Want me to check current availability and hold one for you?"</p>
+                <div class="comment-meta">
+                    <span>⚡ 1s response</span>
+                    <span>💬 Nurture</span>
+                </div>
+            </div>
+            
+            <div class="comment-card">
+                <div class="comment-type-tag question">❓ Question</div>
+                <div class="comment-question">"Is this available now?"</div>
+                <div class="comment-ai-response">
+                    <span class="ai-label">🤖 AI Reply</span>
+                    <p>"Yes! We have limited spots available. 👀 Want me to check current availability and reserve one for you?"</p>
+                </div>
+                <div class="comment-meta">
+                    <span>⚡ 3s response</span>
+                    <span>🎯 Sales ready</span>
+                </div>
+            </div>
+            
+            <div class="comment-card">
+                <div class="comment-type-tag follow">👋 Follow Request</div>
+                <div class="comment-question">"Can I follow you?"</div>
+                <div class="comment-ai-response">
+                    <span class="ai-label">🤖 AI Reply</span>
+                    <p>"Of course! 🙏 We'd love to have you! Follow us for daily tips. Also — want early access to our next launch? Drop your email! 📧"</p>
+                </div>
+                <div class="comment-meta">
+                    <span>⚡ 1s response</span>
+                    <span>📧 Lead capture</span>
                 </div>
             </div>
         </div>
         
-        <div class="comment-stats">
-            <div class="stat-box">
-                <span class="stat-number">3.2x</span>
-                <span class="stat-label">More Engagement</span>
+        <div class="comment-stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value">85%</div>
+                <div class="stat-label">Comments Auto-Replied</div>
             </div>
-            <div class="stat-box">
-                <span class="stat-number">85%</span>
-                <span class="stat-label">Auto-Reply Rate</span>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value">&lt;3s</div>
+                <div class="stat-label">Avg Response Time</div>
             </div>
-            <div class="stat-box">
-                <span class="stat-number">2s</span>
-                <span class="stat-label">Avg Response</span>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">3.2x</div>
+                <div class="stat-label">More Leads Captured</div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Story Automation -->
-<section class="features-section">
+<section class="feature-section alt-bg" id="stories">
     <div class="container">
-        <div class="section-header text-center">
-            <span class="section-tag">📱 Story Automation</span>
-            <h2>Capture Leads from <span class="gradient-text">Story Replies</span></h2>
-            <p>Turn Story interactions into conversations and collect data automatically</p>
-        </div>
-        
-        <div class="story-flow">
-            <div class="story-step">
-                <div class="story-icon">
-                    <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=100&h=100&fit=crop" alt="Story">
-                </div>
-                <span class="step-number">1</span>
-                <h4>Story Poll/Question</h4>
-                <p>User answers your Story poll or question</p>
-            </div>
-            
-            <div class="story-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-            
-            <div class="story-step">
-                <div class="story-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                </div>
-                <span class="step-number">2</span>
-                <h4>AI Triggers</h4>
-                <p>Smart automation responds instantly</p>
-            </div>
-            
-            <div class="story-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-            
-            <div class="story-step">
-                <div class="story-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <span class="step-number">3</span>
-                <h4>Lead Captured</h4>
-                <p>Data collected & tagged automatically</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Live Chat Automation -->
-<section class="features-section" style="background: linear-gradient(135deg, rgba(124,92,255,0.05) 0%, rgba(0,207,255,0.05) 100%);">
-    <div class="container">
-        <div class="section-header text-center">
-            <span class="section-tag">⚡ Live Automation</span>
-            <h2>Real-Time <span class="gradient-text">Live Chat Support</span></h2>
-            <p>Handle live conversations with AI assistance that suggests responses in real-time</p>
-        </div>
-        
-        <div class="live-chat-demo">
-            <div class="chat-window">
-                <div class="chat-header">
-                    <img src="https://i.pravatar.cc/32?img=10" alt="">
-                    <div>
-                        <strong>Sarah Chen</strong>
-                        <span>Live now</span>
+        <div class="feature-split">
+            <div class="feature-content">
+                <span class="feature-tag">📱 Story Automation</span>
+                <h2>Capture Leads from <span class="gradient-text">Story Replies</span></h2>
+                <p class="feature-desc">Every Story poll, question, or slider answer becomes a lead generation opportunity. AI instantly engages with respondents and collects their info.</p>
+                
+                <div class="story-flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-num">1</div>
+                        <div class="flow-text">
+                            <h4>User Answers Story</h4>
+                            <p>Poll, question, quiz, or slider interaction</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">2</div>
+                        <div class="flow-text">
+                            <h4>AI Triggers</h4>
+                            <p>Instant personalized DM sent to respondent</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">3</div>
+                        <div class="flow-text">
+                            <h4>Lead Captured</h4>
+                            <p>Email, phone, interest collected automatically</p>
+                        </div>
                     </div>
                 </div>
-                <div class="chat-messages">
-                    <div class="chat-message incoming">
-                        <p>Hi! I'm watching your live! Is this the course you mentioned?</p>
+            </div>
+            
+            <div class="feature-visual">
+                <div class="story-demo">
+                    <div class="story-mock">
+                        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d?w=300&h=400&fit=crop" alt="Story" class="story-img">
+                        <div class="story-poll">
+                            <p>Which course should I launch next?</p>
+                            <div class="poll-option">📊 Marketing Course 42%</div>
+                            <div class="poll-option">💰 Money Hacks 58%</div>
+                            <span>🔵 Message sent to 234 people</span>
+                        </div>
                     </div>
-                    <div class="chat-message suggestion">
-                        <p>🤖 Suggested: "Yes exactly! 🎉 It's our most popular course. Want me to DM you the details?"</p>
-                    </div>
-                    <div class="chat-message incoming">
-                        <p>Yes please!</p>
-                    </div>
-                    <div class="chat-message outgoing">
-                        <p>Perfect! Sending you the full details now... ✨</p>
-                    </div>
-                    <div class="chat-message system">
-                        <p>📋 Lead captured: Name, Email, Interest: Course</p>
+                    <div class="story-msg-popup">
+                        <div class="popup-header">💬 Auto-DM Sent</div>
+                        <p>"Hi! I noticed you voted for 'Money Hacks'! 💰 That course is coming soon. Want me to notify you first when it launches? Drop your email! 📧"</p>
                     </div>
                 </div>
             </div>
@@ -295,134 +352,217 @@
     </div>
 </section>
 
-<!-- AI Intelligence Features -->
-<section class="features-section">
+<!-- Live Automation -->
+<section class="feature-section" id="live">
+    <div class="container">
+        <div class="feature-split reverse">
+            <div class="feature-visual">
+                <div class="live-demo">
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>LIVE on Instagram</span>
+                    </div>
+                    <div class="live-video">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop" alt="Live Stream">
+                    </div>
+                    <div class="live-comments">
+                        <div class="live-comment">
+                            <span class="user">sarah_fitness:</span>
+                            <span>This looks amazing!</span>
+                        </div>
+                        <div class="live-comment">
+                            <span class="user">mike_biz:</span>
+                            <span>How much is it?</span>
+                        </div>
+                        <div class="live-comment">
+                            <span class="user">jane_tech:</span>
+                            <span>Can I DM you?</span>
+                        </div>
+                    </div>
+                    <div class="live-ai-suggestion">
+                        <div class="suggestion-header">🤖 AI Suggestion</div>
+                        <div class="suggestion-box">
+                            <p>"Yes! 💜 Sending you a DM right now with all the details. What's your main goal with this course?"</p>
+                        </div>
+                        <button class="send-btn">Send This ✈️</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-content">
+                <span class="feature-tag">⚡ Live Automation</span>
+                <h2>Real-Time AI <span class="gradient-text">Live Chat Support</span></h2>
+                <p class="feature-desc">During Instagram Lives, TikTok LIVE, or any stream — AI monitors comments and suggests instant replies. You approve with one tap, or let AI auto-reply.</p>
+                
+                <div class="live-features">
+                    <div class="live-feature">
+                        <span class="live-feature-icon">👀</span>
+                        <div>
+                            <h4>Monitors Live Comments</h4>
+                            <p>Spots buying intent, questions, and engagement</p>
+                        </div>
+                    </div>
+                    <div class="live-feature">
+                        <span class="live-feature-icon">💡</span>
+                        <div>
+                            <h4>Smart Suggestions</h4>
+                            <p>AI drafts perfect replies for you to approve</p>
+                        </div>
+                    </div>
+                    <div class="live-feature">
+                        <span class="live-feature-icon">🚀</span>
+                        <div>
+                            <h4>Auto-Reply Option</h4>
+                            <p>Let AI handle common responses automatically</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Follow-ups & Ask for Follow -->
+<section class="feature-section alt-bg" id="followups">
     <div class="container">
         <div class="section-header text-center">
-            <span class="section-tag">🧠 AI Intelligence</span>
-            <h2>Smart <span class="gradient-text">Conversation Flows</span></h2>
+            <span class="feature-tag">🔄 Smart Follow-ups</span>
+            <h2>Never Lose a <span class="gradient-text">Lead Again</span></h2>
+            <p style="max-width: 650px; margin: var(--space-md) auto 0;">AI follows up with warm leads at perfect timing. Gentle reminders, objection handling, and "ask for follow" moments.</p>
         </div>
         
-        <div class="features-grid">
-            <div class="feature-card feature-card-featured">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
+        <div class="followup-timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot">1</div>
+                <div class="timeline-content">
+                    <span class="timeline-time">Day 0</span>
+                    <h4>Initial Contact</h4>
+                    <p>"Hi! Thanks for reaching out about our course! 📚"</p>
                 </div>
-                <h3>Intent Detection</h3>
-                <p>Automatically identifies "welcome back" customers and personalizes greetings based on conversation history</p>
-                <div class="feature-tag">Smart</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">2</div>
+                <div class="timeline-content">
+                    <span class="timeline-time">Day 1</span>
+                    <h4>Ask for Follow</h4>
+                    <p>"Follow us for daily tips! 🔥 We share exclusive content there."</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">3</div>
+                <div class="timeline-content">
+                    <span class="timeline-time">Day 3</span>
+                    <h4>Gentle Follow-up</h4>
+                    <p>"Hey Sarah! 👋 Just checking in — did you have any questions about the course?"</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">4</div>
+                <div class="timeline-content">
+                    <span class="timeline-time">Day 7</span>
+                    <h4>Urgency Follow-up</h4>
+                    <p>"Quick reminder: Only 5 spots left this month! 🎉 Want me to hold one for you?"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI Intelligence Grid -->
+<section class="feature-section" id="ai-features">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="feature-tag">🧠 AI Intelligence</span>
+            <h2>Smart Features That <span class="gradient-text">Convert</span></h2>
+        </div>
+        
+        <div class="ai-features-grid">
+            <div class="ai-feature-card">
+                <div class="ai-feature-icon">🤖</div>
+                <h3>AI Replies</h3>
+                <p>Human-like responses that handle objections, answer questions, and close sales — automatically.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                </div>
-                <h3>Auto Follow-ups</h3>
-                <p>Smart reminders sent at optimal times — "Hey, did you have any questions about our course?"</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
-                </div>
-                <h3>Ask for Follow</h3>
-                <p>AI knows when to ask users to follow for exclusive content or offers</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                    </svg>
-                </div>
+            <div class="ai-feature-card">
+                <div class="ai-feature-icon">📧</div>
                 <h3>Data Collection</h3>
-                <p>Collects name, email, phone, budget, timeline — all automatically in conversation flow</p>
+                <p>Collects name, email, phone, budget, timeline — naturally woven into conversations.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                    </svg>
-                </div>
-                <h3>Unified Inbox</h3>
-                <p>Instagram, WhatsApp, Facebook — all messages in one beautiful inbox</p>
+            <div class="ai-feature-card">
+                <div class="ai-feature-icon">🔄</div>
+                <h3>Auto Follow-ups</h3>
+                <p>Timed reminders based on user behavior — never let a lead go cold.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 20V10"/>
-                        <path d="M18 20V4"/>
-                        <path d="M6 20v-4"/>
-                    </svg>
-                </div>
-                <h3>Analytics Dashboard</h3>
-                <p>Track conversations, conversions, and revenue generated from each automation</p>
+            <div class="ai-feature-card">
+                <div class="ai-feature-icon">👥</div>
+                <h3>Ask for Follow</h3>
+                <p>AI knows the perfect moment to ask users to follow for exclusive content.</p>
+            </div>
+            
+            <div class="ai-feature-card">
+                <div class="ai-feature-icon">🎯</div>
+                <h3>Intent Detection</h3>
+                <p>Spots "welcome back" customers and resumes conversations naturally.</p>
+            </div>
+            
+            <div class="ai-feature-card">
+                <div class="ai-feature-icon">📱</div>
+                <h3>Multi-Platform</h3>
+                <p>Works on Instagram DMs, Comments, Stories, WhatsApp, Facebook Messenger.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Platform Integration -->
-<section class="features-section" style="background: var(--background);">
+<!-- Platforms -->
+<section class="feature-section alt-bg">
     <div class="container">
         <div class="section-header text-center">
-            <span class="section-tag">🌐 Integrations</span>
-            <h2>Works Across <span class="gradient-text">All Platforms</span></h2>
+            <span class="feature-tag">🌐 Platforms</span>
+            <h2>Works Across <span class="gradient-text">All Channels</span></h2>
         </div>
         
-        <div class="platform-grid">
-            <div class="platform-card">
-                <svg viewBox="0 0 24 24" fill="#E4405F" class="platform-logo"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324z"/><path d="M16.403 12.524c0 2.514-2.021 4.55-4.514 4.55s-4.514-2.036-4.514-4.55 2.021-4.55 4.514-4.55 4.514 2.036 4.514 4.55z"/></svg>
+        <div class="platforms-grid">
+            <div class="platform-card ig">
+                <svg viewBox="0 0 24 24" fill="#E4405F" width="48" height="48"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/></svg>
                 <h4>Instagram</h4>
-                <p>DMs, Comments, Stories, Reels</p>
+                <p>DMs • Comments • Stories • Reels</p>
             </div>
-            <div class="platform-card">
-                <svg viewBox="0 0 24 24" fill="#25D366" class="platform-logo"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            
+            <div class="platform-card wa">
+                <svg viewBox="0 0 24 24" fill="#25D366" width="48" height="48"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
                 <h4>WhatsApp</h4>
-                <p>Business Messages, Orders</p>
+                <p>Business Messages • Orders</p>
             </div>
-            <div class="platform-card">
-                <svg viewBox="0 0 24 24" fill="#0084FF" class="platform-logo"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            
+            <div class="platform-card fb">
+                <svg viewBox="0 0 24 24" fill="#0084FF" width="48" height="48"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 <h4>Facebook</h4>
-                <p>Messenger, Comments</p>
+                <p>Messenger • Comments</p>
             </div>
-            <div class="platform-card">
-                <svg viewBox="0 0 24 24" fill="#00f2ea" class="platform-logo"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+            
+            <div class="platform-card tt">
+                <svg viewBox="0 0 24 24" fill="#010101" width="48" height="48"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                 <h4>TikTok</h4>
-                <p>Coming Soon</p>
+                <p>Comments • Live Chat</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
+<!-- CTA -->
 <section class="cta-section">
     <div class="container">
         <div class="cta-wrapper">
-            <h2>Ready to Automate Your Conversations?</h2>
-            <p>Join 50,000+ creators and businesses who are growing with Viraly's AI automation.</p>
+            <div class="cta-glow"></div>
+            <h2>Start Automating Your Conversations Today</h2>
+            <p>Join 50,000+ creators and businesses growing with Viraly's AI automation.</p>
             <div class="cta-actions">
                 <a href="#" class="btn btn-primary btn-lg pulse-glow">
                     Start Free 14-Day Trial
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
                 <span class="cta-note">No credit card required</span>
             </div>
@@ -436,418 +576,155 @@
 </section>
 
 <style>
-/* Automation Showcase */
-.automation-showcase {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4xl);
-    align-items: center;
-}
+.feature-section { padding: var(--space-4xl) 0; }
+.alt-bg { background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%); }
 
-.automation-visual {
-    position: relative;
-}
+.feature-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4xl); align-items: center; }
+.feature-split.reverse { direction: rtl; }
+.feature-split.reverse > * { direction: ltr; }
 
-.automation-image {
-    width: 100%;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-}
+.feature-tag { display: inline-block; padding: 6px 14px; background: rgba(124,92,255,0.1); color: var(--primary); font-size: 0.875rem; font-weight: 600; border-radius: 20px; margin-bottom: var(--space-md); }
 
-.automation-badge {
-    position: absolute;
-    bottom: -20px;
-    right: -20px;
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-    background: var(--success);
-    color: white;
-    font-weight: 600;
-    font-size: 0.875rem;
-    border-radius: var(--radius-full);
-    box-shadow: var(--shadow-lg);
-    animation: pulse 2s ease-in-out infinite;
-}
+.feature-content h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-bottom: var(--space-md); }
+.feature-desc { font-size: 1.0625rem; color: var(--muted); line-height: 1.7; margin-bottom: var(--space-xl); }
 
-.automation-badge svg {
-    width: 16px;
-    height: 16px;
-}
+.feature-highlights { display: flex; flex-direction: column; gap: var(--space-md); }
+.highlight-item { display: flex; align-items: flex-start; gap: var(--space-md); padding: var(--space-md); background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.highlight-icon { font-size: 1.5rem; flex-shrink: 0; }
+.highlight-item h4 { font-size: 1rem; margin-bottom: 4px; }
+.highlight-item p { font-size: 0.875rem; color: var(--muted); margin: 0; }
 
-.automation-features {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-}
+.feature-list { display: flex; flex-direction: column; gap: var(--space-sm); }
+.list-item { display: flex; align-items: center; gap: var(--space-sm); font-size: 0.9375rem; }
+.list-item svg { width: 20px; height: 20px; color: var(--success); flex-shrink: 0; }
 
-.automation-feature {
-    display: flex;
-    gap: var(--space-md);
-    padding: var(--space-lg);
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    transition: all var(--transition-base);
-}
+/* Chat Preview */
+.chat-preview { background: var(--surface); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-xl); border: 1px solid var(--border); }
+.chat-header-bar { display: flex; align-items: center; gap: 6px; padding: var(--space-sm) var(--space-md); background: var(--background); border-bottom: 1px solid var(--border); }
+.chat-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+.chat-dot:first-child { background: #FF5F57; }
+.chat-dot:nth-child(2) { background: #FFBD2E; }
+.chat-dot:nth-child(3) { background: #28CA41; }
+.chat-title { margin-left: auto; font-size: 0.8125rem; color: var(--muted); font-weight: 500; }
+.chat-body { padding: var(--space-md); display: flex; flex-direction: column; gap: var(--space-md); }
+.msg { display: flex; gap: var(--space-sm); align-items: flex-end; }
+.msg.outgoing { flex-direction: row-reverse; }
+.msg img { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
+.msg-bubble { max-width: 75%; padding: var(--space-sm) var(--space-md); background: var(--background); border-radius: var(--radius-lg); position: relative; }
+.msg.outgoing .msg-bubble { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
+.msg-bubble p { font-size: 0.875rem; margin: 0 0 4px; line-height: 1.5; }
+.msg-bubble span { font-size: 0.6875rem; color: var(--muted); }
+.msg.outgoing .msg-bubble span { color: rgba(255,255,255,0.7); }
+.ai-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 0.625rem; font-weight: 700; background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px; margin-bottom: 6px; }
 
-.automation-feature:hover {
-    border-color: var(--primary);
-    box-shadow: var(--shadow-md);
-}
+/* Intent Demo */
+.intent-demo { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-xl); border: 1px solid var(--border); }
+.intent-header { margin-bottom: var(--space-lg); }
+.intent-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(124,92,255,0.1); color: var(--primary); font-size: 0.75rem; font-weight: 600; border-radius: 20px; }
+.intent-flow { display: flex; align-items: center; justify-content: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
+.intent-step { text-align: center; }
+.intent-icon { font-size: 2rem; margin-bottom: 6px; }
+.intent-step p { font-size: 0.8125rem; color: var(--muted); }
+.intent-step.highlight .intent-icon { transform: scale(1.2); }
+.intent-step.highlight p { color: var(--primary); font-weight: 600; }
+.intent-arrow { color: var(--primary); font-size: 1.5rem; }
+.previous-chat { background: var(--background); border-radius: var(--radius-lg); padding: var(--space-md); }
+.prev-msg { margin-bottom: var(--space-sm); }
+.prev-msg:last-child { margin: 0; }
+.prev-time { font-size: 0.6875rem; color: var(--muted); display: block; margin-bottom: 4px; }
+.prev-msg p { font-size: 0.8125rem; background: var(--surface); padding: var(--space-sm); border-radius: var(--radius-sm); margin: 0; }
+.prev-msg p.highlight { background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1)); border: 1px solid rgba(124,92,255,0.2); color: var(--primary); font-weight: 500; }
 
-.automation-feature-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
-    border-radius: var(--radius-md);
-    flex-shrink: 0;
-}
+/* Comment Grid */
+.comment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl); margin-top: var(--space-2xl); }
+.comment-card { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-xl); border: 1px solid var(--border); position: relative; }
+.comment-type-tag { display: inline-block; padding: 4px 10px; font-size: 0.6875rem; font-weight: 700; border-radius: 12px; margin-bottom: var(--space-md); text-transform: uppercase; }
+.hot { background: rgba(255,71,87,0.1); color: #FF4757; }
+.love { background: rgba(236,72,153,0.1); color: #EC4899; }
+.question { background: rgba(59,130,246,0.1); color: #3B82F6; }
+.follow { background: rgba(124,92,255,0.1); color: var(--primary); }
+.comment-question { font-weight: 600; color: var(--text); margin-bottom: var(--space-md); font-size: 1rem; }
+.comment-ai-response { background: linear-gradient(135deg, rgba(124,92,255,0.05), rgba(0,207,255,0.05)); border-radius: var(--radius-lg); padding: var(--space-md); margin-bottom: var(--space-md); border: 1px solid rgba(124,92,255,0.1); }
+.ai-label { display: block; font-size: 0.6875rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+.comment-ai-response p { font-size: 0.875rem; color: var(--text); margin: 0; line-height: 1.6; }
+.comment-meta { display: flex; gap: var(--space-md); font-size: 0.75rem; color: var(--muted); }
 
-.automation-feature-icon svg {
-    width: 24px;
-    height: 24px;
-    color: var(--primary);
-}
-
-.automation-feature h4 {
-    margin-bottom: var(--space-xs);
-}
-
-.automation-feature p {
-    font-size: 0.9375rem;
-}
-
-/* Comment Showcase */
-.comment-showcase {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-xl);
-    margin-bottom: var(--space-2xl);
-}
-
-.comment-card {
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
-    border: 1px solid var(--border);
-}
-
-.comment-type {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    margin-bottom: var(--space-lg);
-}
-
-.comment-badge {
-    padding: var(--space-xs) var(--space-sm);
-    background: rgba(124,92,255,0.1);
-    color: var(--primary);
-    font-size: 0.75rem;
-    font-weight: 700;
-    border-radius: var(--radius-full);
-    text-transform: uppercase;
-}
-
-.comment-trigger {
-    font-weight: 600;
-    color: var(--text);
-}
-
-.comment-ai {
-    background: linear-gradient(135deg, rgba(124,92,255,0.05), rgba(0,207,255,0.05));
-    border-radius: var(--radius-lg);
-    padding: var(--space-lg);
-    border: 1px solid rgba(124,92,255,0.1);
-}
-
-.ai-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-sm);
-}
-
-.ai-badge-small {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 8px;
-    background: var(--primary);
-    color: white;
-    font-size: 0.625rem;
-    font-weight: 700;
-    border-radius: var(--radius-full);
-}
-
-.ai-time {
-    font-size: 0.75rem;
-    color: var(--muted);
-}
-
-.comment-ai p {
-    color: var(--text);
-    font-size: 0.9375rem;
-    line-height: 1.6;
-}
-
-.comment-stats {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4xl);
-}
-
-.stat-box {
-    text-align: center;
-}
-
-.stat-box .stat-number {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.stat-box .stat-label {
-    font-size: 0.875rem;
-    color: var(--muted);
-}
+.comment-stats-row { display: flex; justify-content: center; gap: var(--space-4xl); margin-top: var(--space-3xl); flex-wrap: wrap; }
+.stat-card { text-align: center; padding: var(--space-xl); background: var(--surface); border-radius: var(--radius-xl); border: 1px solid var(--border); min-width: 150px; }
+.stat-icon { font-size: 2rem; margin-bottom: var(--space-sm); }
+.stat-value { font-size: 2.5rem; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 0.875rem; color: var(--muted); margin-top: var(--space-xs); }
 
 /* Story Flow */
-.story-flow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-lg);
-    flex-wrap: wrap;
-}
+.story-flow-steps { display: flex; flex-direction: column; gap: var(--space-md); }
+.flow-step { display: flex; align-items: flex-start; gap: var(--space-md); padding: var(--space-md); background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.flow-num { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--gradient-primary); color: white; font-weight: 700; border-radius: 50%; flex-shrink: 0; }
+.flow-text h4 { font-size: 0.9375rem; margin-bottom: 2px; }
+.flow-text p { font-size: 0.8125rem; color: var(--muted); margin: 0; }
 
-.story-step {
-    text-align: center;
-    position: relative;
-    padding: var(--space-xl);
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--border);
-    width: 180px;
-}
+.story-demo { display: flex; flex-direction: column; gap: var(--space-lg); }
+.story-mock { position: relative; border-radius: var(--radius-xl); overflow: hidden; }
+.story-img { width: 100%; height: auto; display: block; }
+.story-poll { position: absolute; bottom: var(--space-md); left: var(--space-md); right: var(--space-md); background: rgba(0,0,0,0.8); border-radius: var(--radius-lg); padding: var(--space-md); color: white; }
+.story-poll p { font-size: 0.875rem; margin: 0 0 var(--space-sm); font-weight: 500; }
+.poll-option { padding: 6px 10px; background: rgba(255,255,255,0.2); border-radius: var(--radius-sm); font-size: 0.75rem; margin-bottom: 4px; }
+.story-poll span { font-size: 0.6875rem; color: rgba(255,255,255,0.7); }
+.story-msg-popup { background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-md); border: 1px solid var(--border); }
+.popup-header { font-size: 0.75rem; font-weight: 700; color: var(--success); margin-bottom: 6px; }
+.story-msg-popup p { font-size: 0.8125rem; margin: 0; color: var(--text); }
 
-.story-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto var(--space-md);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-}
+/* Live Demo */
+.live-demo { background: var(--surface); border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border); }
+.live-indicator { display: flex; align-items: center; gap: 6px; padding: var(--space-sm) var(--space-md); background: rgba(255,71,87,0.1); font-size: 0.75rem; font-weight: 600; color: #FF4757; }
+.live-dot { width: 8px; height: 8px; background: #FF4757; border-radius: 50%; animation: blink 1s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.live-video img { width: 100%; height: auto; display: block; }
+.live-comments { padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border); }
+.live-comment { font-size: 0.75rem; margin-bottom: 4px; }
+.live-comment:last-child { margin: 0; }
+.live-comment .user { font-weight: 600; margin-right: 4px; }
+.live-ai-suggestion { padding: var(--space-md); }
+.suggestion-header { font-size: 0.6875rem; font-weight: 700; color: var(--warning); margin-bottom: 6px; }
+.suggestion-box { background: rgba(255,184,0,0.1); border: 1px dashed var(--warning); border-radius: var(--radius-md); padding: var(--space-sm); margin-bottom: var(--space-sm); }
+.suggestion-box p { font-size: 0.8125rem; margin: 0; color: var(--text); }
+.send-btn { width: 100%; padding: var(--space-sm); background: var(--gradient-primary); color: white; font-weight: 600; font-size: 0.8125rem; border-radius: var(--radius-md); border: none; cursor: pointer; }
 
-.story-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+.live-features { display: flex; flex-direction: column; gap: var(--space-md); }
+.live-feature { display: flex; align-items: flex-start; gap: var(--space-md); }
+.live-feature-icon { font-size: 1.5rem; flex-shrink: 0; }
+.live-feature h4 { font-size: 0.9375rem; margin-bottom: 2px; }
+.live-feature p { font-size: 0.8125rem; color: var(--muted); margin: 0; }
 
-.story-icon svg {
-    width: 100%;
-    height: 100%;
-    color: var(--primary);
-    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
-    padding: var(--space-md);
-}
+/* Follow-up Timeline */
+.followup-timeline { max-width: 700px; margin: var(--space-2xl) auto 0; }
+.timeline-item { display: flex; gap: var(--space-lg); padding-bottom: var(--space-xl); position: relative; }
+.timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 14px; top: 32px; bottom: 0; width: 2px; background: var(--border); }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--gradient-primary); color: white; font-weight: 700; font-size: 0.875rem; border-radius: 50%; flex-shrink: 0; z-index: 1; }
+.timeline-content { flex: 1; background: var(--surface); padding: var(--space-md); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.timeline-time { font-size: 0.6875rem; font-weight: 600; color: var(--primary); text-transform: uppercase; display: block; margin-bottom: 4px; }
+.timeline-content h4 { font-size: 0.9375rem; margin-bottom: 4px; }
+.timeline-content p { font-size: 0.875rem; color: var(--muted); margin: 0; font-style: italic; }
 
-.story-step .step-number {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--gradient-primary);
-    color: white;
-    font-weight: 700;
-    font-size: 0.875rem;
-    border-radius: 50%;
-}
+/* AI Features Grid */
+.ai-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-xl); margin-top: var(--space-2xl); }
+.ai-feature-card { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-xl); border: 1px solid var(--border); text-align: center; transition: all 0.2s; }
+.ai-feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--primary); }
+.ai-feature-icon { font-size: 2.5rem; margin-bottom: var(--space-md); }
+.ai-feature-card h3 { font-size: 1.125rem; margin-bottom: var(--space-sm); }
+.ai-feature-card p { font-size: 0.875rem; color: var(--muted); margin: 0; }
 
-.story-step h4 {
-    margin-bottom: var(--space-xs);
-}
-
-.story-step p {
-    font-size: 0.8125rem;
-}
-
-.story-arrow {
-    color: var(--primary);
-}
-
-.story-arrow svg {
-    width: 32px;
-    height: 32px;
-}
-
-/* Live Chat Demo */
-.live-chat-demo {
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.chat-window {
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-xl);
-    border: 1px solid var(--border);
-}
-
-.chat-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    padding: var(--space-md) var(--space-lg);
-    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
-    border-bottom: 1px solid var(--border);
-}
-
-.chat-header img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.chat-header strong {
-    display: block;
-    color: var(--text);
-}
-
-.chat-header span {
-    font-size: 0.75rem;
-    color: var(--success);
-}
-
-.chat-messages {
-    padding: var(--space-lg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.chat-message p {
-    padding: var(--space-md);
-    border-radius: var(--radius-lg);
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    margin: 0;
-}
-
-.chat-message.incoming p {
-    background: var(--background);
-    color: var(--text);
-    align-self: flex-start;
-    max-width: 80%;
-}
-
-.chat-message.suggestion {
-    background: linear-gradient(135deg, rgba(255,184,0,0.1), rgba(255,71,87,0.1));
-    border: 1px dashed var(--warning);
-    border-radius: var(--radius-lg);
-    padding: var(--space-sm);
-}
-
-.chat-message.suggestion p {
-    background: none;
-    color: var(--warning);
-    font-size: 0.875rem;
-}
-
-.chat-message.outgoing p {
-    background: var(--primary);
-    color: white;
-    align-self: flex-end;
-    max-width: 80%;
-}
-
-.chat-message.system p {
-    background: rgba(0,210,106,0.1);
-    color: var(--success);
-    font-size: 0.8125rem;
-    text-align: center;
-}
-
-/* Platform Grid */
-.platform-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-xl);
-}
-
-.platform-card {
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    padding: var(--space-2xl);
-    text-align: center;
-    border: 1px solid var(--border);
-    transition: all var(--transition-base);
-}
-
-.platform-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-card-hover);
-    border-color: var(--primary);
-}
-
-.platform-logo {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto var(--space-lg);
-    object-fit: contain;
-}
-
-.platform-card svg.platform-logo {
-    width: 48px;
-    height: 48px;
-}
-
-.platform-card h4 {
-    margin-bottom: var(--space-xs);
-}
-
-.platform-card p {
-    font-size: 0.875rem;
-}
+/* Platforms */
+.platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-xl); margin-top: var(--space-2xl); }
+.platform-card { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-2xl); text-align: center; border: 1px solid var(--border); transition: all 0.2s; }
+.platform-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+.platform-card h4 { font-size: 1.125rem; margin: var(--space-md) 0 var(--space-xs); }
+.platform-card p { font-size: 0.8125rem; color: var(--muted); margin: 0; }
 
 @media (max-width: 768px) {
-    .automation-showcase {
-        grid-template-columns: 1fr;
-    }
-    
-    .automation-badge {
-        bottom: 10px;
-        right: 10px;
-    }
-    
-    .comment-stats {
-        flex-direction: column;
-        gap: var(--space-xl);
-    }
-    
-    .story-flow {
-        flex-direction: column;
-    }
-    
-    .story-arrow {
-        transform: rotate(90deg);
-    }
+    .feature-split, .feature-split.reverse { grid-template-columns: 1fr; direction: ltr; }
+    .comment-stats-row { gap: var(--space-xl); }
+    .intent-flow { flex-wrap: wrap; }
 }
 </style>
 {% endblock %}
