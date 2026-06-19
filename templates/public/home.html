@@ -1,948 +1,2458 @@
-{% extends "public/base.html" %}
-
-{% block title %}Viraly - AI-Powered Social Media Employee for Instagram & WhatsApp{% endblock %}
-
-{% block extra_head %}
-<meta name="keywords" content="AI DM automation, Instagram automation, WhatsApp automation, social media marketing, lead generation, chatbot">
-<meta property="og:title" content="Viraly - AI-Powered Social Media Employee">
-<meta property="og:description" content="Automate Every DM. Grow While You Sleep. The AI-powered employee that captures leads and converts conversations.">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-{% endblock %}
-
-{% block content %}
-
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="hero-background">
-        <div class="hero-gradient"></div>
-    </div>
-    <div class="container">
-        <div class="hero-wrapper">
-            <div class="hero-content">
-                <!-- Meta Badge -->
-                <div class="meta-badge">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/2560px-Meta_Platforms_Inc._logo.svg.png" alt="Meta" class="meta-logo">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viraly - Intent-Based AI Employee for Social Media</title>
+    <meta name="description" content="Viraly is the AI social media employee that understands customer intent, replies instantly and turns conversations into customers.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           CSS VARIABLES & RESET
+           ============================================ */
+        :root {
+            --primary: #FF0069;
+            --secondary: #FF5E5B;
+            --tertiary: #7C5CFF;
+            --quaternary: #00CFFF;
+            --accent: #FFB347;
+            
+            --dark: #0a0a0f;
+            --dark-secondary: #141420;
+            --dark-tertiary: #1e1e2e;
+            
+            --text: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            
+            --gradient-1: linear-gradient(135deg, #FF0069, #FF5E5B);
+            --gradient-2: linear-gradient(135deg, #7C5CFF, #00CFFF);
+            --gradient-3: linear-gradient(135deg, #FF0069, #7C5CFF);
+            --gradient-4: linear-gradient(135deg, #00CFFF, #FFB347);
+            --gradient-hero: linear-gradient(135deg, #FF0069 0%, #7C5CFF 50%, #00CFFF 100%);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-2xl: 32px;
+            --radius-full: 9999px;
+            
+            --shadow-glow: 0 0 60px rgba(255, 0, 105, 0.3);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* ============================================
+           NAVBAR
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-hero);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--text);
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-hero);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 0, 105, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(255, 0, 105, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        
+        .hero-gradient {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.6;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .hero-gradient-1 {
+            background: var(--primary);
+            top: -200px;
+            right: -200px;
+        }
+        
+        .hero-gradient-2 {
+            background: var(--tertiary);
+            bottom: -300px;
+            left: -200px;
+            animation-delay: -7s;
+        }
+        
+        .hero-gradient-3 {
+            background: var(--quaternary);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            opacity: 0.3;
+            animation-delay: -14s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(0, -100px) scale(1); }
+            75% { transform: translate(-50px, -50px) scale(1.05); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .hero-badge span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .hero-badge .dot {
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-title .highlight {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .hero-actions .btn {
+            padding: 14px 28px;
+            font-size: 1rem;
+        }
+        
+        .hero-actions .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero-actions .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(255, 0, 105, 0.1);
+        }
+        
+        /* Hero Dashboard Preview */
+        .hero-visual {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            z-index: 1;
+        }
+        
+        .dashboard-preview {
+            background: rgba(20, 20, 32, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-card);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .dashboard-dots {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .dashboard-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .dashboard-dots span:nth-child(1) { background: #FF5F57; }
+        .dashboard-dots span:nth-child(2) { background: #FFBD2E; }
+        .dashboard-dots span:nth-child(3) { background: #28CA41; }
+        
+        .dashboard-tabs {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+        }
+        
+        .dashboard-tab {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .dashboard-tab.active {
+            background: var(--gradient-hero);
+        }
+        
+        .dashboard-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .dm-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+        }
+        
+        .dm-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .dm-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .dm-info h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .dm-info span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .dm-message {
+            background: rgba(124, 92, 255, 0.2);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            margin-bottom: 8px;
+        }
+        
+        .dm-response {
+            background: var(--gradient-hero);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            margin-left: 20px;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            margin-left: 20px;
+        }
+        
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.4; }
+            50% { transform: translateY(-6px); opacity: 1; }
+        }
+        
+        .lead-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .lead-score-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .lead-score-fill {
+            height: 100%;
+            width: 85%;
+            background: var(--gradient-4);
+            border-radius: 3px;
+        }
+        
+        .lead-score span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #28CA41;
+        }
+        
+        .intent-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(40, 202, 65, 0.2);
+            border-radius: var(--radius-sm);
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: #28CA41;
+            margin-top: 8px;
+        }
+        
+        .stats-mini {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .stat-mini {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+        }
+        
+        .stat-mini-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient-4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-mini-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            animation: floatElement 6s ease-in-out infinite;
+        }
+        
+        @keyframes floatElement {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .floating-notification {
+            background: rgba(20, 20, 32, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 12px 16px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-card);
+        }
+        
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-2);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notification-text {
+            font-size: 0.75rem;
+        }
+        
+        .notification-text strong {
+            display: block;
+            font-weight: 600;
+        }
+        
+        .notification-text span {
+            color: var(--text-muted);
+        }
+        
+        /* ============================================
+           MARQUEE SECTION
+           ============================================ */
+        .marquee-section {
+            padding: 60px 0;
+            background: var(--dark-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .marquee-wrapper {
+            display: flex;
+            animation: marquee 30s linear infinite;
+        }
+        
+        .marquee-content {
+            display: flex;
+            gap: 24px;
+            padding-right: 24px;
+        }
+        
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+        }
+        
+        .marquee-item img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .marquee-item span {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .verified-badge {
+            color: var(--quaternary);
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* ============================================
+           SOCIAL PROOF SECTION
+           ============================================ */
+        .social-proof {
+            padding: 100px 0;
+            background: var(--dark);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 32px 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 0, 105, 0.3);
+            box-shadow: 0 20px 40px rgba(255, 0, 105, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        /* ============================================
+           INTENT VS TRIGGER SECTION
+           ============================================ */
+        .intent-section {
+            padding: 100px 0;
+            background: var(--dark-secondary);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(255, 0, 105, 0.1);
+            border: 1px solid rgba(255, 0, 105, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-2xl);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        
+        .comparison-card.traditional::before {
+            background: linear-gradient(90deg, #666, #888);
+        }
+        
+        .comparison-card.viraly::before {
+            background: var(--gradient-hero);
+        }
+        
+        .comparison-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        
+        .comparison-card.traditional h3 {
+            color: var(--text-muted);
+        }
+        
+        .comparison-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .comparison-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .comparison-list li svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .comparison-card.traditional .comparison-list li svg {
+            color: #666;
+        }
+        
+        .comparison-card.viraly .comparison-list li svg {
+            color: #28CA41;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .flow-step {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .comparison-card.viraly .flow-step {
+            background: rgba(255, 0, 105, 0.2);
+        }
+        
+        .flow-arrow {
+            color: var(--text-muted);
+        }
+        
+        /* ============================================
+           WHY VIRALY SECTION
+           ============================================ */
+        .why-section {
+            padding: 100px 0;
+            background: var(--dark);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 0, 105, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 0, 105, 0.15);
+        }
+        
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-hero);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .feature-card p {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* ============================================
+           PRODUCT PREVIEW SECTION
+           ============================================ */
+        .product-section {
+            padding: 100px 0;
+            background: var(--dark-secondary);
+        }
+        
+        .product-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(124, 92, 255, 0.3);
+        }
+        
+        .product-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .product-card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .product-card-title img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        
+        .product-badge {
+            padding: 4px 8px;
+            background: rgba(40, 202, 65, 0.2);
+            border-radius: var(--radius-sm);
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: #28CA41;
+        }
+        
+        .inbox-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            min-height: 200px;
+        }
+        
+        .inbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+        }
+        
+        .inbox-item img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .inbox-item-info {
+            flex: 1;
+        }
+        
+        .inbox-item-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+        
+        .inbox-item-preview {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .inbox-item-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.new { background: var(--primary); }
+        .status-dot.ai { background: #28CA41; }
+        .status-dot.pending { background: var(--accent); }
+        
+        /* Analytics Preview */
+        .analytics-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 100px;
+            padding: 16px 0;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background: var(--gradient-2);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+        }
+        
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .metric-item {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient-4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .metric-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        /* Workflow Builder */
+        .workflow-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .workflow-node {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--tertiary);
+        }
+        
+        .workflow-node.trigger { border-left-color: var(--primary); }
+        .workflow-node.action { border-left-color: #28CA41; }
+        .workflow-node.condition { border-left-color: var(--accent); }
+        
+        .workflow-node-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .workflow-node-text {
+            font-size: 0.8125rem;
+        }
+        
+        /* ============================================
+           HOW IT WORKS SECTION
+           ============================================ */
+        .how-section {
+            padding: 100px 0;
+            background: var(--dark);
+        }
+        
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 24px;
+        }
+        
+        .step-card {
+            text-align: center;
+            padding: 32px 20px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-hero);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0 auto 20px;
+        }
+        
+        .step-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .step-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .step-connector {
+            position: absolute;
+            top: 60px;
+            right: -12px;
+            width: 24px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--tertiary));
+        }
+        
+        .step-card:last-child .step-connector {
+            display: none;
+        }
+        
+        /* ============================================
+           TESTIMONIALS SECTION
+           ============================================ */
+        .testimonials-section {
+            padding: 100px 0;
+            background: var(--dark-secondary);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .testimonial-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .testimonial-info span {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+        
+        .testimonial-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(124, 92, 255, 0.2);
+            border-radius: var(--radius-sm);
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--tertiary);
+            margin-bottom: 16px;
+        }
+        
+        .testimonial-text {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        .testimonial-stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .testimonial-stat {
+            text-align: center;
+        }
+        
+        .testimonial-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient-4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .testimonial-stat-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+        
+        /* ============================================
+           FINAL CTA SECTION
+           ============================================ */
+        .final-cta {
+            padding: 120px 0;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .final-cta-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(255, 0, 105, 0.2) 0%, transparent 70%);
+        }
+        
+        .final-cta-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .final-cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        
+        .final-cta p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+        
+        .final-cta-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            padding: 60px 0 30px;
+            background: var(--dark-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 16px;
+            max-width: 300px;
+        }
+        
+        .footer-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .footer-links a {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--text);
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-copyright {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .footer-social a:hover {
+            background: var(--gradient-hero);
+            color: white;
+        }
+        
+        .footer-social svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .hero-visual {
+                display: none;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                text-align: center;
+            }
+            
+            .hero-actions {
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .product-preview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .steps-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .step-connector {
+                display: none;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-preview {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+        
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-inner">
+                <a href="/" class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    Viraly
+                </a>
+                
+                <div class="nav-links">
+                    <a href="/features" class="nav-link">Features</a>
+                    <a href="/how-it-works" class="nav-link">How It Works</a>
+                    <a href="/pricing" class="nav-link">Pricing</a>
+                    <a href="/integrations" class="nav-link">Integrations</a>
+                    <a href="/customers" class="nav-link">Customers</a>
                 </div>
                 
-                <h1 class="hero-title">
-                    Go Viral On IG<br>with <span class="gradient-text">DM Automation</span>
+                <div class="nav-actions">
+                    <a href="/login" class="btn btn-ghost">Login</a>
+                    <a href="#" class="btn btn-primary">Get Started Free</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="hero-gradient hero-gradient-1"></div>
+            <div class="hero-gradient hero-gradient-2"></div>
+            <div class="hero-gradient hero-gradient-3"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge fade-in">
+                    <span>✨ Meta Partnered</span>
+                    <span class="dot"></span>
+                    <span>⚡ AI Powered</span>
+                    <span class="dot"></span>
+                    <span>🎯 Intent Based</span>
+                </div>
+                
+                <h1 class="hero-title fade-in stagger-1">
+                    Stop Building Triggers.<br>
+                    <span class="highlight">Start Understanding Intent.</span>
                 </h1>
                 
-                <p class="hero-subtitle">
-                    Keep your audience and the IG algorithm happy by auto-responding to every comment in a DM.
+                <p class="hero-subtitle fade-in stagger-2">
+                    Viraly is the AI social media employee that understands customer intent, 
+                    replies instantly and turns conversations into customers across Instagram, 
+                    WhatsApp and social channels.
                 </p>
                 
-                <div class="hero-actions">
-                    <a href="#" class="btn btn-primary btn-lg pulse-glow">
-                        Start For Free
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                            <polyline points="12 5 19 12 12 19"/>
+                <div class="hero-actions fade-in stagger-3">
+                    <a href="#" class="btn btn-primary">
+                        Get Started Free
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn btn-secondary btn-outline">
+                        Login Now
+                    </a>
+                    <a href="#" class="btn btn-ghost">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hero Visual -->
+        <div class="hero-visual">
+            <div class="dashboard-preview">
+                <div class="dashboard-header">
+                    <div class="dashboard-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="dashboard-tabs">
+                        <div class="dashboard-tab active">Instagram</div>
+                        <div class="dashboard-tab">WhatsApp</div>
+                        <div class="dashboard-tab">Analytics</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-body">
+                    <div class="dm-card">
+                        <div class="dm-header">
+                            <div class="dm-avatar">S</div>
+                            <div class="dm-info">
+                                <h4>@sarah_creatives</h4>
+                                <span>New Lead • High Intent</span>
+                            </div>
+                        </div>
+                        <div class="dm-message">
+                            Hi! I'm interested in your design services. 
+                            Do you offer brand identity packages?
+                        </div>
+                        <div class="intent-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Intent: Purchase Interest
+                        </div>
+                        <div class="lead-score">
+                            <div class="lead-score-bar">
+                                <div class="lead-score-fill"></div>
+                            </div>
+                            <span>85%</span>
+                        </div>
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="dm-card">
+                        <div class="dm-header">
+                            <div class="dm-avatar" style="background: var(--gradient-1)">M</div>
+                            <div class="dm-info">
+                                <h4>@mike_startups</h4>
+                                <span>Returning Customer</span>
+                            </div>
+                        </div>
+                        <div class="dm-message">
+                            Thanks for the quick response! 
+                            Let's schedule a call tomorrow.
+                        </div>
+                        <div class="intent-badge" style="background: rgba(124, 92, 255, 0.2); color: var(--tertiary);">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            Intent: Booking Meeting
+                        </div>
+                        <div class="stats-mini">
+                            <div class="stat-mini">
+                                <div class="stat-mini-value">$2.4K</div>
+                                <div class="stat-mini-label">Value</div>
+                            </div>
+                            <div class="stat-mini">
+                                <div class="stat-mini-value">4</div>
+                                <div class="stat-mini-label">Messages</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Elements -->
+            <div class="floating-element" style="top: 10%; right: 10%;">
+                <div class="floating-notification">
+                    <div class="notification-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div class="notification-text">
+                        <strong>Lead Converted!</strong>
+                        <span>$599 deal closed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="floating-element" style="bottom: 20%; left: 5%; animation-delay: -3s;">
+                <div class="floating-notification">
+                    <div class="notification-icon" style="background: var(--gradient-4);">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="notification-text">
+                        <strong>23 New DMs</strong>
+                        <span>AI processing...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Marquee Section -->
+    <section class="marquee-section">
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=32" alt="Creator">
+                    <span>✓ Meta Partnered</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=47" alt="Creator">
+                    <span>✓ Verified Creators</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=12" alt="Creator">
+                    <span>✓ Digital Agencies</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=44" alt="Creator">
+                    <span>✓ Fast Growing Startups</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=15" alt="Creator">
+                    <span>✓ Restaurants</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=33" alt="Creator">
+                    <span>✓ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=25" alt="Creator">
+                    <span>✓ Founders</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=53" alt="Creator">
+                    <span>✓ E-commerce Brands</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=68" alt="Creator">
+                    <span>✓ Small Businesses</span>
+                </div>
+            </div>
+            <div class="marquee-content">
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=32" alt="Creator">
+                    <span>✓ Meta Partnered</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=47" alt="Creator">
+                    <span>✓ Verified Creators</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=12" alt="Creator">
+                    <span>✓ Digital Agencies</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=44" alt="Creator">
+                    <span>✓ Fast Growing Startups</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=15" alt="Creator">
+                    <span>✓ Restaurants</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=33" alt="Creator">
+                    <span>✓ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=25" alt="Creator">
+                    <span>✓ Founders</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=53" alt="Creator">
+                    <span>✓ E-commerce Brands</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="https://i.pravatar.cc/48?img=68" alt="Creator">
+                    <span>✓ Small Businesses</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Social Proof Section -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" data-count="50">0</div>
+                    <div class="stat-label">K+ Creators</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-count="10">0</div>
+                    <div class="stat-label">M+ Messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-count="99.8" data-suffix="%">0</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-prefix="$" data-count="25">0</div>
+                    <div class="stat-label">M+ Generated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-count="200">0</div>
+                    <div class="stat-label">+ Integrations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Intent vs Trigger Section -->
+    <section class="intent-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    The Difference
+                </div>
+                <h2 class="section-title">Not Trigger-Based. Intent-Based.</h2>
+                <p class="section-subtitle">
+                    While others rely on outdated keyword matching, Viraly understands 
+                    the actual intent behind every message.
+                </p>
+            </div>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card traditional">
+                    <h3>⚠️ Traditional Tools</h3>
+                    <ul class="comparison-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            Keyword based matching
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            Manual rule creation
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            Static workflows
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            Same reply to everyone
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            Complex setup required
+                        </li>
+                    </ul>
+                    <div class="flow-diagram">
+                        <div class="flow-step">Trigger</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step">Rule</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step">Response</div>
+                    </div>
+                </div>
+                
+                <div class="comparison-card viraly">
+                    <h3>✨ Viraly AI</h3>
+                    <ul class="comparison-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Intent detection
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Context understanding
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Adaptive AI responses
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Personalized replies
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Self-improving AI
+                        </li>
+                    </ul>
+                    <div class="flow-diagram">
+                        <div class="flow-step">Intent</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step">Understanding</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-step">Action</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Viraly Section -->
+    <section class="why-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                    Why Choose Us
+                </div>
+                <h2 class="section-title">Why Businesses Choose Viraly</h2>
+                <p class="section-subtitle">
+                    Join thousands of businesses who've transformed their customer engagement with AI-powered intent understanding.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Respond to customers in seconds, not hours. Our AI processes and replies instantly across all channels.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Understands Intent</h3>
+                    <p>Go beyond keywords. Viraly comprehends the actual meaning and emotion behind every message.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Converts More Leads</h3>
+                    <p>Intelligent lead scoring and personalized responses that turn inquiries into paying customers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Employee</h3>
+                    <p>Your tireless AI employee that works 24/7, never misses a message, and continuously learns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Human-like Conversations</h3>
+                    <p>Natural, engaging responses that feel personal and build genuine connections with your audience.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Better ROI</h3>
+                    <p>See measurable results with increased conversion rates, higher customer satisfaction, and lower costs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Product Preview Section -->
+    <section class="product-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    </svg>
+                    See It In Action
+                </div>
+                <h2 class="section-title">Powerful Tools. Beautiful Interface.</h2>
+                <p class="section-subtitle">
+                    Everything you need to manage, automate, and optimize your social media conversations.
+                </p>
+            </div>
+            
+            <div class="product-preview">
+                <div class="product-card">
+                    <div class="product-card-header">
+                        <div class="product-card-title">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" alt="Instagram">
+                            Instagram Inbox
+                        </div>
+                        <div class="product-badge">Live</div>
+                    </div>
+                    <div class="inbox-preview">
+                        <div class="inbox-item">
+                            <img src="https://i.pravatar.cc/48?img=1" alt="User">
+                            <div class="inbox-item-info">
+                                <div class="inbox-item-name">emma.designs</div>
+                                <div class="inbox-item-preview">Love your work! DM me pricing...</div>
+                            </div>
+                            <div class="inbox-item-status">
+                                <span class="status-dot new"></span>
+                            </div>
+                        </div>
+                        <div class="inbox-item">
+                            <img src="https://i.pravatar.cc/48?img=2" alt="User">
+                            <div class="inbox-item-info">
+                                <div class="inbox-item-name">tech_founder</div>
+                                <div class="inbox-item-preview">AI replied: Sending pricing deck...</div>
+                            </div>
+                            <div class="inbox-item-status">
+                                <span class="status-dot ai"></span>
+                            </div>
+                        </div>
+                        <div class="inbox-item">
+                            <img src="https://i.pravatar.cc/48?img=3" alt="User">
+                            <div class="inbox-item-info">
+                                <div class="inbox-item-name">fitness_coach_j</div>
+                                <div class="inbox-item-preview">Booked! Thanks for quick response</div>
+                            </div>
+                            <div class="inbox-item-status">
+                                <span class="status-dot pending"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-header">
+                        <div class="product-card-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--quaternary)" stroke-width="2">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                            </svg>
+                            WhatsApp Inbox
+                        </div>
+                        <div class="product-badge">Live</div>
+                    </div>
+                    <div class="inbox-preview">
+                        <div class="inbox-item">
+                            <img src="https://i.pravatar.cc/48?img=4" alt="User">
+                            <div class="inbox-item-info">
+                                <div class="inbox-item-name">restaurant_owner</div>
+                                <div class="inbox-item-preview">Table for 4 tonight at 7pm?</div>
+                            </div>
+                            <div class="inbox-item-status">
+                                <span class="status-dot new"></span>
+                            </div>
+                        </div>
+                        <div class="inbox-item">
+                            <img src="https://i.pravatar.cc/48?img=5" alt="User">
+                            <div class="inbox-item-info">
+                                <div class="inbox-item-name">beauty_salon_la</div>
+                                <div class="inbox-item-preview">AI: Confirmed reservation. See you...</div>
+                            </div>
+                            <div class="inbox-item-status">
+                                <span class="status-dot ai"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-header">
+                        <div class="product-card-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            Analytics
+                        </div>
+                        <div class="product-badge">Real-time</div>
+                    </div>
+                    <div class="inbox-preview">
+                        <div class="analytics-chart">
+                            <div class="chart-bar" style="height: 60%;"></div>
+                            <div class="chart-bar" style="height: 80%;"></div>
+                            <div class="chart-bar" style="height: 45%;"></div>
+                            <div class="chart-bar" style="height: 90%;"></div>
+                            <div class="chart-bar" style="height: 70%;"></div>
+                            <div class="chart-bar" style="height: 95%;"></div>
+                            <div class="chart-bar" style="height: 85%;"></div>
+                        </div>
+                        <div class="metrics-row">
+                            <div class="metric-item">
+                                <div class="metric-value">2.4K</div>
+                                <div class="metric-label">Leads</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">68%</div>
+                                <div class="metric-label">Conv Rate</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">$89K</div>
+                                <div class="metric-label">Revenue</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">1.2s</div>
+                                <div class="metric-label">Avg Response</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-header">
+                        <div class="product-card-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                            AI Employee
+                        </div>
+                        <div class="product-badge">Active</div>
+                    </div>
+                    <div class="inbox-preview">
+                        <div class="workflow-preview">
+                            <div class="workflow-node trigger">
+                                <div class="workflow-node-icon">🧠</div>
+                                <div class="workflow-node-text">Intent Detected: Purchase Interest</div>
+                            </div>
+                            <div class="workflow-node action">
+                                <div class="workflow-node-icon">📧</div>
+                                <div class="workflow-node-text">Send Personalized Offer + Pricing</div>
+                            </div>
+                            <div class="workflow-node condition">
+                                <div class="workflow-node-icon">⭐</div>
+                                <div class="workflow-node-text">Lead Score: 85% (High Priority)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-header">
+                        <div class="product-card-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--tertiary)" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                                <line x1="9" y1="21" x2="9" y2="9"/>
+                            </svg>
+                            Workflow Builder
+                        </div>
+                    </div>
+                    <div class="inbox-preview">
+                        <div class="workflow-preview">
+                            <div class="workflow-node trigger">
+                                <div class="workflow-node-icon">💬</div>
+                                <div class="workflow-node-text">New DM Received</div>
+                            </div>
+                            <div class="workflow-node condition">
+                                <div class="workflow-node-icon">🔍</div>
+                                <div class="workflow-node-text">Analyze Intent & Sentiment</div>
+                            </div>
+                            <div class="workflow-node action">
+                                <div class="workflow-node-icon">✉️</div>
+                                <div class="workflow-node-text">AI Response Generated</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-header">
+                        <div class="product-card-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#28CA41" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            Lead Scoring
+                        </div>
+                        <div class="product-badge">AI-Powered</div>
+                    </div>
+                    <div class="inbox-preview">
+                        <div class="metrics-row">
+                            <div class="metric-item" style="grid-column: span 2;">
+                                <div class="metric-value">92%</div>
+                                <div class="metric-label">Lead Quality Score</div>
+                            </div>
+                        </div>
+                        <div class="workflow-preview" style="margin-top: 12px;">
+                            <div class="workflow-node" style="border-left-color: #28CA41;">
+                                <div class="workflow-node-icon" style="font-size: 0.625rem;">🔥</div>
+                                <div class="workflow-node-text" style="font-size: 0.75rem;">High Intent Buyer</div>
+                            </div>
+                            <div class="workflow-node" style="border-left-color: var(--accent);">
+                                <div class="workflow-node-icon" style="font-size: 0.625rem;">💰</div>
+                                <div class="workflow-node-text" style="font-size: 0.75rem;">Budget: $500-2K</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="how-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    Getting Started
+                </div>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">
+                    Get up and running in minutes, not days. Three simple steps to transform your customer engagement.
+                </p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Connect Channels</h3>
+                    <p>Link your Instagram, WhatsApp, and other social accounts in one click.</p>
+                    <span class="step-connector"></span>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Train Viraly AI</h3>
+                    <p>Customize your AI employee's personality and response style.</p>
+                    <span class="step-connector"></span>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Understand Intent</h3>
+                    <p>Watch as Viraly comprehends customer needs instantly.</p>
+                    <span class="step-connector"></span>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Automate</h3>
+                    <p>Let AI handle conversations while you focus on what matters.</p>
+                    <span class="step-connector"></span>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h3>Convert & Grow</h3>
+                    <p>Turn followers into customers and scale your business.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                    Success Stories
+                </div>
+                <h2 class="section-title">Loved by Businesses Worldwide</h2>
+                <p class="section-subtitle">
+                    See how businesses are transforming their customer engagement with Viraly.
+                </p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://i.pravatar.cc/100?img=32" alt="Sarah Chen" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Sarah Chen</h4>
+                            <span>@sarah_designs • Design Agency</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-badge">🎯 High Intent Detection</div>
+                    <p class="testimonial-text">
+                        "Viraly's intent detection is incredible. It understood when a prospect was ready to buy versus just browsing. My conversion rate jumped 47% in the first month!"
+                    </p>
+                    <div class="testimonial-stats">
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-value">+47%</div>
+                            <div class="testimonial-stat-label">Conversions</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-value">$12K</div>
+                            <div class="testimonial-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://i.pravatar.cc/100?img=12" alt="Marcus Rodriguez" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Marcus Rodriguez</h4>
+                            <span>@techstartup • Founder</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-badge">⚡ 24/7 AI Response</div>
+                    <p class="testimonial-text">
+                        "We're now capturing leads while we sleep. The AI understands context perfectly - it even handles objections and schedules calls automatically. Game changer!"
+                    </p>
+                    <div class="testimonial-stats">
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-value">+156%</div>
+                            <div class="testimonial-stat-label">Leads</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-value">2.3s</div>
+                            <div class="testimonial-stat-label">Response</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://i.pravatar.cc/100?img=44" alt="Emily Watson" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Emily Watson</h4>
+                            <span>@wellness_coach • Life Coach</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-badge">💬 Human-like AI</div>
+                    <p class="testimonial-text">
+                        "Clients don't even realize they're talking to AI! The conversations feel so natural. I've scaled my coaching business 3x without hiring additional support."
+                    </p>
+                    <div class="testimonial-stats">
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-value">3x</div>
+                            <div class="testimonial-stat-label">Growth</div>
+                        </div>
+                        <div class="testimonial-stat">
+                            <div class="testimonial-stat-value">89%</div>
+                            <div class="testimonial-stat-label">Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="final-cta-bg"></div>
+        <div class="container">
+            <div class="final-cta-content">
+                <h2>Your Next Customer Is<br>Already In Your DMs.</h2>
+                <p>
+                    Stop letting conversations slip away. Start understanding customer intent 
+                    and turning messages into customers today.
+                </p>
+                <div class="final-cta-actions">
+                    <a href="#" class="btn btn-primary" style="padding: 16px 32px; font-size: 1rem;">
+                        Get Started Free
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn btn-secondary" style="padding: 16px 32px; font-size: 1rem;">
+                        Start Growing
+                    </a>
+                    <a href="#" class="btn btn-ghost" style="padding: 16px 32px; font-size: 1rem;">
+                        Book Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        Viraly
+                    </a>
+                    <p>Your AI-powered social media employee that understands intent, replies instantly, and converts conversations into customers.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Product</h4>
+                    <div class="footer-links">
+                        <a href="/features">Features</a>
+                        <a href="/pricing">Pricing</a>
+                        <a href="/integrations">Integrations</a>
+                        <a href="/how-it-works">How It Works</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <div class="footer-links">
+                        <a href="/about">About</a>
+                        <a href="/blog">Blog</a>
+                        <a href="/careers">Careers</a>
+                        <a href="/contact">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Legal</h4>
+                    <div class="footer-links">
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                        <a href="/security">Security</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2024 Viraly. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
                         </svg>
                     </a>
                 </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-value[data-count]');
+            
+            counters.forEach(counter => {
+                const target = parseFloat(counter.dataset.count);
+                const prefix = counter.dataset.prefix || '';
+                const suffix = counter.dataset.suffix || '+';
+                const duration = 2000;
+                const start = 0;
+                const startTime = performance.now();
                 
-                <div class="hero-trust-badges">
-                    <span class="trust-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Meta Verified
-                    </span>
-                    <span class="trust-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        No Credit Card
-                    </span>
-                    <span class="trust-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        Instant Setup
-                    </span>
-                </div>
-            </div>
-            
-            <div class="hero-visual">
-                <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d?w=600&h=400&fit=crop" alt="DM Automation" class="hero-image">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Social Proof Logos -->
-<section class="logos-section">
-    <div class="container">
-        <p class="logos-title">10k+ Creators Trust Viraly</p>
-        <div class="creators-logos">
-            <div class="creator-card">
-                <img src="https://i.pravatar.cc/48?img=47" alt="Creator">
-                <div class="creator-info">
-                    <span class="creator-handle">@ghar_sansar</span>
-                    <span class="creator-stats">156K+ Followers</span>
-                    <span class="creator-category">Local Business</span>
-                </div>
-            </div>
-            <div class="creator-card">
-                <img src="https://i.pravatar.cc/48?img=12" alt="Creator">
-                <div class="creator-info">
-                    <span class="creator-handle">@ezsnippet</span>
-                    <span class="creator-stats">3.3M+ Followers</span>
-                    <span class="creator-category">Tech</span>
-                </div>
-            </div>
-            <div class="creator-card">
-                <img src="https://i.pravatar.cc/48?img=44" alt="Creator">
-                <div class="creator-info">
-                    <span class="creator-handle">@fit.saswati</span>
-                    <span class="creator-stats">35K+ Followers</span>
-                    <span class="creator-category">Fitness</span>
-                </div>
-            </div>
-            <div class="creator-card">
-                <img src="https://i.pravatar.cc/48?img=15" alt="Creator">
-                <div class="creator-info">
-                    <span class="creator-handle">@elementec</span>
-                    <span class="creator-stats">1.2M+ Followers</span>
-                    <span class="creator-category">Travel</span>
-                </div>
-            </div>
-            <div class="creator-card">
-                <img src="https://i.pravatar.cc/48?img=32" alt="Creator">
-                <div class="creator-info">
-                    <span class="creator-handle">@englishwitharthibaskar</span>
-                    <span class="creator-stats">1M Followers</span>
-                    <span class="creator-category">Education</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-number">30M+</span>
-                <span class="stat-label">DMs Sent</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">5M+</span>
-                <span class="stat-label">Followers Gained</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">10M+</span>
-                <span class="stat-label">Comments Sent</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">50+</span>
-                <span class="stat-label">Countries</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Feature 1: Ask for Follow -->
-<section class="feature-split-section">
-    <div class="container">
-        <div class="feature-split">
-            <div class="feature-image">
-                <img src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=600&h=500&fit=crop" alt="Follow Automation">
-            </div>
-            <div class="feature-content">
-                <h2>Convert More Followers</h2>
-                <p>Ensure your discounts, offers, or exclusives are going to only real, actual Instagram followers with Ask for a Follow automation</p>
-                <a href="#" class="btn btn-primary">
-                    Start For Free
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
-                </a>
-                <div class="feature-badges">
-                    <span>Meta Verified</span>
-                    <span>No Credit Card</span>
-                    <span>Instant Setup</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Feature 2: Boost Engagement -->
-<section class="feature-split-section alt">
-    <div class="container">
-        <div class="feature-split reverse">
-            <div class="feature-content">
-                <h2>Boost Engagement</h2>
-                <p>Auto-respond to every Instagram comment in a DM. Keep your audience (and the algorithm) happy -- and watch your revenue grow</p>
-                <a href="#" class="btn btn-primary">
-                    Start For Free
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
-                </a>
-                <div class="feature-badges">
-                    <span>Meta Verified</span>
-                    <span>No Credit Card</span>
-                    <span>Instant Setup</span>
-                </div>
-            </div>
-            <div class="feature-image">
-                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=500&fit=crop" alt="Engagement">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Features Grid -->
-<section class="features-grid-section">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2>All The Features You Need</h2>
-            <p class="section-subtitle">Unlock the full Power of Instagram</p>
-        </div>
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const current = start + (target - start) * easeOut;
+                    
+                    if (target % 1 !== 0) {
+                        counter.textContent = prefix + current.toFixed(1) + suffix;
+                    } else {
+                        counter.textContent = prefix + Math.floor(current) + suffix;
+                    }
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    }
+                }
+                
+                requestAnimationFrame(update);
+            });
+        }
         
-        <div class="features-main-grid">
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=300&fit=crop" alt="Comment Automation">
-                </div>
-                <div class="feature-card-content">
-                    <h3>Comment Automation</h3>
-                    <p>Reply to comments and send a DM to engage your followers.</p>
-                </div>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=400&h=300&fit=crop" alt="Story Automation">
-                </div>
-                <div class="feature-card-content">
-                    <h3>Story Automation</h3>
-                    <p>Auto respond to story replies and reactions.</p>
-                </div>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop" alt="Live Automation">
-                </div>
-                <div class="feature-card-content">
-                    <h3>Live Automation</h3>
-                    <p>Send a message to followers who are active during lives.</p>
-                </div>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21fe04c5a6?w=400&h=300&fit=crop" alt="DM Automation">
-                </div>
-                <div class="feature-card-content">
-                    <h3>DM Automation</h3>
-                    <p>Automatically reply to the followers who messages you.</p>
-                </div>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=400&h=300&fit=crop" alt="Ask For Follow">
-                </div>
-                <div class="feature-card-content">
-                    <h3>Ask For Follow</h3>
-                    <p>Ask users to follow you before sending the message</p>
-                </div>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=300&fit=crop" alt="Re-trigger">
-                </div>
-                <div class="feature-card-content">
-                    <h3>Re-trigger</h3>
-                    <p>Re-trigger automations for old posts and never loose customers</p>
-                </div>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Collect User Data">
-                </div>
-                <div class="feature-card-content">
-                    <h3>Collect User Data</h3>
-                    <p>Create your email list to re-target audience</p>
-                </div>
-            </div>
-            
-            <div class="feature-card coming-soon">
-                <div class="feature-card-image">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop" alt="AI Replies">
-                </div>
-                <div class="feature-card-content">
-                    <span class="coming-soon-badge">Coming Soon</span>
-                    <h3>AI Replies</h3>
-                    <p>Convert more users with the help of AI</p>
-                </div>
-            </div>
-        </div>
+        // Intersection Observer for counter animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
         
-        <div class="features-cta">
-            <a href="#" class="btn btn-primary btn-lg">
-                Start For Free
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                    <polyline points="12 5 19 12 12 19"/>
-                </svg>
-            </a>
-            <div class="cta-badges">
-                <span>Meta Verified</span>
-                <span>No Credit Card</span>
-                <span>Instant Setup</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- How It Works -->
-<section class="how-it-works-section">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2>How it Works</h2>
-            <p class="section-subtitle">3 Easy Steps, Unlimited Possibilities</p>
-        </div>
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid) {
+            observer.observe(statsGrid);
+        }
         
-        <div class="steps-container">
-            <div class="step-item">
-                <div class="step-number">STEP 1</div>
-                <div class="step-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                    </svg>
-                </div>
-                <h3>Choose Trigger</h3>
-                <p>Choose which keywords activate your automation</p>
-            </div>
-            
-            <div class="step-connector">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                    <polyline points="12 5 19 12 12 19"/>
-                </svg>
-            </div>
-            
-            <div class="step-item">
-                <div class="step-number">STEP 2</div>
-                <div class="step-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
-                </div>
-                <h3>Automate Response</h3>
-                <p>Setup custom responses with links and offers to share</p>
-            </div>
-            
-            <div class="step-connector">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                    <polyline points="12 5 19 12 12 19"/>
-                </svg>
-            </div>
-            
-            <div class="step-item featured">
-                <div class="step-number">STEP 3</div>
-                <div class="step-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                </div>
-                <h3>Go Viral</h3>
-                <p>Let automations do the magic while you focus on creating</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials -->
-<section class="testimonials-section">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2>See What People Are Saying</h2>
-        </div>
-        
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-header">
-                    <img src="https://i.pravatar.cc/48?img=44" alt="Saswati">
-                    <div class="testimonial-user">
-                        <span class="user-handle">@fit.saswati</span>
-                        <div class="user-rating">
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        </div>
-                    </div>
-                </div>
-                <p class="testimonial-text">"I absolutely love Viraly! As a creator, I have used a lot of automated DM services but none of them had an UI as user friendly as Viraly. And if I have to find their USP from customer point of view then that has to be the amazing customer support -- seriously missing in other automated DM service platforms."</p>
-            </div>
-            
-            <div class="testimonial-card">
-                <div class="testimonial-header">
-                    <img src="https://i.pravatar.cc/48?img=53" alt="Kushank">
-                    <div class="testimonial-user">
-                        <span class="user-handle">@khushankmathurcuet</span>
-                        <div class="user-rating">
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        </div>
-                    </div>
-                </div>
-                <p class="testimonial-text">"Excellent technical support and smooth automation, far better than most other platforms. Using their tool, I gained 6000+ followers in just 20 days. Deliveries to viewers are always timely. 100% recommended!"</p>
-            </div>
-            
-            <div class="testimonial-card">
-                <div class="testimonial-header">
-                    <img src="https://i.pravatar.cc/48?img=26" alt="Manvi">
-                    <div class="testimonial-user">
-                        <span class="user-handle">@manvihiranwal</span>
-                        <div class="user-rating">
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg viewBox="0 0 24 24" fill="#FFB800" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        </div>
-                    </div>
-                </div>
-                <p class="testimonial-text">"This website is genuinely one of the easiest and cleanest platforms I have used. It is super beginner-friendly, smooth to navigate, and everything feels so direct and well-structured. Compared to other complicated tools, this one stands out for its simplicity and efficiency."</p>
-            </div>
-        </div>
-        
-        <div class="testimonials-cta">
-            <a href="#" class="btn btn-primary btn-lg">
-                Start For Free
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                    <polyline points="12 5 19 12 12 19"/>
-                </svg>
-            </a>
-            <div class="cta-badges">
-                <span>Meta Verified</span>
-                <span>No Credit Card</span>
-                <span>Instant Setup</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="final-cta-section">
-    <div class="container">
-        <div class="cta-content">
-            <h2>Ready to Automate Your Instagram?</h2>
-            <p>Join 10,000+ creators who are growing with Viraly.</p>
-            <a href="#" class="btn btn-primary btn-lg pulse-glow">
-                Start For Free
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                    <polyline points="12 5 19 12 12 19"/>
-                </svg>
-            </a>
-            <div class="cta-badges">
-                <span>Meta Verified</span>
-                <span>No Credit Card</span>
-                <span>Instant Setup</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<style>
-/* Reset section styles */
-.logos-section {
-    padding: var(--space-2xl) 0;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-}
-
-.logos-title {
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: var(--space-xl);
-}
-
-.creators-logos {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-xl);
-    flex-wrap: wrap;
-}
-
-.creator-card {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    padding: var(--space-sm) var(--space-md);
-    background: var(--background);
-    border-radius: var(--radius-lg);
-}
-
-.creator-card img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-}
-
-.creator-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.creator-handle {
-    font-weight: 600;
-    font-size: 0.875rem;
-}
-
-.creator-stats {
-    font-size: 0.75rem;
-    color: var(--primary);
-    font-weight: 500;
-}
-
-.creator-category {
-    font-size: 0.6875rem;
-    color: var(--muted);
-}
-
-/* Stats Section */
-.stats-section {
-    padding: var(--space-4xl) 0;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-}
-
-.stats-grid {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4xl);
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    text-align: center;
-    color: white;
-}
-
-.stat-number {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: var(--space-xs);
-}
-
-.stat-label {
-    font-size: 0.875rem;
-    opacity: 0.9;
-}
-
-/* Feature Split Section */
-.feature-split-section {
-    padding: var(--space-4xl) 0;
-}
-
-.feature-split-section.alt {
-    background: var(--surface);
-}
-
-.feature-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4xl);
-    align-items: center;
-}
-
-.feature-split.reverse {
-    direction: rtl;
-}
-
-.feature-split.reverse > * {
-    direction: ltr;
-}
-
-.feature-image {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-xl);
-}
-
-.feature-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.feature-content h2 {
-    font-size: 2rem;
-    margin-bottom: var(--space-lg);
-}
-
-.feature-content p {
-    font-size: 1.0625rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: var(--space-xl);
-}
-
-.feature-badges {
-    display: flex;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
-    flex-wrap: wrap;
-}
-
-.feature-badges span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8125rem;
-    color: var(--success);
-    font-weight: 500;
-}
-
-.feature-badges svg {
-    width: 16px;
-    height: 16px;
-}
-
-/* Features Grid Section */
-.features-grid-section {
-    padding: var(--space-4xl) 0;
-    background: var(--surface);
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: var(--space-3xl);
-}
-
-.section-header h2 {
-    font-size: 2rem;
-    margin-bottom: var(--space-sm);
-}
-
-.section-subtitle {
-    font-size: 1.125rem;
-    color: var(--muted);
-}
-
-.features-main-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-xl);
-}
-
-.feature-card {
-    background: var(--background);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    transition: all 0.2s;
-}
-
-.feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-}
-
-.feature-card.coming-soon {
-    opacity: 0.8;
-}
-
-.feature-card-image {
-    height: 160px;
-    overflow: hidden;
-}
-
-.feature-card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.feature-card-content {
-    padding: var(--space-lg);
-}
-
-.feature-card-content h3 {
-    font-size: 1rem;
-    margin-bottom: var(--space-sm);
-}
-
-.feature-card-content p {
-    font-size: 0.875rem;
-    color: var(--muted);
-    margin: 0;
-}
-
-.coming-soon-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    background: var(--warning);
-    color: white;
-    font-size: 0.625rem;
-    font-weight: 700;
-    border-radius: 8px;
-    text-transform: uppercase;
-    margin-bottom: var(--space-sm);
-}
-
-.features-cta {
-    text-align: center;
-    margin-top: var(--space-3xl);
-}
-
-.cta-badges {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-lg);
-    margin-top: var(--space-lg);
-    flex-wrap: wrap;
-}
-
-.cta-badges span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8125rem;
-    color: var(--muted);
-}
-
-.cta-badges span::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--success);
-    border-radius: 50%;
-}
-
-/* How It Works */
-.how-it-works-section {
-    padding: var(--space-4xl) 0;
-}
-
-.steps-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: var(--space-lg);
-    flex-wrap: wrap;
-}
-
-.step-item {
-    text-align: center;
-    max-width: 240px;
-}
-
-.step-item.featured {
-    position: relative;
-}
-
-.step-item.featured::before {
-    content: '';
-    position: absolute;
-    inset: -10px;
-    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
-    border-radius: var(--radius-xl);
-    z-index: -1;
-}
-
-.step-number {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: var(--space-md);
-}
-
-.step-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto var(--space-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(124,92,255,0.1), rgba(0,207,255,0.1));
-    border-radius: var(--radius-xl);
-}
-
-.step-icon svg {
-    width: 40px;
-    height: 40px;
-    color: var(--primary);
-}
-
-.step-item h3 {
-    font-size: 1.125rem;
-    margin-bottom: var(--space-sm);
-}
-
-.step-item p {
-    font-size: 0.875rem;
-    color: var(--muted);
-}
-
-.step-connector {
-    display: flex;
-    align-items: center;
-    padding-top: 40px;
-}
-
-.step-connector svg {
-    width: 40px;
-    height: 40px;
-    color: var(--primary);
-}
-
-/* Testimonials */
-.testimonials-section {
-    padding: var(--space-4xl) 0;
-    background: var(--surface);
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: var(--space-xl);
-}
-
-.testimonial-card {
-    background: var(--background);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
-    border: 1px solid var(--border);
-}
-
-.testimonial-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    margin-bottom: var(--space-lg);
-}
-
-.testimonial-header img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-}
-
-.testimonial-user {
-    display: flex;
-    flex-direction: column;
-}
-
-.user-handle {
-    font-weight: 600;
-    font-size: 0.875rem;
-}
-
-.user-rating {
-    display: flex;
-    gap: 2px;
-}
-
-.testimonial-text {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--text);
-    margin: 0;
-}
-
-.testimonials-cta {
-    text-align: center;
-    margin-top: var(--space-3xl);
-}
-
-/* Final CTA */
-.final-cta-section {
-    padding: var(--space-4xl) 0;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-}
-
-.cta-content {
-    text-align: center;
-    color: white;
-}
-
-.cta-content h2 {
-    font-size: 2rem;
-    margin-bottom: var(--space-md);
-    color: white;
-}
-
-.cta-content p {
-    font-size: 1.125rem;
-    opacity: 0.9;
-    margin-bottom: var(--space-xl);
-}
-
-.cta-content .btn-primary {
-    background: white;
-    color: var(--primary);
-}
-
-.cta-content .btn-primary:hover {
-    background: rgba(255,255,255,0.9);
-}
-
-.cta-content .cta-badges {
-    color: rgba(255,255,255,0.9);
-}
-
-.cta-content .cta-badges span::before {
-    background: rgba(255,255,255,0.5);
-}
-
-/* Meta Badge */
-.meta-badge {
-    margin-bottom: var(--space-lg);
-}
-
-.meta-logo {
-    height: 24px;
-    width: auto;
-}
-
-@media (max-width: 768px) {
-    .feature-split {
-        grid-template-columns: 1fr;
-    }
-    
-    .feature-split.reverse {
-        direction: ltr;
-    }
-    
-    .step-connector {
-        display: none;
-    }
-    
-    .creators-logos {
-        gap: var(--space-md);
-    }
-    
-    .creator-card {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-</style>
-{% endblock %}
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
