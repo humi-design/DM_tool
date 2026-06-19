@@ -1,256 +1,391 @@
 {% extends "public/base.html" %}
 
-{% block title %}Pricing - Viraly{% endblock %}
+{% block title %}Pricing - Viraly | Simple & Transparent Pricing{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Viraly pricing plans - Start free, scale as you grow. Choose from Starter, Pro, or Agency plans with no hidden fees.">
+{% endblock %}
 
 {% block content %}
-<!-- Page Header -->
-<section class="page-header">
-    <div class="container">
-        <div class="animate-on-scroll">
-            <h1>Simple, <span class="text-gradient">Transparent</span> Pricing</h1>
-            <p>Start free, scale as you grow. No hidden fees, no surprises.</p>
-        </div>
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 60vh;">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
     </div>
-</section>
-
-<!-- Pricing Section -->
-<section class="section">
     <div class="container">
-        <div class="pricing-grid stagger-children">
-            <div class="pricing-card pricing-card-animated">
-                <div class="pricing-name">Starter</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount">$29</span>
-                    <span class="pricing-period">/month</span>
+        <div class="hero-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <div class="hero-content" style="max-width: 100%;">
+                <!-- Trust Badges -->
+                <div class="trust-badges" style="justify-content: center;">
+                    <span class="trust-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <polyline points="9 12 11 14 15 10"/>
+                        </svg>
+                        SOC2 Certified
+                    </span>
+                    <span class="trust-badge verified">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        Meta Verified Partner
+                    </span>
                 </div>
-                <p style="color: var(--muted); margin-bottom: var(--space-xl); font-size: 0.9375rem;">Perfect for individuals and small businesses just getting started.</p>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        1,000 messages/month
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        1 channel (Instagram OR WhatsApp)
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Basic AI responses
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        5 workflow templates
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Email support
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Basic analytics
-                    </div>
-                </div>
-                <a href="#" class="btn btn-secondary pricing-cta">Get Started</a>
-            </div>
-            
-            <div class="pricing-card pricing-card-animated featured">
-                <div class="pricing-badge">Most Popular</div>
-                <div class="pricing-name">Growth</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount">$79</span>
-                    <span class="pricing-period">/month</span>
-                </div>
-                <p style="color: var(--muted); margin-bottom: var(--space-xl); font-size: 0.9375rem;">For growing businesses that need more power and flexibility.</p>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        10,000 messages/month
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        All channels (IG, WhatsApp, FB)
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Advanced AI + custom training
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Unlimited workflows
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Lead management & CRM
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Priority support
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Advanced analytics
-                    </div>
-                </div>
-                <a href="#" class="btn btn-primary pricing-cta">Get Started</a>
-            </div>
-            
-            <div class="pricing-card pricing-card-animated">
-                <div class="pricing-name">Scale</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount">$199</span>
-                    <span class="pricing-period">/month</span>
-                </div>
-                <p style="color: var(--muted); margin-bottom: var(--space-xl); font-size: 0.9375rem;">For agencies and teams that need maximum power and control.</p>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        50,000 messages/month
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        All channels + API access
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Team collaboration (5 seats)
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Custom integrations
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        White-label options
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Dedicated account manager
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        SLA guarantee
-                    </div>
-                </div>
-                <a href="#" class="btn btn-secondary pricing-cta">Contact Sales</a>
-            </div>
-            
-            <div class="pricing-card pricing-card-animated">
-                <div class="pricing-name">Enterprise</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount">Custom</span>
-                </div>
-                <p style="color: var(--muted); margin-bottom: var(--space-xl); font-size: 0.9375rem;">For large organizations with custom requirements.</p>
-                <div class="pricing-features">
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Unlimited messages
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Unlimited team seats
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Custom AI training
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        On-premise deployment
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Custom SLA & guarantees
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        24/7 priority support
-                    </div>
-                    <div class="pricing-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        Dedicated success team
-                    </div>
-                </div>
-                <a href="/contact" class="btn btn-secondary pricing-cta">Contact Sales</a>
+                
+                <h1 class="hero-title" style="margin-top: var(--space-xl);">
+                    Simple, <span class="gradient-text">Transparent</span> Pricing
+                </h1>
+                
+                <p class="hero-subtitle" style="max-width: 600px; margin: var(--space-lg) auto;">
+                    No hidden fees. No surprises. Start free and scale as you grow. Cancel anytime.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- FAQ Section -->
-<section class="section" style="background: var(--surface);">
+<!-- Pricing Cards -->
+<section class="pricing-section" style="padding-top: 0;">
     <div class="container">
-        <div class="text-center mb-2xl animate-on-scroll">
-            <h2>Common <span class="text-gradient">Questions</span></h2>
+        <div class="pricing-grid">
+            <!-- Starter Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Starter</h3>
+                    <p>Perfect for creators just starting</p>
+                </div>
+                <div class="pricing-price">
+                    <span class="currency">$</span>
+                    <span class="amount">29</span>
+                    <span class="period">/month</span>
+                </div>
+                <ul class="pricing-features">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        1 Instagram Account
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        1,000 AI Messages/mo
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Basic Templates
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Email Support
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Basic Analytics
+                    </li>
+                </ul>
+                <a href="#" class="btn btn-secondary w-full">Get Started</a>
+            </div>
+            
+            <!-- Pro Plan (Featured) -->
+            <div class="pricing-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-header">
+                    <h3>Pro</h3>
+                    <p>For growing creators & businesses</p>
+                </div>
+                <div class="pricing-price">
+                    <span class="currency">$</span>
+                    <span class="amount">79</span>
+                    <span class="period">/month</span>
+                </div>
+                <ul class="pricing-features">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        3 Social Accounts
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        10,000 AI Messages/mo
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Advanced AI Training
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Priority Support
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Full Analytics Dashboard
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Custom Workflows
+                    </li>
+                </ul>
+                <a href="#" class="btn btn-primary w-full">Start Free Trial</a>
+            </div>
+            
+            <!-- Agency Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Agency</h3>
+                    <p>For agencies & power users</p>
+                </div>
+                <div class="pricing-price">
+                    <span class="currency">$</span>
+                    <span class="amount">199</span>
+                    <span class="period">/month</span>
+                </div>
+                <ul class="pricing-features">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Unlimited Accounts
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Unlimited Messages
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        White Label
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        API Access
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Dedicated Support
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        SLA Guarantee
+                    </li>
+                </ul>
+                <a href="#" class="btn btn-secondary w-full">Contact Sales</a>
+            </div>
         </div>
         
-        <div class="faq-list stagger-children">
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Can I change plans anytime?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate your billing accordingly.
-                    </div>
-                </div>
+        <p class="text-center mt-2xl" style="color: var(--muted);">
+            All plans include a 14-day free trial. No credit card required.
+        </p>
+    </div>
+</section>
+
+<!-- Comparison Table -->
+<section class="section" style="background: var(--background);">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Compare <span class="gradient-text">Plans</span></h2>
+        </div>
+        
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Starter</th>
+                        <th class="featured">Pro</th>
+                        <th>Agency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Social Accounts</td>
+                        <td>1</td>
+                        <td class="featured">3</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>AI Messages/mo</td>
+                        <td>1,000</td>
+                        <td class="featured">10,000</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Team Members</td>
+                        <td>1</td>
+                        <td class="featured">5</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Analytics</td>
+                        <td>Basic</td>
+                        <td class="featured">Advanced</td>
+                        <td>Advanced + Exports</td>
+                    </tr>
+                    <tr>
+                        <td>AI Training</td>
+                        <td>—</td>
+                        <td class="featured">Advanced</td>
+                        <td>Custom Training</td>
+                    </tr>
+                    <tr>
+                        <td>Custom Workflows</td>
+                        <td>—</td>
+                        <td class="featured">✓</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>White Label</td>
+                        <td>—</td>
+                        <td class="featured">—</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>API Access</td>
+                        <td>—</td>
+                        <td class="featured">—</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>Support</td>
+                        <td>Email</td>
+                        <td class="featured">Priority</td>
+                        <td>Dedicated</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-tag">FAQ</span>
+            <h2>Common <span class="gradient-text">Questions</span></h2>
+        </div>
+        
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4>Can I change plans later?</h4>
+                <p>Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.</p>
             </div>
             
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    What happens if I exceed my message limit?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        We'll notify you when you reach 80% of your limit. You can purchase additional message packs or upgrade to a higher plan. Your automation won't stop unless you choose to.
-                    </div>
-                </div>
+            <div class="faq-item">
+                <h4>What happens when I hit my message limit?</h4>
+                <p>You'll receive a notification when you reach 80% of your limit. You can upgrade or wait until the next billing cycle.</p>
             </div>
             
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    Is there a free trial?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        Yes! We offer a 14-day free trial on all plans. No credit card required. You get full access to all features during your trial.
-                    </div>
-                </div>
+            <div class="faq-item">
+                <h4>Is there a free trial?</h4>
+                <p>Yes! All plans come with a 14-day free trial. No credit card required to start.</p>
             </div>
             
-            <div class="faq-item faq-item-animated">
-                <button class="faq-question">
-                    What payment methods do you accept?
-                    <svg class="faq-icon-animated" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="faq-answer faq-answer-animated">
-                    <div class="faq-answer-content">
-                        We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and bank transfers for annual plans. Enterprise customers can also pay via invoice.
-                    </div>
-                </div>
+            <div class="faq-item">
+                <h4>Can I cancel anytime?</h4>
+                <p>Absolutely. Cancel with one click from your dashboard. No questions asked, no cancellation fees.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Do you offer refunds?</h4>
+                <p>We offer a 30-day money-back guarantee. If you're not satisfied, contact us for a full refund.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>What payment methods do you accept?</h4>
+                <p>We accept all major credit cards, PayPal, and wire transfers for annual plans.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="section">
+<section class="cta-section">
     <div class="container">
-        <div class="cta-section animate-on-scroll">
-            <div class="cta-content">
-                <h2>Ready to Get Started?</h2>
-                <p>Start your 14-day free trial today. No credit card required.</p>
-                <a href="#" class="btn btn-primary btn-lg mt-xl">
-                    Start Free Trial
+        <div class="cta-wrapper">
+            <h2>Start Your Free Trial Today</h2>
+            <p>Join 50,000+ creators and businesses who are growing with Viraly.</p>
+            <div class="cta-actions">
+                <a href="#" class="btn btn-primary btn-lg">
+                    Start Free 14-Day Trial
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
                         <line x1="5" y1="12" x2="19" y2="12"/>
                         <polyline points="12 5 19 12 12 19"/>
                     </svg>
                 </a>
+                <span class="cta-note">No credit card required</span>
+            </div>
+            <div class="cta-badges">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Setup in 5 minutes</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> Cancel anytime</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg> 30-day guarantee</span>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+.comparison-table {
+    overflow-x: auto;
+    margin-top: var(--space-2xl);
+}
+
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: var(--space-md) var(--space-lg);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.comparison-table th {
+    background: var(--background);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.comparison-table th.featured {
+    background: var(--primary);
+    color: white;
+}
+
+.comparison-table td {
+    color: var(--muted);
+}
+
+.comparison-table td.featured {
+    background: rgba(124,92,255,0.05);
+    color: var(--text);
+    font-weight: 500;
+}
+
+.comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.faq-item {
+    background: var(--surface);
+    padding: var(--space-xl);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+}
+
+.faq-item h4 {
+    margin-bottom: var(--space-md);
+    color: var(--text);
+}
+
+.faq-item p {
+    font-size: 0.9375rem;
+    color: var(--muted);
+}
+</style>
 {% endblock %}
