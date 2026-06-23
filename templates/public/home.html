@@ -132,6 +132,12 @@
         border-radius: 50%;
     }
 
+    .meta-logo-small {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+    }
+
     .hero-title {
         font-size: clamp(2.5rem, 5vw, 3.75rem);
         font-weight: 800;
@@ -463,6 +469,11 @@
         object-fit: cover;
     }
 
+    .marquee-meta-logo {
+        border-radius: 6px !important;
+        background: white;
+    }
+
     .marquee-item span {
         font-size: 0.875rem;
         font-weight: 500;
@@ -688,7 +699,26 @@
         font-size: 0.9375rem;
         color: var(--muted);
         line-height: 1.6;
+        margin: 0 0 16px 0;
+    }
+
+    .feature-details {
+        list-style: none;
+        padding: 0;
         margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-top: 1px solid var(--border);
+        padding-top: 16px;
+    }
+
+    .feature-details li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8125rem;
+        color: var(--text-secondary);
     }
 
     /* ============================================
@@ -899,14 +929,14 @@
 
     .steps-container {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 24px;
         position: relative;
     }
 
     .step-card {
         text-align: center;
-        padding: 32px 20px;
+        padding: 32px 24px;
         position: relative;
         background: var(--surface);
         border: 1px solid var(--border);
@@ -918,6 +948,21 @@
         transform: translateY(-4px);
         border-color: var(--primary);
         box-shadow: var(--shadow-card-hover);
+    }
+
+    .step-icon-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .step-icon {
+        width: 72px;
+        height: 72px;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
     }
 
     .step-number {
@@ -935,23 +980,25 @@
     }
 
     .step-card h3 {
-        font-size: 1rem;
+        font-size: 1.125rem;
         font-weight: 700;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
         color: var(--text);
+        text-align: center;
     }
 
     .step-card p {
         font-size: 0.875rem;
         color: var(--muted);
-        margin: 0;
+        margin: 0 0 16px 0;
+        line-height: 1.6;
     }
 
     .step-connector {
         position: absolute;
-        top: 60px;
-        right: -12px;
-        width: 24px;
+        top: 50%;
+        right: -36px;
+        width: 48px;
         height: 2px;
         background: linear-gradient(90deg, var(--primary), var(--secondary));
         z-index: 1;
@@ -959,6 +1006,87 @@
 
     .step-card:last-child .step-connector {
         display: none;
+    }
+
+    .step-platforms {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .step-platforms img {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        transition: transform var(--transition-base);
+    }
+
+    .step-platforms img:hover {
+        transform: scale(1.1);
+    }
+
+    .step-intent-example {
+        background: var(--background);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 12px;
+        margin-top: 12px;
+        text-align: left;
+    }
+
+    .intent-item {
+        margin-bottom: 8px;
+    }
+
+    .intent-label {
+        font-size: 0.625rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .intent-text {
+        display: block;
+        font-size: 0.8125rem;
+        color: var(--text);
+        font-style: italic;
+    }
+
+    .intent-result {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.75rem;
+        color: var(--success);
+    }
+
+    .intent-result svg {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .step-results {
+        text-align: left;
+        margin-top: 12px;
+    }
+
+    .result-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.8125rem;
+        color: var(--text-secondary);
+    }
+
+    .result-item:last-child {
+        border-bottom: none;
+    }
+
+    .result-item svg {
+        flex-shrink: 0;
     }
 
     /* ============================================
@@ -990,16 +1118,21 @@
 
     .testimonial-header {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 16px;
         margin-bottom: 20px;
     }
 
     .testimonial-avatar {
-        width: 56px;
-        height: 56px;
+        width: 64px;
+        height: 64px;
         border-radius: 50%;
         object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .testimonial-info {
+        flex: 1;
     }
 
     .testimonial-info h4 {
@@ -1009,9 +1142,28 @@
         color: var(--text);
     }
 
-    .testimonial-info span {
+    .testimonial-info > span {
         font-size: 0.8125rem;
         color: var(--muted);
+        display: block;
+    }
+
+    .testimonial-social {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .social-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .testimonial-social span {
+        font-size: 0.75rem;
+        color: var(--primary);
+        font-weight: 500;
     }
 
     .testimonial-badge {
@@ -1027,6 +1179,10 @@
         margin-bottom: 16px;
     }
 
+    .testimonial-badge svg {
+        flex-shrink: 0;
+    }
+
     .testimonial-text {
         font-size: 0.9375rem;
         line-height: 1.7;
@@ -1036,7 +1192,8 @@
 
     .testimonial-stats {
         display: flex;
-        gap: 24px;
+        justify-content: space-between;
+        gap: 16px;
         margin-top: 20px;
         padding-top: 20px;
         border-top: 1px solid var(--border);
@@ -1044,6 +1201,7 @@
 
     .testimonial-stat {
         text-align: center;
+        flex: 1;
     }
 
     .testimonial-stat-value {
@@ -1230,11 +1388,26 @@
         <div class="hero-wrapper">
             <div class="hero-content">
                 <div class="hero-badge">
-                    <span class="badge-item">✨ Meta Partnered</span>
+                    <span class="badge-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/1200px-Meta_Platforms_Inc._logo.svg.png" alt="Meta" class="meta-logo-small">
+                        Meta Partnered
+                    </span>
                     <span class="badge-dot"></span>
-                    <span class="badge-item">⚡ AI Powered</span>
+                    <span class="badge-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        AI Powered
+                    </span>
                     <span class="badge-dot"></span>
-                    <span class="badge-item">🎯 Intent Based</span>
+                    <span class="badge-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
+                        Intent Based
+                    </span>
                 </div>
                 
                 <h1 class="hero-title">
@@ -1386,7 +1559,7 @@
     <div class="marquee-wrapper">
         <div class="marquee-content">
             <div class="marquee-item">
-                <img src="https://i.pravatar.cc/48?img=32" alt="Creator">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/1200px-Meta_Platforms_Inc._logo.svg.png" alt="Meta" class="marquee-meta-logo">
                 <span>✓ Meta Partnered</span>
             </div>
             <div class="marquee-item">
@@ -1424,7 +1597,7 @@
         </div>
         <div class="marquee-content">
             <div class="marquee-item">
-                <img src="https://i.pravatar.cc/48?img=32" alt="Creator">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/1200px-Meta_Platforms_Inc._logo.svg.png" alt="Meta" class="marquee-meta-logo">
                 <span>✓ Meta Partnered</span>
             </div>
             <div class="marquee-item">
@@ -1604,41 +1777,108 @@
 <section class="why-section">
     <div class="container">
         <div class="section-header text-center">
-            <span class="section-tag">⭐ Why Choose Us</span>
+            <span class="section-tag">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                Why Choose Us
+            </span>
             <h2>Why Businesses <span class="gradient-text">Choose Viraly</span></h2>
             <p>Join thousands of businesses who've transformed their customer engagement with AI-powered intent understanding.</p>
         </div>
         
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                </div>
                 <h3>Lightning Fast</h3>
-                <p>Respond to customers in seconds, not hours. Our AI processes and replies instantly across all channels.</p>
+                <p>Respond to customers in seconds, not hours. Our AI processes and replies instantly across all channels — average response time of just 1.2 seconds.</p>
+                <ul class="feature-details">
+                    <li>⚡ Average 1.2s response time</li>
+                    <li>⚡ 24/7/365 availability</li>
+                    <li>⚡ Handle unlimited conversations</li>
+                </ul>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🧠</div>
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2a8 8 0 0 1 8 8c0 5.4-8 12-8 12s-8-6.6-8-12a8 8 0 0 1 8-8z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
                 <h3>Understands Intent</h3>
-                <p>Go beyond keywords. Viraly comprehends the actual meaning and emotion behind every message.</p>
+                <p>Go beyond keywords. Viraly comprehends the actual meaning and emotion behind every message to deliver relevant responses.</p>
+                <ul class="feature-details">
+                    <li>🧠 Context-aware AI engine</li>
+                    <li>🧠 Sentiment analysis</li>
+                    <li>🧠 Purchase intent detection</li>
+                </ul>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🎯</div>
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="6"/>
+                        <circle cx="12" cy="12" r="2"/>
+                    </svg>
+                </div>
                 <h3>Converts More Leads</h3>
-                <p>Intelligent lead scoring and personalized responses that turn inquiries into paying customers.</p>
+                <p>Intelligent lead scoring and personalized responses that turn inquiries into paying customers — 47% higher conversion rates.</p>
+                <ul class="feature-details">
+                    <li>🎯 Smart lead scoring (0-100)</li>
+                    <li>🎯 Personalized offers</li>
+                    <li>🎯 Automated follow-ups</li>
+                </ul>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>AI Employee</h3>
-                <p>Your tireless AI employee that works 24/7, never misses a message, and continuously learns.</p>
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="10" rx="2"/>
+                        <circle cx="12" cy="5" r="2"/>
+                        <path d="M12 7v4"/>
+                        <line x1="8" y1="16" x2="8" y2="16"/>
+                        <line x1="16" y1="16" x2="16" y2="16"/>
+                    </svg>
+                </div>
+                <h3>Your AI Employee</h3>
+                <p>Your tireless AI employee that works 24/7, never misses a message, learns from every conversation, and continuously improves.</p>
+                <ul class="feature-details">
+                    <li>🤖 Trains on your brand voice</li>
+                    <li>🤖 Never takes breaks</li>
+                    <li>🤖 Self-improving algorithm</li>
+                </ul>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💬</div>
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
                 <h3>Human-like Conversations</h3>
-                <p>Natural, engaging responses that feel personal and build genuine connections with your audience.</p>
+                <p>Natural, engaging responses that feel personal and build genuine connections — customers won't know they're talking to AI.</p>
+                <ul class="feature-details">
+                    <li>💬 Natural language processing</li>
+                    <li>💬 Contextual memory</li>
+                    <li>💬 Personality customization</li>
+                </ul>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📈</div>
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
                 <h3>Better ROI</h3>
-                <p>See measurable results with increased conversion rates, higher customer satisfaction, and lower costs.</p>
+                <p>See measurable results with increased conversion rates, higher customer satisfaction, and up to 80% cost reduction vs manual support.</p>
+                <ul class="feature-details">
+                    <li>📈 47% avg conversion boost</li>
+                    <li>📈 80% cost reduction</li>
+                    <li>📈 3x revenue growth</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -1866,40 +2106,101 @@
 <section class="how-section">
     <div class="container">
         <div class="section-header text-center">
-            <span class="section-tag">🚀 Getting Started</span>
+            <span class="section-tag">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                Getting Started
+            </span>
             <h2>How It <span class="gradient-text">Works</span></h2>
             <p>Get up and running in minutes, not days. Three simple steps to transform your customer engagement.</p>
         </div>
         
-        <div class="steps-container">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>Connect Channels</h3>
-                <p>Link your Instagram, WhatsApp, and other social accounts in one click.</p>
+        <div class="steps-container" style="max-width: 900px; margin: 0 auto;">
+            <div class="step-card" style="position: relative;">
+                <div class="step-icon-wrapper">
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="step-number" style="display: none;">1</div>
+                <h3>1. Connect Your Channels</h3>
+                <p>Link your Instagram, WhatsApp, Facebook Messenger, and other social accounts with just a few clicks. Our OAuth integration makes setup secure and instant.</p>
+                <div class="step-platforms">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" alt="Instagram" title="Instagram">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/WhatsApp_logo.svg/600px-WhatsApp_logo.svg.png" alt="WhatsApp" title="WhatsApp">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Facebook_Messenger_logo_2018.svg/600px-Facebook_Messenger_logo_2018.svg.png" alt="Messenger" title="Facebook Messenger">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/600px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook" title="Facebook">
+                </div>
                 <span class="step-connector"></span>
             </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>Train Viraly AI</h3>
-                <p>Customize your AI employee's personality and response style.</p>
+            <div class="step-card" style="position: relative;">
+                <div class="step-icon-wrapper">
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M12 2a8 8 0 0 1 8 8c0 5.4-8 12-8 12s-8-6.6-8-12a8 8 0 0 1 8-8z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                            <path d="M12 2v4"/>
+                            <path d="M8 6l2 2"/>
+                            <path d="M16 6l-2 2"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="step-number" style="display: none;">2</div>
+                <h3>2. AI Understands Intent</h3>
+                <p>Our AI analyzes every incoming message to understand the customer's true intent — not just keywords, but context, sentiment, and buying signals.</p>
+                <div class="step-intent-example">
+                    <div class="intent-item">
+                        <span class="intent-label">Customer says:</span>
+                        <span class="intent-text">"Still thinking about it..."</span>
+                    </div>
+                    <div class="intent-result">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>Detected: Consideration Stage → Sent follow-up with social proof</span>
+                    </div>
+                </div>
                 <span class="step-connector"></span>
             </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>Understand Intent</h3>
-                <p>Watch as Viraly comprehends customer needs instantly.</p>
-                <span class="step-connector"></span>
-            </div>
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3>Automate</h3>
-                <p>Let AI handle conversations while you focus on what matters.</p>
-                <span class="step-connector"></span>
-            </div>
-            <div class="step-card">
-                <div class="step-number">5</div>
-                <h3>Convert & Grow</h3>
-                <p>Turn followers into customers and scale your business.</p>
+            <div class="step-card" style="position: relative;">
+                <div class="step-icon-wrapper">
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="step-number" style="display: none;">3</div>
+                <h3>3. Convert & Grow</h3>
+                <p>Watch as Viraly engages prospects with personalized responses, nurtures leads, schedules appointments, and turns conversations into customers — automatically.</p>
+                <div class="step-results">
+                    <div class="result-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Instant personalized responses</span>
+                    </div>
+                    <div class="result-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Automated lead qualification</span>
+                    </div>
+                    <div class="result-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Scheduled appointments & payments</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1909,7 +2210,12 @@
 <section class="testimonials-section">
     <div class="container">
         <div class="section-header text-center">
-            <span class="section-tag">💬 Success Stories</span>
+            <span class="section-tag">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Success Stories
+            </span>
             <h2>Loved by Businesses <span class="gradient-text">Worldwide</span></h2>
             <p>See how businesses are transforming their customer engagement with Viraly.</p>
         </div>
@@ -1917,13 +2223,24 @@
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="https://i.pravatar.cc/100?img=32" alt="Sarah Chen" class="testimonial-avatar">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Sarah Chen" class="testimonial-avatar">
                     <div class="testimonial-info">
                         <h4>Sarah Chen</h4>
-                        <span>@sarah_designs • Design Agency</span>
+                        <span>CEO & Founder, Creative Agency</span>
+                        <div class="testimonial-social">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" alt="Instagram" class="social-icon">
+                            <span>@sarah_designs</span>
+                        </div>
                     </div>
                 </div>
-                <div class="testimonial-badge">🎯 High Intent Detection</div>
+                <div class="testimonial-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="6"/>
+                        <circle cx="12" cy="12" r="2"/>
+                    </svg>
+                    High Intent Detection
+                </div>
                 <p class="testimonial-text">
                     "Viraly's intent detection is incredible. It understood when a prospect was ready to buy versus just browsing. My conversion rate jumped 47% in the first month!"
                 </p>
@@ -1936,42 +2253,67 @@
                         <div class="testimonial-stat-value">$12K</div>
                         <div class="testimonial-stat-label">Revenue</div>
                     </div>
+                    <div class="testimonial-stat">
+                        <div class="testimonial-stat-value">1.8s</div>
+                        <div class="testimonial-stat-label">Avg Response</div>
+                    </div>
                 </div>
             </div>
             
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="https://i.pravatar.cc/100?img=12" alt="Marcus Rodriguez" class="testimonial-avatar">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Marcus Rodriguez" class="testimonial-avatar">
                     <div class="testimonial-info">
                         <h4>Marcus Rodriguez</h4>
-                        <span>@techstartup • Founder</span>
+                        <span>Founder, TechStart Inc.</span>
+                        <div class="testimonial-social">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" alt="Instagram" class="social-icon">
+                            <span>@techstartup</span>
+                        </div>
                     </div>
                 </div>
-                <div class="testimonial-badge">⚡ 24/7 AI Response</div>
+                <div class="testimonial-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                    24/7 AI Response
+                </div>
                 <p class="testimonial-text">
                     "We're now capturing leads while we sleep. The AI understands context perfectly - it even handles objections and schedules calls automatically. Game changer!"
                 </p>
                 <div class="testimonial-stats">
                     <div class="testimonial-stat">
                         <div class="testimonial-stat-value">+156%</div>
-                        <div class="testimonial-stat-label">Leads</div>
+                        <div class="testimonial-stat-label">More Leads</div>
                     </div>
                     <div class="testimonial-stat">
                         <div class="testimonial-stat-value">2.3s</div>
                         <div class="testimonial-stat-label">Response</div>
+                    </div>
+                    <div class="testimonial-stat">
+                        <div class="testimonial-stat-value">$45K</div>
+                        <div class="testimonial-stat-label">MRR</div>
                     </div>
                 </div>
             </div>
             
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="https://i.pravatar.cc/100?img=44" alt="Emily Watson" class="testimonial-avatar">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Emily Watson" class="testimonial-avatar">
                     <div class="testimonial-info">
                         <h4>Emily Watson</h4>
-                        <span>@wellness_coach • Life Coach</span>
+                        <span>Life Coach & Consultant</span>
+                        <div class="testimonial-social">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" alt="Instagram" class="social-icon">
+                            <span>@wellness_coach</span>
                     </div>
                 </div>
-                <div class="testimonial-badge">💬 Human-like AI</div>
+                <div class="testimonial-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    Human-like AI
+                </div>
                 <p class="testimonial-text">
                     "Clients don't even realize they're talking to AI! The conversations feel so natural. I've scaled my coaching business 3x without hiring additional support."
                 </p>
@@ -1983,6 +2325,10 @@
                     <div class="testimonial-stat">
                         <div class="testimonial-stat-value">89%</div>
                         <div class="testimonial-stat-label">Satisfaction</div>
+                    </div>
+                    <div class="testimonial-stat">
+                        <div class="testimonial-stat-value">50+</div>
+                        <div class="testimonial-stat-label">Clients/mo</div>
                     </div>
                 </div>
             </div>
