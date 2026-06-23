@@ -357,6 +357,138 @@ p { color: var(--muted); line-height: 1.7; }
 }
 
 /* ============================================
+   Navbar Dropdown (Resources)
+   ============================================ */
+.navbar-dropdown {
+  position: relative;
+}
+
+.navbar-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.navbar-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.navbar-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  min-width: 280px;
+  padding: var(--space-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+  z-index: var(--z-dropdown);
+}
+
+.navbar-dropdown:hover .navbar-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.navbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.navbar-dropdown-item:hover {
+  background: var(--background);
+}
+
+.navbar-dropdown-item svg {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.navbar-dropdown-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-dropdown-item .item-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.navbar-dropdown-item .item-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* ============================================
+   Mobile Menu Section (Resources)
+   ============================================ */
+.mobile-menu-section {
+  margin-top: var(--space-sm);
+}
+
+.mobile-menu-section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-md);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mobile-menu-section-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--transition-fast);
+}
+
+.mobile-menu-section.open .mobile-menu-section-toggle svg {
+  transform: rotate(180deg);
+}
+
+.mobile-menu-section-content {
+  display: none;
+  padding-left: var(--space-md);
+}
+
+.mobile-menu-section.open .mobile-menu-section-content {
+  display: block;
+}
+
+.mobile-menu-section .mobile-menu-link {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.875rem;
+}
+
+/* ============================================
    Mobile Menu
    ============================================ */
 .mobile-menu {
