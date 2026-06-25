@@ -7,7 +7,6 @@ from functools import wraps
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, g, flash
 from flask_login import login_required, current_user, login_user, logout_user
 from datetime import datetime, timedelta
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
 from models.user import User
@@ -107,19 +106,20 @@ def login():
                 id=str(uuid.uuid4()),
                 email=ADMIN_EMAIL,
                 username=ADMIN_USERNAME,
-                full_name='Admin',
-                password_hash=generate_password_hash(password),
+                first_name='Admin',
                 is_verified=True,
                 is_superuser=True,
                 is_active=True,
             )
+            admin_user.set_password(password)
             db.session.add(admin_user)
+            db.session.commit()
             
             # Create default organization for admin
             org = Organization(
                 id=str(uuid.uuid4()),
                 name='Admin Organization',
-                slug='admin-org',
+                slug='admin-org-' + str(uuid.uuid4())[:8],
                 owner_id=admin_user.id,
                 plan='enterprise',
                 plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
