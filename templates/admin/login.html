@@ -10,8 +10,8 @@
                 </svg>
             </div>
             <h1 class="text-3xl font-bold text-white">{{ site.name }}</h1>
-            <h2 class="mt-2 text-xl font-semibold text-gray-300">Super Admin Console</h2>
-            <p class="mt-2 text-sm text-gray-400">Sign in to manage API connections and system settings</p>
+            <h2 class="mt-2 text-xl font-semibold text-gray-300">Admin Panel</h2>
+            <p class="mt-2 text-sm text-gray-400">Sign in to manage API connections and settings</p>
         </div>
         
         <div class="bg-gray-900 rounded-lg shadow-xl p-8 border border-gray-700">
@@ -27,7 +27,7 @@
                 {% endif %}
             {% endwith %}
             
-            <form id="login-form" class="space-y-6" action="{{ url_for('super_admin.login') }}" method="POST">
+            <form id="login-form" class="space-y-6" action="{{ url_for('admin.login') }}" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 
                 <div>
@@ -63,7 +63,7 @@
         
         <div class="text-center text-xs text-gray-500">
             <p>Default credentials: admin / admin123</p>
-            <p class="mt-1">Can be changed via SUPER_ADMIN_USERNAME and SUPER_ADMIN_PASSWORD environment variables</p>
+            <p class="mt-1">Can be changed via ADMIN_USERNAME and ADMIN_PASSWORD environment variables</p>
         </div>
     </div>
 </div>

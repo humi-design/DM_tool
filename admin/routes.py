@@ -2,16 +2,26 @@
 
 import os
 import json
+import uuid
 from functools import wraps
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, g
-from flask_login import login_required, current_user
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, g, flash
+from flask_login import login_required, current_user, login_user, logout_user
+from datetime import datetime, timedelta
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
 from models.user import User
+from models.organization import Organization
 from models.audit_log import AuditLog
 from utils.jwt import jwt_required, get_current_user_id, JWTManager
 
 admin_bp = Blueprint("admin", __name__)
+
+
+# Hardcoded admin credentials (can be overridden via environment variables)
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'admin@dmtool.local')
 
 
 def get_user_from_token():
@@ -49,7 +59,7 @@ def admin_required(f):
         if not user:
             # Try Flask-Login
             if not current_user.is_authenticated:
-                return redirect(url_for('auth.login'))
+                return redirect(url_for('admin.login'))
             user = current_user
         
         # Check if user is superuser
@@ -69,6 +79,85 @@ def get_current_admin():
         user = current_user if current_user.is_authenticated else None
     return user
 
+
+# =============================================================================
+# Login/Logout
+# =============================================================================
+
+@admin_bp.route("/login", methods=['GET', 'POST'])
+def login():
+    """Admin login page with hardcoded credentials."""
+    if request.method == 'GET':
+        # If already logged in as admin, redirect to dashboard
+        if current_user.is_authenticated and current_user.is_superuser:
+            return redirect(url_for('admin.index'))
+        return render_template("admin/login.html")
+    
+    # Handle POST - verify credentials
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '')
+    
+    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        # Find or create admin user
+        admin_user = User.query.filter_by(email=ADMIN_EMAIL).first()
+        
+        if not admin_user:
+            # Create a new admin user
+            admin_user = User(
+                id=str(uuid.uuid4()),
+                email=ADMIN_EMAIL,
+                username=ADMIN_USERNAME,
+                full_name='Admin',
+                password_hash=generate_password_hash(password),
+                is_verified=True,
+                is_superuser=True,
+                is_active=True,
+            )
+            db.session.add(admin_user)
+            
+            # Create default organization for admin
+            org = Organization(
+                id=str(uuid.uuid4()),
+                name='Admin Organization',
+                slug='admin-org',
+                owner_id=admin_user.id,
+                plan='enterprise',
+                plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
+                is_active=True,
+            )
+            db.session.add(org)
+            db.session.commit()
+            
+            admin_user.organization_id = org.id
+            db.session.commit()
+        else:
+            # Update user to be superuser
+            admin_user.is_superuser = True
+            admin_user.is_verified = True
+            admin_user.is_active = True
+            db.session.commit()
+        
+        # Log in the user
+        login_user(admin_user, remember=True)
+        
+        flash('Welcome to Admin Panel!', 'success')
+        return redirect(url_for('admin.index'))
+    
+    flash('Invalid credentials. Please try again.', 'danger')
+    return render_template("admin/login.html")
+
+
+@admin_bp.route("/logout", methods=['POST'])
+def logout():
+    """Admin logout."""
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('admin.login'))
+
+
+# =============================================================================
+# Dashboard
+# =============================================================================
 
 @admin_bp.route("/")
 @admin_required

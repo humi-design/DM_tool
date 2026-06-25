@@ -85,7 +85,6 @@ def _init_blueprints(app: Flask) -> None:
     from admin import admin_bp
     from onboarding import onboarding_bp
     from comment_intelligence import comment_intelligence_bp
-    from super_admin import super_admin_bp
     from marketing import public_bp
     
     # AI DM Employee routes
@@ -111,7 +110,6 @@ def _init_blueprints(app: Flask) -> None:
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(onboarding_bp, url_prefix="/onboarding")
     app.register_blueprint(comment_intelligence_bp, url_prefix="/comment-intelligence")
-    app.register_blueprint(super_admin_bp, url_prefix="/super-admin")
     app.register_blueprint(public_bp)  # Public marketing pages
 
 
