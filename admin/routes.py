@@ -7,7 +7,6 @@ from functools import wraps
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, g, flash
 from flask_login import login_required, current_user, login_user, logout_user
 from datetime import datetime, timedelta
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
 from models.user import User
@@ -53,18 +52,22 @@ def admin_required(f):
     """Decorator to require admin privileges."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Get current user
-        user = get_user_from_token()
+        # First check Flask-Login user (more reliable for session-based auth)
+        if current_user.is_authenticated:
+            user = current_user
+        else:
+            # Fallback to JWT token
+            user = get_user_from_token()
         
         if not user:
-            # Try Flask-Login
-            if not current_user.is_authenticated:
-                return redirect(url_for('admin.login'))
-            user = current_user
+            return redirect(url_for('admin.login'))
         
         # Check if user is superuser
         if not user.is_superuser:
-            return jsonify({"error": "Admin access required"}), 403
+            if request.is_json:
+                return jsonify({"error": "Admin access required"}), 403
+            flash('Access denied. Admin privileges required.', 'danger')
+            return redirect(url_for('dashboard.index'))
         
         # Store user in request context
         request.current_user = user
@@ -93,58 +96,67 @@ def login():
             return redirect(url_for('admin.index'))
         return render_template("admin/login.html")
     
-    # Handle POST - verify credentials
-    username = request.form.get('username', '').strip()
-    password = request.form.get('password', '')
-    
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        # Find or create admin user
-        admin_user = User.query.filter_by(email=ADMIN_EMAIL).first()
+    try:
+        # Handle POST - verify credentials
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
         
-        if not admin_user:
-            # Create a new admin user
-            admin_user = User(
-                id=str(uuid.uuid4()),
-                email=ADMIN_EMAIL,
-                username=ADMIN_USERNAME,
-                full_name='Admin',
-                password_hash=generate_password_hash(password),
-                is_verified=True,
-                is_superuser=True,
-                is_active=True,
-            )
-            db.session.add(admin_user)
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            # Find or create admin user
+            admin_user = User.query.filter_by(email=ADMIN_EMAIL).first()
             
-            # Create default organization for admin
-            org = Organization(
-                id=str(uuid.uuid4()),
-                name='Admin Organization',
-                slug='admin-org',
-                owner_id=admin_user.id,
-                plan='enterprise',
-                plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
-                is_active=True,
-            )
-            db.session.add(org)
+            if not admin_user:
+                # Create a new admin user
+                admin_user = User(
+                    id=str(uuid.uuid4()),
+                    email=ADMIN_EMAIL,
+                    username=ADMIN_USERNAME,
+                    first_name='Admin',
+                    is_verified=True,
+                    is_superuser=True,
+                    is_active=True,
+                )
+                admin_user.set_password(password)
+                db.session.add(admin_user)
+                db.session.commit()
+                
+                # Create default organization for admin
+                org = Organization(
+                    id=str(uuid.uuid4()),
+                    name='Admin Organization',
+                    slug='admin-org-' + str(uuid.uuid4())[:8],
+                    owner_id=admin_user.id,
+                    plan='enterprise',
+                    plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
+                    is_active=True,
+                )
+                db.session.add(org)
+                db.session.commit()
+                
+                admin_user.organization_id = org.id
+                db.session.commit()
+            else:
+                # Update user to be superuser
+                admin_user.is_superuser = True
+                admin_user.is_verified = True
+                admin_user.is_active = True
+                db.session.commit()
+            
+            # Log in the user
+            login_user(admin_user, remember=True)
             db.session.commit()
             
-            admin_user.organization_id = org.id
-            db.session.commit()
-        else:
-            # Update user to be superuser
-            admin_user.is_superuser = True
-            admin_user.is_verified = True
-            admin_user.is_active = True
-            db.session.commit()
+            flash('Welcome to Admin Panel!', 'success')
+            return redirect(url_for('admin.index'))
         
-        # Log in the user
-        login_user(admin_user, remember=True)
-        
-        flash('Welcome to Admin Panel!', 'success')
-        return redirect(url_for('admin.index'))
-    
-    flash('Invalid credentials. Please try again.', 'danger')
-    return render_template("admin/login.html")
+        flash('Invalid credentials. Please try again.', 'danger')
+        return render_template("admin/login.html")
+    except Exception as e:
+        current_app.logger.error(f"Admin login error: {str(e)}")
+        import traceback
+        current_app.logger.error(traceback.format_exc())
+        flash(f'Login error: {str(e)}', 'danger')
+        return render_template("admin/login.html")
 
 
 @admin_bp.route("/logout", methods=['POST'])
