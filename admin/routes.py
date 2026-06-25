@@ -92,59 +92,64 @@ def login():
             return redirect(url_for('admin.index'))
         return render_template("admin/login.html")
     
-    # Handle POST - verify credentials
-    username = request.form.get('username', '').strip()
-    password = request.form.get('password', '')
-    
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        # Find or create admin user
-        admin_user = User.query.filter_by(email=ADMIN_EMAIL).first()
+    try:
+        # Handle POST - verify credentials
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
         
-        if not admin_user:
-            # Create a new admin user
-            admin_user = User(
-                id=str(uuid.uuid4()),
-                email=ADMIN_EMAIL,
-                username=ADMIN_USERNAME,
-                first_name='Admin',
-                is_verified=True,
-                is_superuser=True,
-                is_active=True,
-            )
-            admin_user.set_password(password)
-            db.session.add(admin_user)
-            db.session.commit()
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            # Find or create admin user
+            admin_user = User.query.filter_by(email=ADMIN_EMAIL).first()
             
-            # Create default organization for admin
-            org = Organization(
-                id=str(uuid.uuid4()),
-                name='Admin Organization',
-                slug='admin-org-' + str(uuid.uuid4())[:8],
-                owner_id=admin_user.id,
-                plan='enterprise',
-                plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
-                is_active=True,
-            )
-            db.session.add(org)
-            db.session.commit()
+            if not admin_user:
+                # Create a new admin user
+                admin_user = User(
+                    id=str(uuid.uuid4()),
+                    email=ADMIN_EMAIL,
+                    username=ADMIN_USERNAME,
+                    first_name='Admin',
+                    is_verified=True,
+                    is_superuser=True,
+                    is_active=True,
+                )
+                admin_user.set_password(password)
+                db.session.add(admin_user)
+                db.session.commit()
+                
+                # Create default organization for admin
+                org = Organization(
+                    id=str(uuid.uuid4()),
+                    name='Admin Organization',
+                    slug='admin-org-' + str(uuid.uuid4())[:8],
+                    owner_id=admin_user.id,
+                    plan='enterprise',
+                    plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
+                    is_active=True,
+                )
+                db.session.add(org)
+                db.session.commit()
+                
+                admin_user.organization_id = org.id
+                db.session.commit()
+            else:
+                # Update user to be superuser
+                admin_user.is_superuser = True
+                admin_user.is_verified = True
+                admin_user.is_active = True
+                db.session.commit()
             
-            admin_user.organization_id = org.id
-            db.session.commit()
-        else:
-            # Update user to be superuser
-            admin_user.is_superuser = True
-            admin_user.is_verified = True
-            admin_user.is_active = True
-            db.session.commit()
+            # Log in the user
+            login_user(admin_user, remember=True)
+            
+            flash('Welcome to Admin Panel!', 'success')
+            return redirect(url_for('admin.index'))
         
-        # Log in the user
-        login_user(admin_user, remember=True)
-        
-        flash('Welcome to Admin Panel!', 'success')
-        return redirect(url_for('admin.index'))
-    
-    flash('Invalid credentials. Please try again.', 'danger')
-    return render_template("admin/login.html")
+        flash('Invalid credentials. Please try again.', 'danger')
+        return render_template("admin/login.html")
+    except Exception as e:
+        current_app.logger.error(f"Admin login error: {str(e)}")
+        flash(f'Login error: {str(e)}', 'danger')
+        return render_template("admin/login.html")
 
 
 @admin_bp.route("/logout", methods=['POST'])
