@@ -293,12 +293,8 @@ class DevelopmentConfig(Config):
     TESTING = False
     
     # Use SQLite for local development with absolute path
-    @property
-    def SQLALCHEMY_DATABASE_URI(self):
-        return os.getenv(
-            "DEV_DATABASE_URL",
-            f"sqlite:///{os.path.join(os.path.dirname(os.path.abspath(__file__)), 'aios.db')}"
-        )
+    _db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "aios.db")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DEV_DATABASE_URL", f"sqlite:///{_db_path}")
     SQLALCHEMY_ENGINE_OPTIONS = {}
     SQLALCHEMY_ECHO = False
     
