@@ -41,6 +41,12 @@ class Organization(BaseModel, SoftDeleteMixin):
     organization_usage = db.relationship("OrganizationUsage", foreign_keys="OrganizationUsage.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
     organization_features = db.relationship("OrganizationFeature", foreign_keys="OrganizationFeature.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
     
+    # SaaS relationships (required by SaaS models)
+    saas_overrides = db.relationship("SaaSOrganizationOverride", foreign_keys="SaaSOrganizationOverride.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    saas_usage_tracking = db.relationship("SaaSUsageTracking", foreign_keys="SaaSUsageTracking.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    saas_invoices = db.relationship("SaaSInvoice", foreign_keys="SaaSInvoice.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    saas_transactions = db.relationship("SaaSTransaction", foreign_keys="SaaSTransaction.organization_id", back_populates="organization", lazy="dynamic", cascade="all, delete-orphan")
+    
     __table_args__ = (
         db.Index("idx_org_slug_active", "slug", "is_active"),
         db.Index("idx_org_plan_active", "plan", "is_active"),
