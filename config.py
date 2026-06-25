@@ -50,7 +50,9 @@ class Config:
             _db_url = f"postgresql://{os.getenv('DB_USER', 'postgres')}:{os.getenv('DB_PASSWORD', 'postgres')}@" \
                       f"{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME', 'ai_social_os')}"
         else:
-            _db_url = "sqlite:///ai_social_os.db"
+            # Use absolute path for SQLite to ensure it can be created
+            _db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ai_social_os.db")
+            _db_url = f"sqlite:///{_db_path}"
     
     SQLALCHEMY_DATABASE_URI = _db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -290,11 +292,13 @@ class DevelopmentConfig(Config):
     DEBUG = True
     TESTING = False
     
-    # Use SQLite for local development
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DEV_DATABASE_URL",
-        "sqlite:///aios.db"
-    )
+    # Use SQLite for local development with absolute path
+    @property
+    def SQLALCHEMY_DATABASE_URI(self):
+        return os.getenv(
+            "DEV_DATABASE_URL",
+            f"sqlite:///{os.path.join(os.path.dirname(os.path.abspath(__file__)), 'aios.db')}"
+        )
     SQLALCHEMY_ENGINE_OPTIONS = {}
     SQLALCHEMY_ECHO = False
     
