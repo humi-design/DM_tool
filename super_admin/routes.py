@@ -5,6 +5,7 @@ Access is restricted to users with SUPER_ADMIN role only.
 
 Routes:
 - /super-admin/ - Dashboard overview
+- /super-admin/login - Super Admin login page
 - /super-admin/plans/ - Plan management
 - /super-admin/features/ - Feature management
 - /super-admin/organizations/ - Organization management
@@ -18,10 +19,13 @@ Routes:
 - /super-admin/system-health/ - System health checks
 """
 
+import os
+import uuid
 from functools import wraps
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash, current_app
-from flask_login import login_required, current_user
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash, current_app, make_response
+from flask_login import login_required, current_user, login_user
 from datetime import datetime, timedelta
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
 from models.user import User
@@ -39,12 +43,18 @@ from services.feature_gate import FeatureGateManager, FeatureGate
 super_admin_bp = Blueprint('super_admin', __name__, url_prefix='/super-admin')
 
 
+# Hardcoded super admin credentials (can be overridden via environment variables)
+SUPER_ADMIN_USERNAME = os.environ.get('SUPER_ADMIN_USERNAME', 'admin')
+SUPER_ADMIN_PASSWORD = os.environ.get('SUPER_ADMIN_PASSWORD', 'admin123')
+SUPER_ADMIN_EMAIL = os.environ.get('SUPER_ADMIN_EMAIL', 'admin@example.com')
+
+
 def super_admin_required(f):
     """Decorator to require SUPER_ADMIN role."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('super_admin.login'))
         
         if not current_user.is_superuser:
             flash('Access denied. Super Admin privileges required.', 'danger')
@@ -66,6 +76,94 @@ def api_super_admin_required(f):
         
         return f(*args, **kwargs)
     return decorated_function
+
+
+# =============================================================================
+# Login/Logout
+# =============================================================================
+
+@super_admin_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    """Super Admin login page with hardcoded credentials."""
+    if request.method == 'GET':
+        # If already logged in as super admin, redirect to dashboard
+        if current_user.is_authenticated and current_user.is_superuser:
+            return redirect(url_for('super_admin.index'))
+        return render_template('super_admin/login.html')
+    
+    # Handle POST - verify credentials
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '')
+    
+    if username == SUPER_ADMIN_USERNAME and password == SUPER_ADMIN_PASSWORD:
+        # Find or create super admin user
+        admin_user = User.query.filter_by(email=SUPER_ADMIN_EMAIL).first()
+        
+        if not admin_user:
+            # Create a new super admin user
+            admin_user = User(
+                id=str(uuid.uuid4()),
+                email=SUPER_ADMIN_EMAIL,
+                username=SUPER_ADMIN_USERNAME,
+                full_name='Super Admin',
+                password_hash=generate_password_hash(password),
+                is_verified=True,
+                is_superuser=True,
+                is_active=True,
+            )
+            db.session.add(admin_user)
+            
+            # Create default organization for admin
+            org = Organization(
+                id=str(uuid.uuid4()),
+                name='Admin Organization',
+                slug='admin-org',
+                owner_id=admin_user.id,
+                plan='enterprise',
+                plan_expires_at=datetime.utcnow() + timedelta(days=365 * 10),
+                is_active=True,
+            )
+            db.session.add(org)
+            db.session.commit()
+            
+            admin_user.organization_id = org.id
+            db.session.commit()
+        else:
+            # Update user to be superuser
+            admin_user.is_superuser = True
+            admin_user.is_verified = True
+            admin_user.is_active = True
+            db.session.commit()
+        
+        # Log in the user
+        login_user(admin_user, remember=True)
+        
+        flash('Welcome to Super Admin Console!', 'success')
+        return redirect(url_for('super_admin.index'))
+    
+    flash('Invalid credentials. Please try again.', 'danger')
+    return render_template('super_admin/login.html')
+
+
+@super_admin_bp.route('/logout', methods=['POST'])
+@super_admin_required
+def logout():
+    """Super Admin logout."""
+    from flask_login import logout_user
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('super_admin.login'))
+
+
+# =============================================================================
+# API Settings Page
+# =============================================================================
+
+@super_admin_bp.route('/api-settings')
+@super_admin_required
+def api_settings():
+    """API Settings page for configuring all API keys and integrations."""
+    return render_template('super_admin/api_settings.html')
 
 
 # =============================================================================
