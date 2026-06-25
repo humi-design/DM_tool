@@ -52,18 +52,22 @@ def admin_required(f):
     """Decorator to require admin privileges."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Get current user
-        user = get_user_from_token()
+        # First check Flask-Login user (more reliable for session-based auth)
+        if current_user.is_authenticated:
+            user = current_user
+        else:
+            # Fallback to JWT token
+            user = get_user_from_token()
         
         if not user:
-            # Try Flask-Login
-            if not current_user.is_authenticated:
-                return redirect(url_for('admin.login'))
-            user = current_user
+            return redirect(url_for('admin.login'))
         
         # Check if user is superuser
         if not user.is_superuser:
-            return jsonify({"error": "Admin access required"}), 403
+            if request.is_json:
+                return jsonify({"error": "Admin access required"}), 403
+            flash('Access denied. Admin privileges required.', 'danger')
+            return redirect(url_for('dashboard.index'))
         
         # Store user in request context
         request.current_user = user
@@ -140,6 +144,7 @@ def login():
             
             # Log in the user
             login_user(admin_user, remember=True)
+            db.session.commit()
             
             flash('Welcome to Admin Panel!', 'success')
             return redirect(url_for('admin.index'))
@@ -148,6 +153,8 @@ def login():
         return render_template("admin/login.html")
     except Exception as e:
         current_app.logger.error(f"Admin login error: {str(e)}")
+        import traceback
+        current_app.logger.error(traceback.format_exc())
         flash(f'Login error: {str(e)}', 'danger')
         return render_template("admin/login.html")
 
